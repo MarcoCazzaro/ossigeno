@@ -1,0 +1,337 @@
+# Copyright (C) 2024 Marco Cazzaro
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ossigeno 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/theme\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-03-22T13:59:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: ossigeno\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "Ossigeno"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://snappysnail.io/ossigeno"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "WordPress theme based on TailwindCSS, powered by _tw"
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "Marco Cazzaro"
+msgstr ""
+
+#. Author URI of the theme
+#: style.css
+msgid "https://snappysnail.io"
+msgstr ""
+
+#: 404.php:20
+msgid "Page Not Found"
+msgstr ""
+
+#: 404.php:24
+msgid "This page could not be found. It might have been removed or renamed, or it may never have existed."
+msgstr ""
+
+#. translators: 1: title.
+#: comments.php:37
+msgid "One comment on &ldquo;%1$s&rdquo;"
+msgstr ""
+
+#. translators: 1: comment count number, 2: title.
+#: comments.php:45
+msgctxt "comments title"
+msgid "%1$s comment on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s comments on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:75
+msgid "Comments are closed."
+msgstr ""
+
+#: functions.php:85
+msgid "Primary"
+msgstr ""
+
+#: functions.php:86
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:87
+msgid "Social Menu"
+msgstr ""
+
+#: header.php:31
+msgid "Skip to content"
+msgstr ""
+
+#: inc/options.php:15
+msgid "Theme options"
+msgstr ""
+
+#: inc/options.php:23
+msgid "WhatsApp phone number"
+msgstr ""
+
+#: inc/options.php:32
+msgid "WhatsApp label"
+msgstr ""
+
+#: inc/options.php:41
+msgid "Show Scroll to top button"
+msgstr ""
+
+#: inc/options.php:50
+msgid "Placeholder image"
+msgstr ""
+
+#: inc/options.php:59
+msgid "Customize your website aspect"
+msgstr ""
+
+#: inc/template-functions.php:44
+msgid "Category Archives: "
+msgstr ""
+
+#: inc/template-functions.php:46
+msgid "Tag Archives: "
+msgstr ""
+
+#: inc/template-functions.php:48
+msgid "Author Archives: "
+msgstr ""
+
+#: inc/template-functions.php:50
+msgid "Yearly Archives: "
+msgstr ""
+
+#: inc/template-functions.php:50
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: inc/template-functions.php:52
+msgid "Monthly Archives: "
+msgstr ""
+
+#: inc/template-functions.php:52
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: inc/template-functions.php:54
+msgid "Daily Archives: "
+msgstr ""
+
+#. translators: %s: Post type or Taxonomy singular name
+#: inc/template-functions.php:59
+#: inc/template-functions.php:66
+msgid "%s Archives"
+msgstr ""
+
+#: inc/template-functions.php:70
+msgid "Archives:"
+msgstr ""
+
+#. translators: %s: Name of current post.
+#: inc/template-functions.php:103
+msgid "Continue reading %s"
+msgstr ""
+
+#: inc/template-functions.php:138
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: inc/template-functions.php:140
+msgid "Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved."
+msgstr ""
+
+#. translators: %s: Comment author link.
+#: inc/template-functions.php:161
+msgid "%s <span class=\"says\">says:</span>"
+msgstr ""
+
+#. translators: 1: Comment date, 2: Comment time.
+#: inc/template-functions.php:176
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: inc/template-functions.php:183
+msgid "Edit"
+msgstr ""
+
+#: inc/template-tags.php:50
+msgid "Posted by"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: inc/template-tags.php:66
+msgid "Leave a comment<span class=\"sr-only\"> on %s</span>"
+msgstr ""
+
+#: inc/template-tags.php:81
+#: inc/template-tags.php:125
+#: inc/template-tags.php:186
+msgid "Posted in"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma.
+#: inc/template-tags.php:95
+#: inc/template-tags.php:137
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:100
+#: inc/template-tags.php:142
+#: inc/template-tags.php:205
+msgid "Tags:"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: inc/template-tags.php:158
+#: inc/template-tags.php:221
+#: template-parts/content/content-page.php:49
+msgid "Edit <span class=\"sr-only\">%s</span>"
+msgstr ""
+
+#: inc/template-tags.php:337
+msgid "Newer posts"
+msgstr ""
+
+#: inc/template-tags.php:338
+msgid "Older posts"
+msgstr ""
+
+#: search.php:25
+#: template-parts/content/content-none.php:24
+msgid "Search results for:"
+msgstr ""
+
+#: searchform.php:5
+#: searchform.php:7
+msgid "Search"
+msgstr ""
+
+#: single.php:28
+msgid "Next Post"
+msgstr ""
+
+#: single.php:29
+msgid "Next post:"
+msgstr ""
+
+#: single.php:31
+msgid "Previous Post"
+msgstr ""
+
+#: single.php:32
+msgid "Previous post:"
+msgstr ""
+
+#: template-parts/content/content-archive.php:23
+#: template-parts/content/content-excerpt.php:19
+#: template-parts/content/content-search.php:24
+#: template-parts/content/content.php:19
+msgctxt "post"
+msgid "Featured"
+msgstr ""
+
+#: template-parts/content/content-none.php:32
+msgid "Nothing Found"
+msgstr ""
+
+#: template-parts/content/content-none.php:43
+msgid "Your site is set to show the most recent posts on your homepage, but you haven&rsquo;t published any posts."
+msgstr ""
+
+#. translators: 1: link to WP admin new post page.
+#: template-parts/content/content-none.php:50
+msgid "Add or publish posts"
+msgstr ""
+
+#: template-parts/content/content-none.php:60
+msgid "Your search generated no results. Please try a different search."
+msgstr ""
+
+#: template-parts/content/content-none.php:69
+msgid "No content matched your request."
+msgstr ""
+
+#: template-parts/content/content-page.php:35
+#: template-parts/content/content-single.php:59
+#: template-parts/content/content.php:37
+msgid "Pages:"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: template-parts/content/content-single.php:46
+msgid "Continue reading<span class=\"sr-only\"> \"%s\"</span>"
+msgstr ""
+
+#: template-parts/layout/footer-content.php:53
+msgid "Navigation"
+msgstr ""
+
+#: template-parts/layout/footer-content.php:89
+msgid "All rights reserved"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Background"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Foreground"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Primary"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Secondary"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Tertiary"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Facebook"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "WhatsApp"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "X Twitter"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Linkedin"
+msgstr ""

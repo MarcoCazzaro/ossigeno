@@ -1,0 +1,69 @@
+/**
+ * Custom styles to immediately follow Tailwind’s `base` layer
+ *
+ * “Add things like base typography styles [or] opinionated global resets.”
+ *
+ * — from https://tailwindcss.com/docs/plugins#adding-base-styles
+ */
+
+/**
+ * This uses the background and foreground colors declared in the
+ * `theme.json` file and is applied both to the frontend and in the block
+ * editor.
+*/
+body {
+	@apply bg-background text-foreground font-sans;
+}
+
+.menu.tailwind-menu {
+	@apply text-white flex justify-between flex-col lg:flex-row w-full;
+
+	.menu-item {
+		@apply py-2 px-4 bg-secondary items-center lg:flex lg:h-full;
+
+		a {
+			@apply text-white flex items-center justify-between w-full;
+		}
+
+		&.menu-item-has-children {
+			@apply relative;
+
+			>.sub-menu {
+				@apply transition-all relative lg:absolute left-0 lg:top-full text-primary bg-secondary w-max min-w-full opacity-0 max-h-0 -z-10 overflow-clip;
+			}
+
+			&:hover>.sub-menu {
+				@apply opacity-100 max-h-screen z-10 overflow-visible;
+			}
+
+			>a:after {
+				@apply content-['\f054'] text-gray-100 font-bold grow-0 translate-x-2 transition-transform;
+				font-family: 'Font Awesome 6 Free';
+			}
+
+			&:hover>a:after {
+				@apply transform rotate-90;
+			}
+		}
+
+		.menu-item {
+			.sub-menu {
+				@apply lg:translate-x-full top-0;
+			}
+		}
+	}
+
+	&>.menu-item {
+		@apply lg:bg-inherit;
+
+		&.menu-item-has-children {
+			&>a:after {
+				@apply lg:content-[''];
+			}
+		}
+	}
+}
+
+form {
+	@apply max-w-full overflow-auto;
+}
