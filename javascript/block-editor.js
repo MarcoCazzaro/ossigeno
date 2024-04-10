@@ -30,4 +30,17 @@ wp.domReady(() => {
 	// 	name: 'fancy-quote',
 	// 	label: 'Fancy Quote',
 	// } );
+
+	var style = document.createElement('style');
+
+	// Set the CSS you want to apply
+	style.textContent = `
+	.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+            max-width: none !important;
+        }
+    `;
+
+	// Append the style element to the head of the document
+	document.head.appendChild(style);
+
 });

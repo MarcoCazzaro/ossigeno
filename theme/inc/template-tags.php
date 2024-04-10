@@ -158,7 +158,7 @@ if (!function_exists('ssnail__entry_meta')) :
 					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
 					array(
 						'span' => array(
-							'class' => array(),
+							'class' => array('text-xs font-bold'),
 						),
 					)
 				),
@@ -221,7 +221,7 @@ if (!function_exists('ssnail__entry_footer')) :
 					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
 					array(
 						'span' => array(
-							'class' => array(),
+							'class' => array('text-xs font-bold'),
 						),
 					)
 				),

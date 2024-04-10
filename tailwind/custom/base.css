@@ -67,3 +67,7 @@ body {
 form {
 	@apply max-w-full overflow-auto;
 }
+
+.post-edit-link {
+	@apply text-primary text-xs font-bold my-3;
+}

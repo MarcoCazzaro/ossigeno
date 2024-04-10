@@ -6,6 +6,130 @@
  * @package Ossigeno
  */
 
+if (!function_exists('ssnail__enqueue_custom_blocks')) {
+
+	function ssnail__enqueue_custom_blocks()
+	{
+		// Dynamically register all the blocks contained in get_template_directory_uri() . '/blocks folder
+		$blocks_folder = get_template_directory() . '/blocks';
+
+		// Search also in the child theme
+		$child_blocks_folder = get_stylesheet_directory() . '/blocks';
+
+		$blocks_by_source['parent'] = scandir($blocks_folder);
+		if (is_dir($child_blocks_folder)) {
+			$blocks_by_source['child'] = scandir($child_blocks_folder);
+		}
+		foreach ($blocks_by_source as $source => $blocks) {
+			foreach ($blocks as $block) {
+				if ($block === '.' || $block === '..') {
+					continue;
+				}
+				$block_path = ($source === 'parent') ? ($blocks_folder . '/' . $block) : ($child_blocks_folder . '/' . $block);
+				if (is_dir($block_path)) {
+					$block_json = $block_path . '/block.json';
+					if (file_exists($block_json)) {
+						register_block_type($block_path);
+					}
+				}
+			}
+		}
+	}
+
+	add_action('init', 'ssnail__enqueue_custom_blocks');
+}
+
+if (!function_exists('ssnail_get_site_logo')) {
+	function ssnail_get_site_logo()
+	{
+		$image_type = "png";
+		$logo_image_url = get_template_directory_uri() . "/images/ossigeno-logo.png";
+		$logo_width = 264;
+		$logo_height = 70;
+		if (function_exists('the_custom_logo') && has_custom_logo()) {
+			$custom_logo_id = get_theme_mod('custom_logo');
+			$image = wp_get_attachment_image_src($custom_logo_id, 'medium');
+			if (isset($image[0]) && $image[0] !== "") {
+				$logo_image_url = $image[0];
+				$logo_width = $image[1];
+				$logo_height = $image[2];
+			}
+			$image_type = pathinfo(strtolower($logo_image_url))['extension'] ?? 'png';
+		}
+		if ($image_type === 'svg') {
+			ssnail_print_svg($logo_image_url);
+		} else {
+?>
+			<img src="<?= $logo_image_url ?>" alt="<?= get_bloginfo('name') ?>" width="<?= $logo_width ?>" height="<?= $logo_height ?>">
+		<?php
+		}
+	}
+}
+
+if (!function_exists('ssnail_print_svg')) {
+	function ssnail_print_svg($file_path, $position = 'no-repeat center / contain')
+	{
+		$logo_id = uniqid('ssnail-svg-');
+		?>
+		<style>
+			#<?= $logo_id ?> {
+				-webkit-mask: url(<?= $file_path ?>) <?= $position ?>;
+				mask: url(<?= $file_path ?>) <?= $position ?>;
+			}
+		</style>
+		<div id="<?= $logo_id ?>" class="ssnail-svg"></div>
+		<?php
+	}
+}
+
+if (!function_exists('ssnail_print_menu_with_social_icons')) {
+	function ssnail_print_menu_with_social_icons($menu_location_name, $title, $icon_size = '')
+	{
+		$current_menu = false;
+		$menu_locations = get_nav_menu_locations();
+		if (isset($menu_locations[$menu_location_name])) {
+			$current_menu = get_term($menu_locations[$menu_location_name], 'nav_menu');
+		}
+		if ($current_menu) {
+			$current_menu_items = wp_get_nav_menu_items($current_menu);
+			if ($current_menu_items && is_array($current_menu_items)) {
+		?>
+				<h3><?= $title ?></h3>
+				<ul class="ssnail-menu-items flex gap-5 items-center justify-start">
+					<?php
+					foreach ($current_menu_items as $key => $item) {
+					?>
+						<li class="ssnail-menu-item">
+							<a href="<?= $item->url ?>" target="<?= $item->target ?? '' ?>" class="hover:text-primary transition-colors">
+								<?php
+								$social_providers = ["facebook", "x-twitter", "instagram", "linkedin"];
+								if (in_array(strtolower($item->title), $social_providers)) {
+								?>
+									<i class="fab fa-<?= strtolower($item->title) ?> <?= $icon_size ?>"></i>
+								<?php
+								} else {
+									echo $item->title;
+								}
+								?>
+							</a>
+						</li>
+					<?php
+					}
+					?>
+				</ul>
+	<?php
+			}
+		}
+	}
+}
+
+if (!function_exists('ssnail_is_localhost')) {
+	function ssnail_is_localhost()
+	{
+		return defined('SNAPPYSNAIL_LOCALHOST');
+	}
+}
+
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
@@ -139,7 +263,7 @@ function ssnail__html5_comment($comment, $args, $depth)
 	} else {
 		$moderation_note = __('Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'ossigeno');
 	}
-?>
+	?>
 	<<?php echo esc_attr($tag); ?> id="comment-<?php comment_ID(); ?>" <?php comment_class($comment->has_children ? 'parent' : '', $comment); ?>>
 		<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 			<footer class="comment-meta">
@@ -210,123 +334,21 @@ function ssnail__html5_comment($comment, $args, $depth)
 			}
 			?>
 		</article><!-- .comment-body -->
-		<?php
-	}
-
-	if (!function_exists('ssnail__enqueue_custom_blocks')) {
-		function ssnail__render_slider_block($attributes, $content)
-		{
-			error_log(print_r($attributes, true));
-			ob_start();
-			get_template_part("blocks/ssnail-slider/render", null, compact('attributes', 'content'));
-			return ob_get_clean();
-		}
-
-		function ssnail__enqueue_custom_blocks()
-		{
-			wp_register_script(
-				'ssnail-slider-js',
-				get_template_directory_uri() . '/blocks/ssnail-slider/register.js',
-				array('wp-blocks', 'wp-element', 'wp-editor'),
-				SSNAIL__VERSION
-			);
-
-			register_block_type('snappysnail/ssnail-slider', array(
-				'editor_script' => 'ssnail-slider-js',
-				'render_callback' => 'ssnail__render_slider_block',
-			));
-		}
-
-		add_action('init', 'ssnail__enqueue_custom_blocks');
-	}
-
-	if (!function_exists('ssnail_get_site_logo')) {
-		function ssnail_get_site_logo()
-		{
-			$image_type = "png";
-			$logo_image_url = get_template_directory_uri() . "/images/ossigeno-logo.png";
-			$logo_width = 264;
-			$logo_height = 70;
-			if (function_exists('the_custom_logo') && has_custom_logo()) {
-				$custom_logo_id = get_theme_mod('custom_logo');
-				$image = wp_get_attachment_image_src($custom_logo_id, 'medium');
-				if (isset($image[0]) && $image[0] !== "") {
-					$logo_image_url = $image[0];
-					$logo_width = $image[1];
-					$logo_height = $image[2];
-				}
-				$image_type = pathinfo(strtolower($logo_image_url))['extension'] ?? 'png';
-			}
-			if ($image_type === 'svg') {
-				ssnail_print_svg($logo_image_url);
-			} else {
-		?>
-				<img src="<?= $logo_image_url ?>" alt="<?= get_bloginfo('name') ?>" width="<?= $logo_width ?>" height="<?= $logo_height ?>">
-			<?php
-			}
-		}
-	}
-
-	if (!function_exists('ssnail_print_svg')) {
-		function ssnail_print_svg($file_path, $position = 'no-repeat center / contain')
-		{
-			$logo_id = uniqid('ssnail-svg-');
-			?>
-			<style>
-				#<?= $logo_id ?> {
-					-webkit-mask: url(<?= $file_path ?>) <?= $position ?>;
-					mask: url(<?= $file_path ?>) <?= $position ?>;
-				}
-			</style>
-			<div id="<?= $logo_id ?>" class="ssnail-svg"></div>
-			<?php
-		}
-	}
-
-	if (!function_exists('ssnail_print_menu_with_social_icons')) {
-		function ssnail_print_menu_with_social_icons($menu_location_name, $title, $icon_size = '')
-		{
-			$current_menu = false;
-			$menu_locations = get_nav_menu_locations();
-			if (isset($menu_locations[$menu_location_name])) {
-				$current_menu = get_term($menu_locations[$menu_location_name], 'nav_menu');
-			}
-			if ($current_menu) {
-				$current_menu_items = wp_get_nav_menu_items($current_menu);
-				if ($current_menu_items && is_array($current_menu_items)) {
-			?>
-					<h3><?= $title ?></h3>
-					<ul class="ssnail-menu-items flex gap-5 items-center justify-start">
-						<?php
-						foreach ($current_menu_items as $key => $item) {
-						?>
-							<li class="ssnail-menu-item">
-								<a href="<?= $item->url ?>" target="<?= $item->target ?? '' ?>" class="hover:text-primary transition-colors">
-									<?php
-									$social_providers = ["facebook", "x-twitter", "instagram", "linkedin"];
-									if (in_array(strtolower($item->title), $social_providers)) {
-									?>
-										<i class="fab fa-<?= strtolower($item->title) ?> <?= $icon_size ?>"></i>
-									<?php
-									} else {
-										echo $item->title;
-									}
-									?>
-								</a>
-							</li>
-						<?php
-						}
-						?>
-					</ul>
 	<?php
-				}
-			}
-		}
-	}
+}
 
-	if (!function_exists('ssnail_is_localhost')) {
-		function ssnail_is_localhost()
-		{
-			return defined('SNAPPYSNAIL_LOCALHOST');
+if (!function_exists('ssnail_add_edit_hp_link_on_admin_bar')) {
+	function ssnail_add_edit_hp_link_on_admin_bar($wp_admin_bar)
+	{
+		if (current_user_can('edit_pages')) {
+			$args = [
+				'id' => 'bfc-edit-hp',
+				'title' => __('Edit Home page', 'ossigeno'),
+				'href' => get_edit_post_link(get_option('page_on_front')),
+				'meta' => ['class' => 'bfc-edit-hp-button']
+			];
+			$wp_admin_bar->add_node($args);
 		}
 	}
+	add_action('admin_bar_menu', 'ssnail_add_edit_hp_link_on_admin_bar', 50);
+}

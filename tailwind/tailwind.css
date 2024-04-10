@@ -35,3 +35,8 @@
  */
 @import "tailwindcss/utilities";
 @import "./custom/utilities.css";
+
+/**
+ * Dynamically import any styles inside the './blocks' directory.
+ */
+@import-glob "../theme/blocks/**/*.css";

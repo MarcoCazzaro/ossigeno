@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "ossigeno/ssnail-container",
+    "title": "SSnail Container",
+    "category": "layout",
+    "icon": "align-full-width",
+    "description": "Custom container to wrap stuff.",
+    "keywords": [
+        "container"
+    ],
+    "version": "1.0.0",
+    "textdomain": "ossigeno",
+    "attributes": {},
+    "selectors": {
+        "root": ".ssnail-container"
+    },
+    "editorScript": "file:./index.js",
+    "script": "file:./script.js",
+    "viewScript": "file:./view.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style.css",
+    "viewStyle": "file:./view.css",
+    "render": "file:./render.php"
+}

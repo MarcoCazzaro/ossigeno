@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.1.0');
+	define('SSNAIL__VERSION', '0.2.2');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
@@ -123,6 +123,21 @@ if (!function_exists('ssnail__setup')) :
 
 		// https://learn.wordpress.org/tutorial/using-block-template-parts-in-classic-themes/
 		add_theme_support('block-template-parts');
+
+		/**
+		 * Add support for core custom logo.
+		 *
+		 * @link https://codex.wordpress.org/Theme_Logo
+		 */
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 300,
+				'width'       => 300,
+				'flex-width'  => true,
+				'flex-height' => true,
+			)
+		);
 	}
 endif;
 add_action('after_setup_theme', 'ssnail__setup');
@@ -178,6 +193,10 @@ function ssnail__enqueue_block_editor_script()
 		array(
 			'wp-blocks',
 			'wp-edit-post',
+			'wp-i18n',
+			'wp-element',
+			'wp-hooks',
+			'wp-compose'
 		),
 		SSNAIL__VERSION,
 		true
