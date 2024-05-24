@@ -414,17 +414,22 @@ if (!function_exists('ssnail_add_custom_css')) {
 if (!function_exists('ssnail_load_svg_icons')) {
 	function ssnail_load_svg_icons()
 	{
-		$dir = get_template_directory() . '/images/icons';
+		// Search both in the parent and child theme
+		$icons_dirs = [
+			get_template_directory() . '/images/icons',
+			get_stylesheet_directory() . '/images/icons'
+		];
 		$icons = array();
-
-		if (is_dir($dir)) {
-			if ($dh = opendir($dir)) {
-				while (($file = readdir($dh)) !== false) {
-					if (pathinfo($file, PATHINFO_EXTENSION) == 'svg') {
-						$icons[pathinfo($file, PATHINFO_FILENAME)] = file_get_contents($dir . '/' . $file);
+		foreach ($icons_dirs as $dir) {
+			if (is_dir($dir)) {
+				if ($dh = opendir($dir)) {
+					while (($file = readdir($dh)) !== false) {
+						if (pathinfo($file, PATHINFO_EXTENSION) == 'svg') {
+							$icons[pathinfo($file, PATHINFO_FILENAME)] = file_get_contents($dir . '/' . $file);
+						}
 					}
+					closedir($dh);
 				}
-				closedir($dh);
 			}
 		}
 
@@ -432,15 +437,24 @@ if (!function_exists('ssnail_load_svg_icons')) {
 	}
 }
 
-if (!function_exists('ssnail_nnnnnn')) {
+if (!function_exists('ssnail_generate_svg_icon_css')) {
 	function ssnail_generate_svg_icon_css()
 	{
 		$icons = ssnail_load_svg_icons();
 		$css = '';
 
+		$css .= ".ssnail-icon { 
+			min-width: 2rem;
+			aspect-ratio: 1;
+			display: inline-block;
+		}\n";
+
 		foreach ($icons as $name => $svg) {
 			$svg_encoded = base64_encode($svg);
-			$css .= ".ssnail-icon.$name { background-image: url('data:image/svg+xml;base64,$svg_encoded'); }\n";
+			$css .= ".ssnail-icon.$name {
+				background-image: url('data:image/svg+xml;base64,$svg_encoded');
+				background-size: contain; /* ensure the SVG icon scales correctly */
+			}\n";
 		}
 
 		return $css;
