@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.2.2');
+	define('SSNAIL__VERSION', '0.3.0');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {

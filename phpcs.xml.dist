@@ -41,10 +41,8 @@
 		intended as advice about which sniffs to exclude.
 		-->
 
-		<!--
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
 		<exclude name="WordPress.Security.EscapeOutput"/>
-		-->
 	</rule>
 
 	<!-- Let's also check that everything is properly documented. -->

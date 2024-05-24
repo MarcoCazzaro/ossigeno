@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
 		<div class="relative flex items-center justify-between lg:justify-start lg:h-full">
 			<!-- Logo -->
 			<div class="flex-shrink-0">
-				<a class="flex justify-center items-center w-10" href="<?php echo site_url() ?>">
+				<a class="flex justify-center items-center w-20" href="<?php echo site_url() ?>">
 					<?php ssnail_get_site_logo(); ?>
 				</a>
 			</div>
