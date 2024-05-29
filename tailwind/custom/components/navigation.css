@@ -1,0 +1,84 @@
+.menu.tailwind-menu {
+    @apply text-white text-sm flex flex-col lg:flex-row lg:justify-start w-full lg:h-full font-bold lg:font-normal;
+
+    .menu-item {
+        @apply py-2 bg-primary lg:flex lg:items-center lg:h-full;
+
+        a {
+            @apply relative block truncate text-white px-4 lg:px-6;
+        }
+
+        &:hover {
+            &>a {
+                @apply text-secondary;
+            }
+        }
+
+        &.menu-item-has-children {
+            @apply relative;
+
+            >.sub-menu {
+                @apply transition-all relative lg:absolute lg:top-full bg-primary w-max min-w-full opacity-0 max-h-0 -z-10 overflow-clip pl-3 lg:pl-0 font-normal;
+            }
+
+            &:hover>.sub-menu {
+                @apply opacity-100 max-h-screen z-10 overflow-visible;
+            }
+
+            >a:after {
+                @apply absolute grid place-content-center w-5 h-5 top-1/2 -translate-y-1/2 right-4 lg:-right-1 text-gray-100 font-bold transition-transform;
+                font-family: 'Material Symbols Outlined';
+                content: 'chevron_right';
+                font-size: 1.25rem;
+                line-height: 1.25rem;
+            }
+
+            &:hover>a:after {
+                @apply rotate-90;
+            }
+        }
+
+        .menu-item {
+            .sub-menu {
+                @apply lg:translate-x-full top-0 right-0;
+            }
+        }
+    }
+
+    &>.menu-item {
+        @apply lg:bg-inherit;
+
+        &>a {
+            @apply lg:px-4;
+        }
+
+        /*
+		&.menu-item-has-children {
+			&>a:after {
+				@apply lg:content-[''];
+			}
+		}
+		*/
+    }
+}
+
+.ssnail-navigation {
+    @apply font-headings uppercase;
+
+    .ssnail-menu-wrapper {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .ssnail-menu-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ssnail-menu-footer {
+        @apply before:content-[''] before:absolute before:w-full before:h-32 before:top-1 before:-translate-y-full before:left-0 before:block before:lg:hidden before:bg-gradient-to-t before:from-primary before:to-transparent;
+
+        @media (orientation: landscape) {
+            @apply before:hidden;
+        }
+    }
+}

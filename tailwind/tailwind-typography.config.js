@@ -156,5 +156,13 @@ module.exports = {
 				},
 			}),
 		},
+		fontFamily: {
+			'sans': ['ui-sans-serif', 'system-ui'],
+			'serif': ['ui-serif', 'Georgia'],
+			'mono': ['ui-monospace', 'SFMono-Regular'],
+			'headings': ['"Galano Grotesque"', 'sans-serif'],
+			'subheadings': ['Inconsolata', 'sans-serif'],
+			'body': ['"Noto Serif"', 'serif'],
+		},
 	},
 };

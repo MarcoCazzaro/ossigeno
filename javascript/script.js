@@ -14,3 +14,13 @@ import Alpine from 'alpinejs'
 window.Alpine = Alpine
 
 Alpine.start()
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('.ssnail-icon').forEach((icon) => {
+        let svgDataUrl = getComputedStyle(icon).getPropertyValue('--ssnail-icon-svg').trim().replace(/['"]+/g, '');
+        if (svgDataUrl) {
+            const svgData = atob(svgDataUrl.split(',')[1]);
+            icon.innerHTML = svgData;
+        }
+    });
+});

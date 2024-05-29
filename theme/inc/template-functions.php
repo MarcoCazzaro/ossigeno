@@ -40,7 +40,7 @@ if (!function_exists('ssnail__enqueue_custom_blocks')) {
 }
 
 if (!function_exists('ssnail_get_site_logo')) {
-	function ssnail_get_site_logo()
+	function ssnail_get_site_logo($additional_classes = '')
 	{
 		$image_type = "svg";
 		$logo_image_url = get_template_directory_uri() . "/images/ossigeno-logo.svg";
@@ -62,7 +62,7 @@ if (!function_exists('ssnail_get_site_logo')) {
 			$logo_height = '';
 		}
 ?>
-		<img src="<?= $logo_image_url ?>" alt="<?= get_bloginfo('name') ?>" width="<?= $logo_width ?>" height="<?= $logo_height ?>">
+		<img src="<?= $logo_image_url ?>" alt="<?php echo get_bloginfo('name') ?>" width="<?php echo $logo_width ?>" height="<?php echo $logo_height ?>" class="<?php echo $additional_classes; ?>">
 		<?php
 	}
 }
@@ -443,17 +443,47 @@ if (!function_exists('ssnail_generate_svg_icon_css')) {
 		$icons = ssnail_load_svg_icons();
 		$css = '';
 
-		$css .= ".ssnail-icon { 
+		$css .= ".ssnail-icon {
+			--ssnail-icon-color: currentColor;
 			min-width: 2rem;
 			aspect-ratio: 1;
 			display: inline-block;
+			svg {
+				width: 100%;
+				height: 100%;
+			}
 		}\n";
 
 		foreach ($icons as $name => $svg) {
+			$svg = preg_replace_callback('/fill:(.*?);/', function ($matches) {
+				// If the color is white in any format, don't replace it
+				if (strtolower($matches[1]) === '#fff' || strtolower($matches[1]) === '#ffffff') {
+					return $matches[0];
+				}
+				// Otherwise, replace it with red
+
+				return "fill:var(--ssnail-icon-color);";
+			}, $svg);
+			$uniqueIds = [];
+
+			$svg = preg_replace_callback('/\.cls-(\d+)|class="cls-(\d+)"/', function ($matches) use (&$uniqueIds) {
+				// Check if the class name is in the first or second capturing group
+				$className = $matches[1] ? $matches[1] : $matches[2];
+
+				// If a unique ID has not been generated for this class name yet, generate one
+				if (!isset($uniqueIds[$className])) {
+					$uniqueIds[$className] = uniqid();
+				}
+
+				// Generate a unique class name by appending the unique ID to the original class name
+				$uniqueClassName = 'cls-' . $className . '-' . $uniqueIds[$className];
+
+				// Replace the class name in the appropriate context
+				return $matches[1] ? '.' . $uniqueClassName : 'class="' . $uniqueClassName . '"';
+			}, $svg);
 			$svg_encoded = base64_encode($svg);
 			$css .= ".ssnail-icon.$name {
-				background-image: url('data:image/svg+xml;base64,$svg_encoded');
-				background-size: contain; /* ensure the SVG icon scales correctly */
+				--ssnail-icon-svg: 'data:image/svg+xml;base64,$svg_encoded';
 			}\n";
 		}
 
