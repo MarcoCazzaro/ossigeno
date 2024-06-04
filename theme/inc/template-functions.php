@@ -557,3 +557,33 @@ if (!function_exists('ssnail_custom_query_vars')) {
 	}
 	add_filter('query_vars', 'ssnail_custom_query_vars');
 }
+
+if (!function_exists('ssnail_filter_block_categories_when_post_provided')) {
+	function ssnail_filter_block_categories_when_post_provided($block_categories, $editor_context)
+	{
+		if (!empty($editor_context->post)) {
+			array_push(
+				$block_categories,
+				array(
+					'slug'  => 'snappysnail',
+					'title' => __('Snappysnail', 'trimaterials'),
+					'icon'  => 'sos',
+				)
+			);
+		}
+		return $block_categories;
+	}
+	add_filter('block_categories_all', 'ssnail_filter_block_categories_when_post_provided', 10, 2);
+}
+
+if (!function_exists('ssnail_register_pattern_categories')) {
+	function ssnail_register_pattern_categories()
+	{
+		register_block_pattern_category(
+			'snappysnail',
+			array('label' => __('Snappysnail', 'ossigeno'))
+		);
+	}
+
+	add_action('init', 'ssnail_register_pattern_categories');
+}
