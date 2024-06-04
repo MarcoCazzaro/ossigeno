@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.5.0');
+	define('SSNAIL__VERSION', '0.5.2');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
@@ -172,9 +172,24 @@ if (!function_exists('ssnail_enqueue_font_awesome')) {
 	function ssnail_enqueue_font_awesome()
 	{
 		//FONT AWESOME - SELF HOSTED
-		$resources_path = "https://resources.snappysnail.io/";
-		if (ssnail_is_localhost()) {
-			$resources_path = "http://resources.local/";
+		// First, check if there is a folder in them theme called "resources/fontawesome-free-6.5.1-web"
+		// If not, use the resources hosted on snappysnail
+		$hosted_path = get_template_directory() . "/resources/fontawesome-free-6.5.1-web";
+		if (is_dir($hosted_path)) {
+			$resources_path = get_template_directory_uri() . "/resources/";
+		} else {
+			// Child theme check
+			$hosted_path = get_stylesheet_directory() . "/resources/fontawesome-free-6.5.1-web";
+			if (is_dir($hosted_path)) {
+				$resources_path = get_stylesheet_directory_uri() . "/resources/";
+			} else {
+				if (ssnail_is_localhost()) {
+					$resources_path = "http://resources.local/";
+				} else {
+					$resources_path = "https://resources.snappysnail.io/";
+				}
+			}
+			$hosted_path = get_template_directory() . "/resources/fontawesome-free-6.5.1-web";
 		}
 		wp_enqueue_style('font-awesome-sh', $resources_path . "fontawesome-free-6.5.1-web/css/fontawesome.min.css", array(), "6.5.1");
 		wp_enqueue_style('font-awesome-sh-brands', $resources_path . "fontawesome-free-6.5.1-web/css/brands.min.css", array('font-awesome-sh'), "6.4.0");
