@@ -177,11 +177,14 @@ if (!function_exists('ssnail_enqueue_font_awesome')) {
 		$hosted_path = get_template_directory() . "/resources/fontawesome-free-6.5.1-web";
 		if (is_dir($hosted_path)) {
 			$resources_path = get_template_directory_uri() . "/resources/";
+			var_dump("Ossigeno: " . $resources_path);
 		} else {
 			// Child theme check
 			$hosted_path = get_stylesheet_directory() . "/resources/fontawesome-free-6.5.1-web";
+			var_dump("Child hosted path: " . $hosted_path);
 			if (is_dir($hosted_path)) {
 				$resources_path = get_stylesheet_directory_uri() . "/resources/";
+				var_dump("Trimaterials: " . $resources_path);
 			} else {
 				if (ssnail_is_localhost()) {
 					$resources_path = "http://resources.local/";
