@@ -57,30 +57,30 @@ module.exports = {
 							// blockquote: {
 							// 	fontWeight: '500',
 							// },
-							// h1: {
-							// 	fontWeight: '800',
-							// },
-							// 'h1 strong': {
-							// 	fontWeight: '900',
-							// },
-							// h2: {
-							// 	fontWeight: '700',
-							// },
-							// 'h2 strong': {
-							// 	fontWeight: '800',
-							// },
-							// h3: {
-							// 	fontWeight: '600',
-							// },
-							// 'h3 strong': {
-							// 	fontWeight: '700',
-							// },
-							// h4: {
-							// 	fontWeight: '600',
-							// },
-							// 'h4 strong': {
-							// 	fontWeight: '700',
-							// },
+							h1: {
+								fontWeight: '500',
+							},
+							'h1 strong': {
+								fontWeight: '900',
+							},
+							h2: {
+								fontWeight: '500',
+							},
+							'h2 strong': {
+								fontWeight: '800',
+							},
+							h3: {
+								fontWeight: '500',
+							},
+							'h3 strong': {
+								fontWeight: '700',
+							},
+							h4: {
+								fontWeight: '500',
+							},
+							'h4 strong': {
+								fontWeight: '700',
+							},
 							// kbd: {
 							// 	fontWeight: '500',
 							// },
