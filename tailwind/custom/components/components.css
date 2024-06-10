@@ -38,6 +38,10 @@ footer.site-footer {
 	}
 }
 
+.btn-primary {
+	@apply bg-primary text-white uppercase hover:bg-secondary rounded-lg px-3 transition-colors;
+}
+
 form.ssnail-form {
 	@apply overflow-visible;
 
@@ -51,7 +55,7 @@ form.ssnail-form {
 	}
 
 	button {
-		@apply bg-primary text-white hover:bg-secondary rounded-lg px-3 transition-colors;
+		@apply btn-primary;
 	}
 }
 
