@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "ossigeno/ssnail-tab",
+    "parent": [
+        "ossigeno/ssnail-tabs"
+    ],
+    "title": "SSnail Tab",
+    "category": "snappysnail",
+    "icon": "admin-page",
+    "description": "Panel for SSnail Tabs block.",
+    "keywords": [
+        "tabs",
+        "tabbed panels",
+        "tabbed content",
+        "panel"
+    ],
+    "version": "1.0.0",
+    "textdomain": "ossigeno",
+    "attributes": {
+        "parentId": {
+            "type": "string",
+            "default": ""
+        },
+        "panelIndex": {
+            "type": "number",
+            "default": -1
+        }
+    },
+    "usesContext": [
+        "ssnail-tabs/currentTabIndex"
+    ],
+    "selectors": {
+        "root": ".ssnail-tab"
+    },
+    "editorStyle": "file:./index.css",
+    "editorScript": "file:./index.js",
+    "viewScript": "file:./view.js",
+    "render": "file:./render.php"
+}

@@ -1,0 +1,40 @@
+.ssnail-tabs-editor {
+    .ssnail-labels-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        &>div {
+            position: relative;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 0.25rem 0.25rem 0 0;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            user-select: none;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 700;
+            --tw-text-opacity: 1;
+            color: rgb(59 105 220 / var(--tw-text-opacity));
+
+            &.active {
+                background-color: #eee;
+            }
+
+            input {
+                border: none;
+                width: 5rem;
+                background-color: inherit;
+                outline: none;
+            }
+        }
+
+    }
+
+    .ssnail-tabs-wrapper {
+        border: 1px solid #ccc;
+        padding: 1rem;
+    }
+}
