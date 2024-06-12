@@ -38,8 +38,26 @@ footer.site-footer {
 	}
 }
 
+.btn {
+	@apply inline-flex items-center justify-center text-lg uppercase rounded-lg px-4 py-2 transition-colors !no-underline;
+}
+
 .btn-primary {
-	@apply bg-primary text-white uppercase hover:bg-secondary rounded-lg px-3 transition-colors;
+	color: var(--wp--preset--color--background) !important;
+	background-color: var(--wp--preset--color--primary) !important;
+
+	&:hover {
+		background-color: var(--wp--preset--color--secondary) !important;
+	}
+}
+
+.btn-secondary {
+	color: var(--wp--preset--color--background) !important;
+	background-color: var(--wp--preset--color--secondary) !important;
+
+	&:hover {
+		background-color: var(--wp--preset--color--primary) !important;
+	}
 }
 
 form.ssnail-form {
