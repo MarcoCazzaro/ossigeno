@@ -17,6 +17,10 @@
     "version": "1.0.0",
     "textdomain": "ossigeno",
     "attributes": {
+        "mainGUID": {
+            "type": "string",
+            "default": ""
+        },
         "tabLabels": {
             "type": "array",
             "default": [

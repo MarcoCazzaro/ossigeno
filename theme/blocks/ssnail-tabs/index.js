@@ -9,6 +9,9 @@
                 className: 'ssnail-tabs-editor'
             });
             const { clientId } = props;
+            if (props.attributes.mainGUID === '') {
+                props.setAttributes({ mainGUID: clientId });
+            }
 
             const handleTabLabelChange = (index, value) => {
                 const tabLabels = [...props.attributes.tabLabels];
@@ -20,7 +23,7 @@
                 // REF: https://github.com/WordPress/gutenberg/issues/15893
                 const tabLabels = [...props.attributes.tabLabels, 'Tab ' + (props.attributes.tabLabels.length + 1)];
                 props.setAttributes({ tabLabels });
-                const blockToInsert = wp.blocks.createBlock('ossigeno/ssnail-tab', { parentId: clientId, panelIndex: (tabLabels.length - 1), placeholder: 'Enter tab content' }, []);
+                const blockToInsert = wp.blocks.createBlock('ossigeno/ssnail-tab', { parentId: props.attributes.mainGUID, panelIndex: (tabLabels.length - 1), placeholder: 'Enter tab content' }, []);
                 wp.data.dispatch('core/block-editor').insertBlock(blockToInsert, tabLabels.length - 1, clientId);
                 props.setAttributes({ currentTabIndex: tabLabels.length - 1 });
             };
@@ -59,7 +62,7 @@
             );
 
             const TEMPLATE = [
-                ['ossigeno/ssnail-tab', { parentId: clientId, panelIndex: 0 }]
+                ['ossigeno/ssnail-tab', { parentId: props.attributes.mainGUID, panelIndex: 0 }]
             ];
 
             return wp.element.createElement('div', blockProps, [
