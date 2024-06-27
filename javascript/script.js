@@ -15,12 +15,17 @@ window.Alpine = Alpine
 
 Alpine.start()
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('.ssnail-icon').forEach((icon) => {
+window.ssnailLoadIcons = () => {
+    const icons = document.querySelectorAll('.ssnail-icon');
+    icons.forEach((icon) => {
         let svgDataUrl = getComputedStyle(icon).getPropertyValue('--ssnail-icon-svg').trim().replace(/['"]+/g, '');
         if (svgDataUrl) {
             const svgData = atob(svgDataUrl.split(',')[1]);
             icon.innerHTML = svgData;
         }
     });
+};
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    ssnailLoadIcons();
 });
