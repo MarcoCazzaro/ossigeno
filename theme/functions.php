@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.7.3');
+	define('SSNAIL__VERSION', '0.7.4');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
@@ -250,7 +250,7 @@ add_action('enqueue_block_assets', 'ssnail__enqueue_typography_script');
  */
 function ssnail__tinymce_add_class($settings)
 {
-	$settings['body_class'] = SSNAIL__TYPOGRAPHY_CLASSES;
+	$settings['body_class'] .= ' ' . SSNAIL__TYPOGRAPHY_CLASSES;
 	return $settings;
 }
 add_filter('tiny_mce_before_init', 'ssnail__tinymce_add_class');
