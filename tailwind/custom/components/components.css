@@ -236,3 +236,7 @@ nav.navigation.post-navigation {
 		}
 	}
 }
+
+.ssnail-read-more {
+	@apply inline-flex ml-2 text-sm text-primary font-bold;
+}

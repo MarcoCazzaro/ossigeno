@@ -399,3 +399,52 @@ if (!function_exists('ssnail__share_links')) :
 <?php
 	}
 endif;
+
+if (!function_exists('ssnail_acf_image_with_srcset')) {
+	function ssnail_acf_image_with_srcset($acf_field_or_name, $size = 'post-thumbnail', $alt = false, $class = 'attachment-SSNAILSIZE size-SSNAILSIZE')
+	{
+		switch (true) {
+			case is_numeric($acf_field_or_name):
+			case is_array($acf_field_or_name):
+			case filter_var($acf_field_or_name, FILTER_VALIDATE_URL):
+				$image = $acf_field_or_name;
+				break;
+
+			default:
+				$image = get_field($acf_field_or_name);
+				break;
+		}
+		$html = false;
+		$args = [];
+		if ($alt) {
+			$args['alt'] = $alt;
+		} else {
+			$alt = '';
+		}
+		if ($class) {
+			$class = str_replace("SSNAILSIZE", $size, $class);
+			$args['class'] = $class;
+		}
+		if ($image) {
+			switch (true) {
+				case is_numeric($image):
+					$html = wp_get_attachment_image($image, $size, false, $args);
+					break;
+				case is_array($image) && isset($image['ID']):
+					$html = wp_get_attachment_image($image['ID'], $size, false, $args);
+					break;
+
+				case filter_var($image, FILTER_VALIDATE_URL):
+					$html = "<img src='" . $image . "' alt='" . $alt . "' class='" . $class . "' >";
+					break;
+
+				default:
+					// code...
+					break;
+			}
+		}
+		if ($html) {
+			echo $html;
+		}
+	}
+}
