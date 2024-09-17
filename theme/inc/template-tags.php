@@ -383,6 +383,7 @@ endif;
 if (!function_exists('ssnail__share_links')) :
 	function ssnail__share_links($section_title = 'Share')
 	{
+		$post = get_post();
 		$url = get_permalink($post->ID);
 		$title = get_the_title($post->ID);
 		$via = "ForbesItalia";
