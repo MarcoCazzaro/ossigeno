@@ -12,7 +12,7 @@ if ($whatsapp_number) {
         <?php
         }
         ?>
-        <a href="https://wa.me/<?= $whatsapp_number ?>" target="_blank" rel="noopener noreferrer" class="relative grid place-content-center rounded-full h-12 w-12 bg-whatsapp"><i class="fab fa-whatsapp fa-2x"></i></a>
+        <a href="https://wa.me/<?= $whatsapp_number ?>" target="_blank" rel="noopener noreferrer" class="relative grid place-content-center rounded-full h-12 w-12 bg-whatsapp"><?php ssnail_get_social_icon('whatsapp'); ?></a>
     </div>
 <?php
 }

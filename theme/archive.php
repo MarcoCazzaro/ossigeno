@@ -53,7 +53,7 @@ get_header();
 				endwhile;
 
 				// Previous/next page navigation.
-				ssnail__the_posts_navigation();
+				ssnail_the_posts_navigation();
 				?>
 			</div>
 		<?php

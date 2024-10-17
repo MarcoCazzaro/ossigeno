@@ -19,7 +19,7 @@ get_header();
             the_post();
         ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(['ssnail-article', 'page']); ?>>
-                <div <?php ssnail__content_class('entry-content'); ?>>
+                <div <?php ssnail_content_class('entry-content'); ?>>
                     <?php the_content(); ?>
                 </div><!-- .entry-content -->
 

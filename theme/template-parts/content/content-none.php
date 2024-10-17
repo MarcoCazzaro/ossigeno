@@ -34,7 +34,7 @@ defined('ABSPATH') || exit;
 		<?php endif; ?>
 	</header><!-- .page-header -->
 
-	<div <?php ssnail__content_class('page-content'); ?>>
+	<div <?php ssnail_content_class('page-content'); ?>>
 		<?php
 		if (is_home() && current_user_can('publish_posts')) :
 		?>

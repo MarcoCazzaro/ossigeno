@@ -14,11 +14,11 @@ $layout = $args['layout'] ?? 'list';
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(['ssnail-article', 'archive', 'search', 'grid', 'gap-6', 'group', $layout]); ?>>
     <div class="ssnail-image-wrapper">
-        <?php ssnail__post_thumbnail(null, 'medium'); ?>
+        <?php ssnail_post_thumbnail(null, 'medium'); ?>
     </div>
     <div class="ssnail-text-wrapper md:col-span-3">
         <header class="entry-header">
-            <?php ssnail__post_categories(); ?>
+            <?php ssnail_post_categories(); ?>
             <?php
             if (is_sticky() && is_home() && !is_paged()) {
                 printf('%s', esc_html_x('Featured', 'post', 'ossigeno'));
@@ -27,7 +27,7 @@ $layout = $args['layout'] ?? 'list';
             ?>
         </header><!-- .entry-header -->
 
-        <div <?php ssnail__content_class('entry-content mb-4 text-xs'); ?>>
+        <div <?php ssnail_content_class('entry-content mb-4 text-xs'); ?>>
             <?php the_excerpt(); ?>
         </div><!-- .entry-content -->
 

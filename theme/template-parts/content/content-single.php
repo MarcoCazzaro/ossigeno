@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
 <article id="post-<?php the_ID(); ?>" <?php post_class(['ssnail-article', 'single', 'grid', 'gap-6', 'mb-6']); ?>>
 
 	<header class="entry-header">
-		<?php ssnail__post_categories(); ?>
+		<?php ssnail_post_categories(); ?>
 		<?php the_title('<h1 class="entry-title text-4xl my-4">', '</h1>'); ?>
 
 
@@ -22,22 +22,22 @@ defined('ABSPATH') || exit;
 			<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
 				<div class="entry-meta flex gap-4">
 					<?php
-					ssnail__posted_by();
-					ssnail__posted_on();
+					ssnail_posted_by();
+					ssnail_posted_on();
 					?>
 				</div><!-- .entry-meta -->
-				<?php ssnail__share_links(''); ?>
+				<?php ssnail_share_links(''); ?>
 			</div>
 		<?php else : ?>
 			<div class="flex items-center justify-end">
-				<?php ssnail__share_links(''); ?>
+				<?php ssnail_share_links(''); ?>
 			</div>
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
-	<?php ssnail__post_thumbnail(); ?>
+	<?php ssnail_post_thumbnail(); ?>
 
-	<div <?php ssnail__content_class('entry-content'); ?>>
+	<div <?php ssnail_content_class('entry-content'); ?>>
 		<?php
 		the_content(
 			sprintf(
@@ -66,9 +66,9 @@ defined('ABSPATH') || exit;
 	<footer class="entry-footer border p-4 rounded-lg relative overflow-clip gap-4">
 		<div class="absolute top-0 left-0 w-full h-full bg-primary opacity-20 z-0"></div>
 		<div class="relative w-full flex flex-wrap gap-4 items-center">
-			<?php ssnail__entry_footer(); ?>
+			<?php ssnail_entry_footer(); ?>
 		</div>
-		<?php ssnail__share_links(''); ?>
+		<?php ssnail_share_links(''); ?>
 	</footer><!-- .entry-footer -->
 
 </article><!-- #post-${ID} -->

@@ -14,7 +14,7 @@ $layout = $args['layout'] ?? 'list';
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(['ssnail-article', 'archive', 'grid', 'gap-6', 'group', $layout]); ?>>
 	<div class="ssnail-image-wrapper">
-		<?php ssnail__post_thumbnail(); ?>
+		<?php ssnail_post_thumbnail(); ?>
 	</div>
 	<div class="ssnail-text-wrapper">
 		<header class="entry-header">
@@ -28,7 +28,7 @@ $layout = $args['layout'] ?? 'list';
 
 
 		<footer class="entry-footer">
-			<?php ssnail__entry_footer(); ?>
+			<?php ssnail_entry_footer(); ?>
 		</footer><!-- .entry-footer -->
 	</div>
 </article><!-- #post-${ID} -->

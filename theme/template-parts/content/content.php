@@ -26,9 +26,9 @@ defined('ABSPATH') || exit;
 		?>
 	</header><!-- .entry-header -->
 
-	<?php ssnail__post_thumbnail(); ?>
+	<?php ssnail_post_thumbnail(); ?>
 
-	<div <?php ssnail__content_class('entry-content'); ?>>
+	<div <?php ssnail_content_class('entry-content'); ?>>
 		<?php
 		the_content();
 
@@ -42,7 +42,7 @@ defined('ABSPATH') || exit;
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<?php ssnail__entry_footer(); ?>
+		<?php ssnail_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 
 </article><!-- #post-${ID} -->

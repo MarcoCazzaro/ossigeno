@@ -25,11 +25,11 @@ get_header();
 				// Previous/next post navigation.
 				the_post_navigation(
 					array(
-						'next_text' => '<span aria-hidden="true">' . __('Next Post', 'ossigeno') . '</span> ' .
-							'<span class="sr-only">' . __('Next post:', 'ossigeno') . '</span><i class="fas fa-arrow-right ml-4"></i> <br/>' .
+						'next_text' => '<div class="inline-flex items-center"><span aria-hidden="true">' . __('Next Post', 'mom') . '</span> ' .
+							'<span class="sr-only">' . __('Next post:', 'mom') . '</span><span class="material-symbols-outlined">arrow_right_alt</span></div><br/>' .
 							'<span>%title</span>',
-						'prev_text' => '<i class="fas fa-arrow-left mr-4"><span aria-hidden="true"></i>' . __('Previous Post', 'ossigeno') . '</span> ' .
-							'<span class="sr-only">' . __('Previous post:', 'ossigeno') . '</span> <br/>' .
+						'prev_text' => '<div class="inline-flex items-center"><span class="material-symbols-outlined">arrow_left_alt</span><span aria-hidden="true">' . __('Previous Post', 'mom') . '</span> ' .
+							'<span class="sr-only">' . __('Previous post:', 'mom') . '</span></div><br/>' .
 							'<span>%title</span>',
 					)
 				);

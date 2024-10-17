@@ -8,14 +8,14 @@
  * @package Ossigeno
  */
 
-if (!function_exists('ssnail__posted_on')) :
+if (!function_exists('ssnail_posted_on')) :
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
-	function ssnail__posted_on()
+	function ssnail_posted_on()
 	{
 		echo '<div class="flex gap-1 items-center">';
-		echo '<i class="fas fa-calendar text-primary"></i>';
+		echo '<span class="material-symbols-outlined text-primary">calendar_today</span>';
 		$time_string = '<time datetime="%1$s">%2$s</time>';
 		if (get_the_time('U') !== get_the_modified_time('U')) {
 			$time_string = '<time datetime="%1$s">%2$s</time>';
@@ -36,14 +36,14 @@ if (!function_exists('ssnail__posted_on')) :
 	}
 endif;
 
-if (!function_exists('ssnail__posted_by')) :
+if (!function_exists('ssnail_posted_by')) :
 	/**
 	 * Prints HTML with meta information about theme author.
 	 */
-	function ssnail__posted_by()
+	function ssnail_posted_by()
 	{
 		echo '<div class="flex gap-1 items-center">';
-		echo '<i class="fas fa-user text-primary"></i>';
+		echo '<span class="material-symbols-outlined text-primary">person</span>';
 		printf(
 			/* translators: 1: posted by label, only visible to screen readers. 2: author link. 3: post author. */
 			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span>',
@@ -55,11 +55,11 @@ if (!function_exists('ssnail__posted_by')) :
 	}
 endif;
 
-if (!function_exists('ssnail__comment_count')) :
+if (!function_exists('ssnail_comment_count')) :
 	/**
 	 * Prints HTML with the comment count for the current post.
 	 */
-	function ssnail__comment_count()
+	function ssnail_comment_count()
 	{
 		if (!post_password_required() && (comments_open() || get_comments_number())) {
 			/* translators: %s: Name of current post. Only visible to screen readers. */
@@ -68,8 +68,8 @@ if (!function_exists('ssnail__comment_count')) :
 	}
 endif;
 
-if (!function_exists('ssnail__post_categories')) :
-	function ssnail__post_categories()
+if (!function_exists('ssnail_post_categories')) :
+	function ssnail_post_categories()
 	{
 		if ('post' === get_post_type()) {
 			/* translators: used between list items, there is a space after the comma. */
@@ -87,8 +87,8 @@ if (!function_exists('ssnail__post_categories')) :
 endif;
 
 
-if (!function_exists('ssnail__post_tags')) :
-	function ssnail__post_tags()
+if (!function_exists('ssnail_post_tags')) :
+	function ssnail_post_tags()
 	{
 		if ('post' === get_post_type()) {
 			/* translators: used between list items, there is a space after the comma. */
@@ -105,12 +105,12 @@ if (!function_exists('ssnail__post_tags')) :
 	}
 endif;
 
-if (!function_exists('ssnail__entry_meta')) :
+if (!function_exists('ssnail_entry_meta')) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 * This template tag is used in the entry header.
 	 */
-	function ssnail__entry_meta()
+	function ssnail_entry_meta()
 	{
 
 		// Hide author, post date, category and tag text for pages.
@@ -128,10 +128,10 @@ if (!function_exists('ssnail__entry_meta')) :
 			}
 
 			// Posted by.
-			ssnail__posted_by();
+			ssnail_posted_by();
 
 			// Posted on.
-			ssnail__posted_on();
+			ssnail_posted_on();
 
 			/* translators: used between list items, there is a space after the comma. */
 			$tags_list = get_the_tag_list('', __(', ', 'ossigeno'));
@@ -147,7 +147,7 @@ if (!function_exists('ssnail__entry_meta')) :
 
 		// Comment count.
 		if (!is_singular()) {
-			ssnail__comment_count();
+			ssnail_comment_count();
 		}
 
 		// Edit post link.
@@ -168,11 +168,11 @@ if (!function_exists('ssnail__entry_meta')) :
 	}
 endif;
 
-if (!function_exists('ssnail__entry_footer')) :
+if (!function_exists('ssnail_entry_footer')) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 */
-	function ssnail__entry_footer()
+	function ssnail_entry_footer()
 	{
 
 		// Hide author, post date, category and tag text for pages.
@@ -190,10 +190,10 @@ if (!function_exists('ssnail__entry_footer')) :
 
 			echo '<div class="flex gap-4">';
 			// Posted by.
-			ssnail__posted_by();
+			ssnail_posted_by();
 
 			// Posted on.
-			ssnail__posted_on();
+			ssnail_posted_on();
 			echo '</div>';
 
 			/* translators: used between list items, there is a space after the comma. */
@@ -210,7 +210,7 @@ if (!function_exists('ssnail__entry_footer')) :
 
 		// Comment count.
 		if (!is_singular()) {
-			ssnail__comment_count();
+			ssnail_comment_count();
 		}
 
 		// Edit post link.
@@ -231,19 +231,19 @@ if (!function_exists('ssnail__entry_footer')) :
 	}
 endif;
 
-if (!function_exists('ssnail__post_thumbnail')) :
+if (!function_exists('ssnail_post_thumbnail')) :
 	/**
 	 * Displays an optional post thumbnail, wrapping the post thumbnail in an
 	 * anchor element except when viewing a single post.
 	 */
-	function ssnail__post_thumbnail($current_post_id = null, $size = 'post-thumbnail', $placeholder_fallback = true, $show_caption = false)
+	function ssnail_post_thumbnail($current_post_id = null, $size = 'post-thumbnail', $placeholder_fallback = true, $show_caption = false)
 	{
 		global $post;
 		if (!is_null($current_post_id)) {
 			$post = get_post($current_post_id, OBJECT);
 			setup_postdata($post);
 		}
-		if (!ssnail__can_show_post_thumbnail()) {
+		if (!ssnail_can_show_post_thumbnail()) {
 			return;
 		}
 		if (!is_singular()) {
@@ -285,31 +285,31 @@ if (!function_exists('ssnail__post_thumbnail')) :
 	}
 endif;
 
-if (!function_exists('ssnail__comment_avatar')) :
+if (!function_exists('ssnail_comment_avatar')) :
 	/**
 	 * Returns the HTML markup to generate a user avatar.
 	 *
 	 * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
 	 *                           user email, WP_User object, WP_Post object, or WP_Comment object.
 	 */
-	function ssnail__get_user_avatar_markup($id_or_email = null)
+	function ssnail_get_user_avatar_markup($id_or_email = null)
 	{
 
 		if (!isset($id_or_email)) {
 			$id_or_email = get_current_user_id();
 		}
 
-		return sprintf('<div class="vcard">%s</div>', get_avatar($id_or_email, ssnail__get_avatar_size()));
+		return sprintf('<div class="vcard">%s</div>', get_avatar($id_or_email, ssnail_get_avatar_size()));
 	}
 endif;
 
-if (!function_exists('ssnail__discussion_avatars_list')) :
+if (!function_exists('ssnail_discussion_avatars_list')) :
 	/**
 	 * Displays a list of avatars involved in a discussion for a given post.
 	 *
 	 * @param array $comment_authors Comment authors to list as avatars.
 	 */
-	function ssnail__discussion_avatars_list($comment_authors)
+	function ssnail_discussion_avatars_list($comment_authors)
 	{
 		if (empty($comment_authors)) {
 			return;
@@ -318,18 +318,18 @@ if (!function_exists('ssnail__discussion_avatars_list')) :
 		foreach ($comment_authors as $id_or_email) {
 			printf(
 				"<li>%s</li>\n",
-				ssnail__get_user_avatar_markup($id_or_email) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				ssnail_get_user_avatar_markup($id_or_email) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
 		echo '</ol>', "\n";
 	}
 endif;
 
-if (!function_exists('ssnail__the_posts_navigation')) :
+if (!function_exists('ssnail_the_posts_navigation')) :
 	/**
 	 * Wraps `the_posts_pagination` for use throughout the theme.
 	 */
-	function ssnail__the_posts_navigation()
+	function ssnail_the_posts_navigation()
 	{
 		the_posts_pagination(
 			array(
@@ -341,7 +341,7 @@ if (!function_exists('ssnail__the_posts_navigation')) :
 	}
 endif;
 
-if (!function_exists('ssnail__content_class')) :
+if (!function_exists('ssnail_content_class')) :
 	/**
 	 * Displays the class names for the post content wrapper.
 	 *
@@ -355,7 +355,7 @@ if (!function_exists('ssnail__content_class')) :
 	 * @param array $classes Space-separated string or array of class names to
 	 *                     add to the class list.
 	 */
-	function ssnail__content_class($classes = '')
+	function ssnail_content_class($classes = '')
 	{
 		$all_classes = array($classes, SSNAIL__TYPOGRAPHY_CLASSES);
 
@@ -379,22 +379,22 @@ if (!function_exists('ssnail__content_class')) :
 	}
 endif;
 
-// Share panel for social share links called ssnail__share_links
-if (!function_exists('ssnail__share_links')) :
-	function ssnail__share_links($section_title = 'Share')
+// Share panel for social share links called ssnail_share_links
+if (!function_exists('ssnail_share_links')) :
+	function ssnail_share_links($section_title = 'Share')
 	{
-		$post = get_post();
+		global $post;
 		$url = get_permalink($post->ID);
 		$title = get_the_title($post->ID);
-		$via = "ForbesItalia";
+		$via = "Ossigeno";
 		?>
 		<div class="ssnail-share-links relative">
 			<h6 class="text-uppercase"><?php echo __($section_title, 'ossigeno') ?></h6>
-			<div class="flex gap-3 text-xl">
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?= $url ?>" target="_blank" rel="noopener" class="text-facebook hover:text-primary transition-colors"><i class="fab fa-facebook-f"></i></a>
-				<a href="https://api.whatsapp.com/send?&text=<?= $url ?>" target="_blank" rel="noopener" class="text-whatsapp hover:text-primary transition-colors"><i class="fab fa-whatsapp"></i></a>
-				<a target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=<?php echo get_the_title($post->ID); ?>&url=<?= $url ?>&via=<?= $via ?>" class="text-x-twitter hover:text-primary transition-colors"><i class="fab fa-x-twitter"></i></a>
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $url ?>&title=<?= $url ?>&summary=&source=" target="_blank" rel="noopener" class="text-linkedin hover:text-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
+			<div class="flex gap-3 text-sm">
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $url ?>&title=<?= $url ?>&summary=&source=" target="_blank" rel="noopener" class="text-linkedin hover:text-primary transition-colors"><?php ssnail_get_social_icon('linkedin'); ?></a>
+				<a href="https://www.facebook.com/sharer/sharer.php?u=<?= $url ?>" target="_blank" rel="noopener" class="text-facebook hover:text-primary transition-colors"><?php ssnail_get_social_icon('facebook'); ?></a>
+				<a href="https://api.whatsapp.com/send?&text=<?= $url ?>" target="_blank" rel="noopener" class="text-whatsapp hover:text-primary transition-colors"><?php ssnail_get_social_icon('whatsapp'); ?></a>
+				<a href="https://twitter.com/intent/tweet?text=<?php echo get_the_title($post->ID); ?>&url=<?= $url ?>&via=<?= $via ?>" target="_blank" rel="noopener" class="text-x-twitter hover:text-primary transition-colors"><?php ssnail_get_social_icon('x-twitter'); ?></a>
 			</div>
 		</div>
 <?php

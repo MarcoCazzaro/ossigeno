@@ -23,9 +23,9 @@ defined('ABSPATH') || exit;
 		?>
 	</header><!-- .entry-header -->
 
-	<?php ssnail__post_thumbnail(); ?>
+	<?php ssnail_post_thumbnail(); ?>
 
-	<div <?php ssnail__content_class('entry-content mt-8'); ?>>
+	<div <?php ssnail_content_class('entry-content mt-8'); ?>>
 		<?php
 
 		the_content();

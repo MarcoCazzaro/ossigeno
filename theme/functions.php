@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.7.8');
+	define('SSNAIL__VERSION', '0.9.0');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
@@ -24,7 +24,7 @@ if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
 	 * Set Tailwind Typography classes for the front end, block editor and
 	 * classic editor using the constant below.
 	 *
-	 * For the front end, these classes are added by the `ssnail__content_class`
+	 * For the front end, these classes are added by the `ssnail_content_class`
 	 * function. You will see that function used everywhere an `entry-content`
 	 * or `page-content` class has been added to a wrapper element.
 	 *
@@ -43,7 +43,7 @@ if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
 	);
 }
 
-if (!function_exists('ssnail__setup')) :
+if (!function_exists('ssnail_setup')) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -51,7 +51,7 @@ if (!function_exists('ssnail__setup')) :
 	 * runs before the init hook. The init hook is too late for some features, such
 	 * as indicating support for post thumbnails.
 	 */
-	function ssnail__setup()
+	function ssnail_setup()
 	{
 		/*
 		 * Make theme available for translation.
@@ -140,67 +140,48 @@ if (!function_exists('ssnail__setup')) :
 		);
 	}
 endif;
-add_action('after_setup_theme', 'ssnail__setup');
+add_action('after_setup_theme', 'ssnail_setup');
 
 /**
  * Enqueue scripts and styles.
  */
-function ssnail__scripts()
+function ssnail_scripts()
 {
+	ssnail_enqueue_google_material_icons();
 	wp_enqueue_style('ossigeno-style', get_stylesheet_uri(), array(), SSNAIL__VERSION);
 	wp_enqueue_script('ossigeno-script', get_template_directory_uri() . '/js/script.min.js', array(), SSNAIL__VERSION, true);
 
 	if (is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
 	}
-	ssnail_enqueue_font_awesome();
 }
-add_action('wp_enqueue_scripts', 'ssnail__scripts');
+add_action('wp_enqueue_scripts', 'ssnail_scripts');
 
 /**
  * Enqueue admin scripts and styles.
  */
-function ssnail__admin_scripts()
+function ssnail_admin_scripts()
 {
 	if (isset($_GET['page']) && $_GET['page'] == 'ossigeno_options_page') {
 		wp_enqueue_media();
 	}
 }
-add_action('admin_enqueue_scripts', 'ssnail__admin_scripts');
+add_action('admin_enqueue_scripts', 'ssnail_admin_scripts');
 
-if (!function_exists('ssnail_enqueue_font_awesome')) {
-	function ssnail_enqueue_font_awesome()
+if (!function_exists('ssnail_enqueue_google_material_icons')) :
+	/**
+	 * Enqueue Google Material Icons.
+	 */
+	function ssnail_enqueue_google_material_icons()
 	{
-		//FONT AWESOME - SELF HOSTED
-		// First, check if there is a folder in them theme called "resources/fontawesome-free-6.5.1-web"
-		// If not, use the resources hosted on snappysnail
-		$hosted_path = get_template_directory() . "/resources/fontawesome-free-6.5.1-web";
-		if (is_dir($hosted_path)) {
-			$resources_path = get_template_directory_uri() . "/resources/";
-		} else {
-			// Child theme check
-			$hosted_path = get_stylesheet_directory() . "/resources/fontawesome-free-6.5.1-web";
-			if (is_dir($hosted_path)) {
-				$resources_path = get_stylesheet_directory_uri() . "/resources/";
-			} else {
-				if (ssnail_is_localhost()) {
-					$resources_path = "http://resources.local/";
-				} else {
-					$resources_path = "https://resources.snappysnail.io/";
-				}
-			}
-			$hosted_path = get_template_directory() . "/resources/fontawesome-free-6.5.1-web";
-		}
-		wp_enqueue_style('font-awesome-sh', $resources_path . "fontawesome-free-6.5.1-web/css/fontawesome.min.css", array(), "6.5.1");
-		wp_enqueue_style('font-awesome-sh-brands', $resources_path . "fontawesome-free-6.5.1-web/css/brands.min.css", array('font-awesome-sh'), "6.4.0");
-		wp_enqueue_style('font-awesome-sh-solid', $resources_path . "fontawesome-free-6.5.1-web/css/solid.min.css", array('font-awesome-sh'), "6.5.1");
+		wp_enqueue_style('ssnail-google-material-icons', 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0..1,0', array(), null);
 	}
-}
+endif;
 
 /**
  * Enqueue the block editor script.
  */
-function ssnail__enqueue_block_editor_script()
+function ssnail_enqueue_block_editor_script()
 {
 	wp_enqueue_script(
 		'ossigeno-editor',
@@ -217,14 +198,14 @@ function ssnail__enqueue_block_editor_script()
 		true
 	);
 }
-add_action('enqueue_block_editor_assets', 'ssnail__enqueue_block_editor_script');
+add_action('enqueue_block_editor_assets', 'ssnail_enqueue_block_editor_script');
 
 /**
  * Enqueue the script necessary to support Tailwind Typography in the block
  * editor, using an inline script to create a JavaScript array containing the
  * Tailwind Typography classes from SSNAIL__TYPOGRAPHY_CLASSES.
  */
-function ssnail__enqueue_typography_script()
+function ssnail_enqueue_typography_script()
 {
 	if (is_admin()) {
 		wp_enqueue_script(
@@ -240,7 +221,7 @@ function ssnail__enqueue_typography_script()
 		wp_add_inline_script('ossigeno-typography', "tailwindTypographyClasses = '" . esc_attr(SSNAIL__TYPOGRAPHY_CLASSES) . "'.split(' ');", 'before');
 	}
 }
-add_action('enqueue_block_assets', 'ssnail__enqueue_typography_script');
+add_action('enqueue_block_assets', 'ssnail_enqueue_typography_script');
 
 /**
  * Add the Tailwind Typography classes to TinyMCE.
@@ -248,12 +229,12 @@ add_action('enqueue_block_assets', 'ssnail__enqueue_typography_script');
  * @param array $settings TinyMCE settings.
  * @return array
  */
-function ssnail__tinymce_add_class($settings)
+function ssnail_tinymce_add_class($settings)
 {
 	$settings['body_class'] .= ' ' . SSNAIL__TYPOGRAPHY_CLASSES;
 	return $settings;
 }
-add_filter('tiny_mce_before_init', 'ssnail__tinymce_add_class');
+add_filter('tiny_mce_before_init', 'ssnail_tinymce_add_class');
 
 /**
  * Custom template tags for this theme.

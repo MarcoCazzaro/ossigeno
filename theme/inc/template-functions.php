@@ -6,9 +6,9 @@
  * @package Ossigeno
  */
 
-if (!function_exists('ssnail__enqueue_custom_blocks')) {
+if (!function_exists('ssnail_enqueue_custom_blocks')) {
 
-	function ssnail__enqueue_custom_blocks()
+	function ssnail_enqueue_custom_blocks()
 	{
 		// Dynamically register all the blocks contained in get_template_directory_uri() . '/blocks folder
 		$blocks_folder = get_template_directory() . '/blocks';
@@ -36,7 +36,7 @@ if (!function_exists('ssnail__enqueue_custom_blocks')) {
 		}
 	}
 
-	add_action('init', 'ssnail__enqueue_custom_blocks');
+	add_action('init', 'ssnail_enqueue_custom_blocks');
 }
 
 if (!function_exists('ssnail_get_site_logo')) {
@@ -68,7 +68,7 @@ if (!function_exists('ssnail_get_site_logo')) {
 }
 
 if (!function_exists('ssnail_print_menu_with_social_icons')) {
-	function ssnail_print_menu_with_social_icons($menu_location_name, $title, $icon_size = '')
+	function ssnail_print_menu_with_social_icons($menu_location_name, $title = false, $icon_class = '')
 	{
 		$current_menu = false;
 		$menu_locations = get_nav_menu_locations();
@@ -78,24 +78,17 @@ if (!function_exists('ssnail_print_menu_with_social_icons')) {
 		if ($current_menu) {
 			$current_menu_items = wp_get_nav_menu_items($current_menu);
 			if ($current_menu_items && is_array($current_menu_items)) {
+				if ($title) {
+					echo '<h3>' . $title . '</h3>';
+				}
 		?>
-				<h3><?= $title ?></h3>
-				<ul class="ssnail-menu-items flex gap-5 items-center justify-start">
+				<ul class="ssnail-menu-items flex gap-5 items-center justify-around flex-wrap">
 					<?php
 					foreach ($current_menu_items as $key => $item) {
 					?>
 						<li class="ssnail-menu-item">
-							<a href="<?= $item->url ?>" target="<?= $item->target ?? '' ?>" class="hover:text-primary transition-colors">
-								<?php
-								$social_providers = ["facebook", "x-twitter", "instagram", "linkedin"];
-								if (in_array(strtolower($item->title), $social_providers)) {
-								?>
-									<i class="fab fa-<?= strtolower($item->title) ?> <?= $icon_size ?>"></i>
-								<?php
-								} else {
-									echo $item->title;
-								}
-								?>
+							<a href="<?= $item->url ?>" target="<?= $item->target ?? '' ?>" class="hover:text-primary transition-colors <?php echo $icon_class; ?>">
+								<?php ssnail_get_social_icon($item->title); ?>
 							</a>
 						</li>
 					<?php
@@ -104,6 +97,49 @@ if (!function_exists('ssnail_print_menu_with_social_icons')) {
 				</ul>
 	<?php
 			}
+		}
+	}
+}
+
+if (!function_exists('ssnail_get_social_icon')) {
+	function ssnail_get_social_icon($platform, $print = true, $fill_color = "currentColor", $additional_classes = null)
+	{
+		$icon = '';
+		$additional_classes = $additional_classes ?? 'h-8 w-8';
+		// https://icons8.com/icon/set/social-media/material
+		switch (strtolower($platform)) {
+			case "facebook":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M12,2C6.477,2,2,6.477,2,12c0,5.013,3.693,9.153,8.505,9.876V14.65H8.031v-2.629h2.474v-1.749 c0-2.896,1.411-4.167,3.818-4.167c1.153,0,1.762,0.085,2.051,0.124v2.294h-1.642c-1.022,0-1.379,0.969-1.379,2.061v1.437h2.995 l-0.406,2.629h-2.588v7.247C18.235,21.236,22,17.062,22,12C22,6.477,17.523,2,12,2z"/></svg>';
+				break;
+			case "instagram":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg>';
+				break;
+			case "tiktok":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg>';
+				break;
+			case "x-twitter":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 2.3671875 3 L 9.4628906 13.140625 L 2.7402344 21 L 5.3808594 21 L 10.644531 14.830078 L 14.960938 21 L 21.871094 21 L 14.449219 10.375 L 20.740234 3 L 18.140625 3 L 13.271484 8.6875 L 9.2988281 3 L 2.3671875 3 z M 6.2070312 5 L 8.2558594 5 L 18.033203 19 L 16.001953 19 L 6.2070312 5 z"/></svg>';
+				break;
+			case "linkedin":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 5 3 C 3.9 3 3 3.9 3 5 L 3 19 C 3 20.1 3.9 21 5 21 L 19 21 C 20.1 21 21 20.1 21 19 L 21 5 C 21 3.9 20.1 3 19 3 L 5 3 z M 5 5 L 19 5 L 19 19 L 5 19 L 5 5 z M 7.8007812 6.3007812 C 6.9007812 6.3007812 6.4003906 6.8 6.4003906 7.5 C 6.4003906 8.2 6.8992188 8.6992188 7.6992188 8.6992188 C 8.5992187 8.6992187 9.0996094 8.2 9.0996094 7.5 C 9.0996094 6.8 8.6007813 6.3007812 7.8007812 6.3007812 z M 6.5 10 L 6.5 17 L 9 17 L 9 10 L 6.5 10 z M 11.099609 10 L 11.099609 17 L 13.599609 17 L 13.599609 13.199219 C 13.599609 12.099219 14.499219 11.900391 14.699219 11.900391 C 14.899219 11.900391 15.599609 12.099219 15.599609 13.199219 L 15.599609 17 L 18 17 L 18 13.199219 C 18 10.999219 17.000781 10 15.800781 10 C 14.600781 10 13.899609 10.4 13.599609 11 L 13.599609 10 L 11.099609 10 z"/></svg>';
+				break;
+			case "whatsapp":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 12.011719 2 C 6.5057187 2 2.0234844 6.478375 2.0214844 11.984375 C 2.0204844 13.744375 2.4814687 15.462563 3.3554688 16.976562 L 2 22 L 7.2324219 20.763672 C 8.6914219 21.559672 10.333859 21.977516 12.005859 21.978516 L 12.009766 21.978516 C 17.514766 21.978516 21.995047 17.499141 21.998047 11.994141 C 22.000047 9.3251406 20.962172 6.8157344 19.076172 4.9277344 C 17.190172 3.0407344 14.683719 2.001 12.011719 2 z M 12.009766 4 C 14.145766 4.001 16.153109 4.8337969 17.662109 6.3417969 C 19.171109 7.8517969 20.000047 9.8581875 19.998047 11.992188 C 19.996047 16.396187 16.413812 19.978516 12.007812 19.978516 C 10.674812 19.977516 9.3544062 19.642812 8.1914062 19.007812 L 7.5175781 18.640625 L 6.7734375 18.816406 L 4.8046875 19.28125 L 5.2851562 17.496094 L 5.5019531 16.695312 L 5.0878906 15.976562 C 4.3898906 14.768562 4.0204844 13.387375 4.0214844 11.984375 C 4.0234844 7.582375 7.6067656 4 12.009766 4 z M 8.4765625 7.375 C 8.3095625 7.375 8.0395469 7.4375 7.8105469 7.6875 C 7.5815469 7.9365 6.9355469 8.5395781 6.9355469 9.7675781 C 6.9355469 10.995578 7.8300781 12.182609 7.9550781 12.349609 C 8.0790781 12.515609 9.68175 15.115234 12.21875 16.115234 C 14.32675 16.946234 14.754891 16.782234 15.212891 16.740234 C 15.670891 16.699234 16.690438 16.137687 16.898438 15.554688 C 17.106437 14.971687 17.106922 14.470187 17.044922 14.367188 C 16.982922 14.263188 16.816406 14.201172 16.566406 14.076172 C 16.317406 13.951172 15.090328 13.348625 14.861328 13.265625 C 14.632328 13.182625 14.464828 13.140625 14.298828 13.390625 C 14.132828 13.640625 13.655766 14.201187 13.509766 14.367188 C 13.363766 14.534188 13.21875 14.556641 12.96875 14.431641 C 12.71875 14.305641 11.914938 14.041406 10.960938 13.191406 C 10.218937 12.530406 9.7182656 11.714844 9.5722656 11.464844 C 9.4272656 11.215844 9.5585938 11.079078 9.6835938 10.955078 C 9.7955938 10.843078 9.9316406 10.663578 10.056641 10.517578 C 10.180641 10.371578 10.223641 10.267562 10.306641 10.101562 C 10.389641 9.9355625 10.347156 9.7890625 10.285156 9.6640625 C 10.223156 9.5390625 9.737625 8.3065 9.515625 7.8125 C 9.328625 7.3975 9.131125 7.3878594 8.953125 7.3808594 C 8.808125 7.3748594 8.6425625 7.375 8.4765625 7.375 z"/></svg>';
+				break;
+			case "youtube":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>';
+				break;
+			case "vimeo":
+				$icon = '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256px" height="256px"><path fill="' . $fill_color . '" fill-rule="nonzero" d="M 21.988281 7.96875 C 21.902344 9.878906 20.539063 12.488281 17.910156 15.804688 C 15.191406 19.269531 12.890625 21 11.007813 21 C 9.84375 21 8.855469 19.945313 8.050781 17.835938 C 7.511719 15.902344 6.976563 13.96875 6.4375 12.035156 C 5.839844 9.925781 5.195313 8.871094 4.511719 8.871094 C 4.359375 8.871094 3.835938 9.179688 2.941406 9.792969 L 2 8.605469 C 2.988281 7.757813 3.960938 6.90625 4.917969 6.058594 C 6.234375 4.941406 7.222656 4.355469 7.882813 4.296875 C 9.4375 4.148438 10.398438 5.191406 10.757813 7.425781 C 11.144531 9.832031 11.414063 11.332031 11.5625 11.917969 C 12.011719 13.914063 12.507813 14.910156 13.046875 14.910156 C 13.464844 14.910156 14.09375 14.265625 14.933594 12.96875 C 15.769531 11.671875 16.21875 10.6875 16.277344 10.007813 C 16.398438 8.890625 15.949219 8.328125 14.933594 8.328125 C 14.453125 8.328125 13.960938 8.4375 13.453125 8.652344 C 14.433594 5.496094 16.3125 3.964844 19.085938 4.050781 C 21.140625 4.109375 22.109375 5.414063 21.988281 7.96875 Z"/></svg>';
+				break;
+		}
+		if ($icon !== '') {
+			$icon = '<span class="ssnail-social-icon inline-flex overflow-clip ' . $additional_classes . '">' . $icon . '</span>';
+		}
+		if ($print) {
+			echo $icon;
+		} else {
+			return $icon;
 		}
 	}
 }
@@ -118,13 +154,13 @@ if (!function_exists('ssnail_is_localhost')) {
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
-function ssnail__pingback_header()
+function ssnail_pingback_header()
 {
 	if (is_singular() && pings_open()) {
 		printf('<link rel="pingback" href="%s">', esc_url(get_bloginfo('pingback_url')));
 	}
 }
-add_action('wp_head', 'ssnail__pingback_header');
+add_action('wp_head', 'ssnail_pingback_header');
 
 /**
  * Changes comment form default fields.
@@ -133,7 +169,7 @@ add_action('wp_head', 'ssnail__pingback_header');
  *
  * @return array Returns the modified fields.
  */
-function ssnail__comment_form_defaults($defaults)
+function ssnail_comment_form_defaults($defaults)
 {
 	$comment_field = $defaults['comment_field'];
 
@@ -142,12 +178,12 @@ function ssnail__comment_form_defaults($defaults)
 
 	return $defaults;
 }
-add_filter('comment_form_defaults', 'ssnail__comment_form_defaults');
+add_filter('comment_form_defaults', 'ssnail_comment_form_defaults');
 
 /**
  * Filters the default archive titles.
  */
-function ssnail__get_the_archive_title()
+function ssnail_get_the_archive_title()
 {
 	if (is_category()) {
 		$title = __('Category Archives: ', 'ossigeno') . '<span>' . single_term_title('', false) . '</span>';
@@ -180,20 +216,20 @@ function ssnail__get_the_archive_title()
 	}
 	return $title;
 }
-add_filter('get_the_archive_title', 'ssnail__get_the_archive_title');
+add_filter('get_the_archive_title', 'ssnail_get_the_archive_title');
 
 /**
  * Determines whether the post thumbnail can be displayed.
  */
-function ssnail__can_show_post_thumbnail()
+function ssnail_can_show_post_thumbnail()
 {
-	return apply_filters('ssnail__can_show_post_thumbnail', !post_password_required() && !is_attachment());
+	return apply_filters('ssnail_can_show_post_thumbnail', !post_password_required() && !is_attachment());
 }
 
 /**
  * Returns the size for avatars used in the theme.
  */
-function ssnail__get_avatar_size()
+function ssnail_get_avatar_size()
 {
 	return 60;
 }
@@ -203,7 +239,7 @@ function ssnail__get_avatar_size()
  *
  * @param string $more_string The string shown within the more link.
  */
-function ssnail__continue_reading_link($more_string)
+function ssnail_continue_reading_link($more_string)
 {
 
 	if (!is_admin()) {
@@ -220,10 +256,10 @@ function ssnail__continue_reading_link($more_string)
 }
 
 // Filter the excerpt more link.
-add_filter('excerpt_more', 'ssnail__continue_reading_link');
+add_filter('excerpt_more', 'ssnail_continue_reading_link');
 
 // Filter the content more link.
-add_filter('the_content_more_link', 'ssnail__continue_reading_link');
+add_filter('the_content_more_link', 'ssnail_continue_reading_link');
 
 /**
  * Outputs a comment in the HTML5 format.
@@ -236,7 +272,7 @@ add_filter('the_content_more_link', 'ssnail__continue_reading_link');
  * @param array      $args    An array of arguments.
  * @param int        $depth   Depth of the current comment.
  */
-function ssnail__html5_comment($comment, $args, $depth)
+function ssnail_html5_comment($comment, $args, $depth)
 {
 	$tag = ('div' === $args['style']) ? 'div' : 'li';
 
@@ -298,7 +334,7 @@ function ssnail__html5_comment($comment, $args, $depth)
 				<?php endif; ?>
 			</footer><!-- .comment-meta -->
 
-			<div <?php ssnail__content_class('comment-content'); ?>>
+			<div <?php ssnail_content_class('comment-content'); ?>>
 				<?php comment_text(); ?>
 			</div><!-- .comment-content -->
 

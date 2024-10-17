@@ -43,7 +43,7 @@ if (is_active_sidebar('ssnail_ads_footer')) {
 			if (isset($menu_locations['social-menu'])) {
 			?>
 				<div class="flex flex-col justify-start items-start ssnail-social-navigation">
-					<?php ssnail_print_menu_with_social_icons('social-menu', 'Social', 'fa-2x'); ?>
+					<?php ssnail_print_menu_with_social_icons('social-menu', 'Social', 'hover:text-secondary text-2xl'); ?>
 				</div>
 			<?php
 			}

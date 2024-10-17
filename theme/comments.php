@@ -29,8 +29,8 @@ if (post_password_required()) {
 	?>
 		<h2 class="mb-4">
 			<?php
-			$ssnail__comment_count = get_comments_number();
-			if ('1' === $ssnail__comment_count) {
+			$ssnail_comment_count = get_comments_number();
+			if ('1' === $ssnail_comment_count) {
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
 					/* translators: 1: title. */
@@ -42,8 +42,8 @@ if (post_password_required()) {
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
 					/* translators: 1: comment count number, 2: title. */
-					esc_html(_nx('%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $ssnail__comment_count, 'comments title', 'ossigeno')),
-					number_format_i18n($ssnail__comment_count),
+					esc_html(_nx('%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $ssnail_comment_count, 'comments title', 'ossigeno')),
+					number_format_i18n($ssnail_comment_count),
 					get_the_title()
 				);
 				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -58,7 +58,7 @@ if (post_password_required()) {
 			wp_list_comments(
 				array(
 					'style'      => 'ol',
-					'callback'   => 'ssnail__html5_comment',
+					'callback'   => 'ssnail_html5_comment',
 					'short_ping' => true,
 				)
 			);
