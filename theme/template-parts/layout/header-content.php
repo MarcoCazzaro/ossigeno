@@ -61,7 +61,7 @@ if (is_registered_sidebar('ssnail_ads_masthead')) {
 			<!-- Logo -->
 			<div class="h-full flex-shrink-0 flex items-center">
 				<a class="flex justify-center items-center w-36" href="<?php echo site_url() ?>">
-					<?php ssnail_get_site_logo(); ?>
+					<?php ssnail_get_site_logo('h-8 w-auto'); ?>
 				</a>
 			</div>
 
