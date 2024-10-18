@@ -17,7 +17,7 @@ if (!function_exists('ssnail_enqueue_custom_blocks')) {
 		$child_blocks_folder = get_stylesheet_directory() . '/blocks';
 
 		$blocks_by_source['parent'] = scandir($blocks_folder);
-		if (is_dir($child_blocks_folder)) {
+		if (is_dir($child_blocks_folder) && $blocks_folder !== $child_blocks_folder) {
 			$blocks_by_source['child'] = scandir($child_blocks_folder);
 		}
 		foreach ($blocks_by_source as $source => $blocks) {

@@ -231,6 +231,9 @@ add_action('enqueue_block_assets', 'ssnail_enqueue_typography_script');
  */
 function ssnail_tinymce_add_class($settings)
 {
+	if (!isset($settings['body_class'])) {
+		$settings['body_class'] = '';
+	}
 	$settings['body_class'] .= ' ' . SSNAIL__TYPOGRAPHY_CLASSES;
 	return $settings;
 }
