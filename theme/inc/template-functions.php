@@ -672,3 +672,27 @@ if (!function_exists('ssnail_get_related_posts')) {
 		return $related_posts;
 	}
 }
+
+if (!function_exists('ssnail_add_preloads_to_head')) {
+	function ssnail_add_preloads_to_head()
+	{
+		$primary_menu = false;
+		$menu_locations = get_nav_menu_locations();
+		if (isset($menu_locations['primary-menu'])) {
+			$primary_menu = get_term($menu_locations['primary-menu'], 'nav_menu');
+		}
+		if ($primary_menu) {
+			$menu_items = wp_get_nav_menu_items($primary_menu);
+
+			// Loop through each menu item
+			foreach ($menu_items as $item) {
+				// Get the URL of the menu item
+				$url = $item->url;
+
+				// Add a preload link for the menu item
+				echo '<link rel="prefetch" href="' . $url . '">';
+			}
+		}
+	}
+	add_action('wp_head', 'ssnail_add_preloads_to_head');
+}
