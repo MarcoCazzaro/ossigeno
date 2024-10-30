@@ -16,7 +16,7 @@ if (!function_exists('ssnail_related_posts_callback')) {
             ob_start();
 ?>
             <div class="ssnail-related-posts my-16">
-                <h2 class="ssnail-related-posts__title border-t border-b border-secondary uppercase text-center font-subheadings mb-8"><?php esc_html_e('Related Posts', 'ossigeno'); ?></h2>
+                <h2 class="ssnail-related-posts__title font-subheadings text-xl mb-8"><?php esc_html_e('Related Posts', 'ossigeno'); ?></h2>
                 <div class="ssnail-related-posts__list grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <?php foreach ($related_posts as $post) : setup_postdata($post); ?>
                         <?php get_template_part('template-parts/content/content', 'archive', ['layout' => 'tile minimal']); ?>
