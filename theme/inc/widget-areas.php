@@ -36,5 +36,14 @@ function ssnail_register_widgets_areas()
 		'before_title'  => '',
 		'after_title'   => '',
 	));
+
+	register_sidebar(array(
+		'name'          => 'Article after content',
+		'id'            => 'ssnail_article_after_content',
+		'before_widget' => '<div class="ssnail-widget-area article-after-content">',
+		'after_widget'  => '</div>',
+		'before_title'  => '',
+		'after_title'   => '',
+	));
 }
 add_action('widgets_init', 'ssnail_register_widgets_areas');

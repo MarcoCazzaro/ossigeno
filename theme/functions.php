@@ -16,7 +16,7 @@ if (!defined('SSNAIL__VERSION')) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define('SSNAIL__VERSION', '0.9.0');
+	define('SSNAIL__VERSION', '0.9.1');
 }
 
 if (!defined('SSNAIL__TYPOGRAPHY_CLASSES')) {
@@ -258,3 +258,8 @@ require get_template_directory() . '/inc/template-functions.php';
  * Custom options.
  */
 require get_template_directory() . '/inc/options.php';
+
+/**
+ * Custom shortcodes.
+ */
+require get_template_directory() . '/inc/shortcodes.php';
