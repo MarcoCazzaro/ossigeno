@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Custom template tags for this theme
  *
@@ -8,62 +7,55 @@
  * @package Ossigeno
  */
 
-if (!function_exists('ssnail_posted_on')) :
+if ( ! function_exists( 'ssnail_posted_on' ) ) :
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
-	function ssnail_posted_on()
-	{
-		echo '<div class="flex gap-1 items-center">';
-		echo '<span class="material-symbols-outlined text-primary">calendar_today</span>';
+	function ssnail_posted_on() {
 		$time_string = '<time datetime="%1$s">%2$s</time>';
-		if (get_the_time('U') !== get_the_modified_time('U')) {
-			$time_string = '<time datetime="%1$s">%2$s</time>';
+		if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+			$time_string = '<time datetime="%1$s">%2$s</time><time datetime="%3$s">%4$s</time>';
 		}
 
 		$time_string = sprintf(
 			$time_string,
-			esc_attr(get_the_modified_date(DATE_W3C)),
-			esc_html(get_the_modified_date())
+			esc_attr( get_the_date( DATE_W3C ) ),
+			esc_html( get_the_date() ),
+			esc_attr( get_the_modified_date( DATE_W3C ) ),
+			esc_html( get_the_modified_date() )
 		);
 
 		printf(
-			'<a class="ssnail-posted-on" href="%1$s" rel="bookmark">%2$s</a>',
-			esc_url(get_permalink()),
+			'<a href="%1$s" rel="bookmark">%2$s</a>',
+			esc_url( get_permalink() ),
 			$time_string // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
-		echo '</div>';
 	}
 endif;
 
-if (!function_exists('ssnail_posted_by')) :
+if ( ! function_exists( 'ssnail_posted_by' ) ) :
 	/**
 	 * Prints HTML with meta information about theme author.
 	 */
-	function ssnail_posted_by()
-	{
-		echo '<div class="flex gap-1 items-center">';
-		echo '<span class="material-symbols-outlined text-primary">person</span>';
+	function ssnail_posted_by() {
 		printf(
-			/* translators: 1: posted by label, only visible to screen readers. 2: author link. 3: post author. */
+		/* translators: 1: posted by label, only visible to screen readers. 2: author link. 3: post author. */
 			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span>',
-			esc_html__('Posted by', 'ossigeno'),
-			esc_url(get_author_posts_url(get_the_author_meta('ID'))),
-			esc_html(get_the_author())
+			esc_html__( 'Posted by', 'ossigeno' ),
+			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+			esc_html( get_the_author() )
 		);
-		echo '</div>';
 	}
 endif;
 
-if (!function_exists('ssnail_comment_count')) :
+if ( ! function_exists( 'ssnail_comment_count' ) ) :
 	/**
 	 * Prints HTML with the comment count for the current post.
 	 */
-	function ssnail_comment_count()
-	{
-		if (!post_password_required() && (comments_open() || get_comments_number())) {
+	function ssnail_comment_count() {
+		if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 			/* translators: %s: Name of current post. Only visible to screen readers. */
-			comments_popup_link(sprintf(__('Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno'), get_the_title()), false, false, 'text-xs font-bold');
+			comments_popup_link( sprintf( __( 'Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno' ), get_the_title() ) );
 		}
 	}
 endif;
@@ -285,84 +277,80 @@ if (!function_exists('ssnail_post_thumbnail')) :
 	}
 endif;
 
-if (!function_exists('ssnail_comment_avatar')) :
+if ( ! function_exists( 'ssnail_comment_avatar' ) ) :
 	/**
 	 * Returns the HTML markup to generate a user avatar.
 	 *
 	 * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
 	 *                           user email, WP_User object, WP_Post object, or WP_Comment object.
 	 */
-	function ssnail_get_user_avatar_markup($id_or_email = null)
-	{
+	function ssnail_get_user_avatar_markup( $id_or_email = null ) {
 
-		if (!isset($id_or_email)) {
+		if ( ! isset( $id_or_email ) ) {
 			$id_or_email = get_current_user_id();
 		}
 
-		return sprintf('<div class="vcard">%s</div>', get_avatar($id_or_email, ssnail_get_avatar_size()));
+		return sprintf( '<div class="vcard">%s</div>', get_avatar( $id_or_email, ssnail_get_avatar_size() ) );
 	}
 endif;
 
-if (!function_exists('ssnail_discussion_avatars_list')) :
+if ( ! function_exists( 'ssnail_discussion_avatars_list' ) ) :
 	/**
 	 * Displays a list of avatars involved in a discussion for a given post.
 	 *
 	 * @param array $comment_authors Comment authors to list as avatars.
 	 */
-	function ssnail_discussion_avatars_list($comment_authors)
-	{
-		if (empty($comment_authors)) {
+	function ssnail_discussion_avatars_list( $comment_authors ) {
+		if ( empty( $comment_authors ) ) {
 			return;
 		}
 		echo '<ol>', "\n";
-		foreach ($comment_authors as $id_or_email) {
+		foreach ( $comment_authors as $id_or_email ) {
 			printf(
 				"<li>%s</li>\n",
-				ssnail_get_user_avatar_markup($id_or_email) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				ssnail_get_user_avatar_markup( $id_or_email ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
 		echo '</ol>', "\n";
 	}
 endif;
 
-if (!function_exists('ssnail_the_posts_navigation')) :
+if ( ! function_exists( 'ssnail_the_posts_navigation' ) ) :
 	/**
 	 * Wraps `the_posts_pagination` for use throughout the theme.
 	 */
-	function ssnail_the_posts_navigation()
-	{
+	function ssnail_the_posts_navigation() {
 		the_posts_pagination(
 			array(
 				'mid_size'  => 2,
-				'prev_text' => __('Newer posts', 'ossigeno'),
-				'next_text' => __('Older posts', 'ossigeno'),
+				'prev_text' => __( 'Newer posts', 'ossigeno' ),
+				'next_text' => __( 'Older posts', 'ossigeno' ),
 			)
 		);
 	}
 endif;
 
-if (!function_exists('ssnail_content_class')) :
+if ( ! function_exists( 'ssnail_content_class' ) ) :
 	/**
 	 * Displays the class names for the post content wrapper.
 	 *
 	 * This allows us to add Tailwind Typography’s modifier classes throughout
 	 * the theme without repeating them in multiple files. (They can be edited
 	 * at the top of the `../functions.php` file via the
-	 * SSNAIL__TYPOGRAPHY_CLASSES constant.)
+	 * SSNAIL_TYPOGRAPHY_CLASSES constant.)
 	 *
 	 * Based on WordPress core’s `body_class` and `get_body_class` functions.
 	 *
-	 * @param array $classes Space-separated string or array of class names to
-	 *                     add to the class list.
+	 * @param string|string[] $classes Space-separated string or array of class
+	 *                                 names to add to the class list.
 	 */
-	function ssnail_content_class($classes = '')
-	{
-		$all_classes = array($classes, SSNAIL__TYPOGRAPHY_CLASSES);
+	function ssnail_content_class( $classes = '' ) {
+		$all_classes = array( $classes, SSNAIL_TYPOGRAPHY_CLASSES );
 
-		foreach ($all_classes as &$class_groups) {
-			if (!empty($class_groups)) {
-				if (!is_array($class_groups)) {
-					$class_groups = preg_split('#\s+#', $class_groups);
+		foreach ( $all_classes as &$class_groups ) {
+			if ( ! empty( $class_groups ) ) {
+				if ( ! is_array( $class_groups ) ) {
+					$class_groups = preg_split( '#\s+#', $class_groups );
 				}
 			} else {
 				// Ensure that we always coerce class to being an array.
@@ -370,12 +358,12 @@ if (!function_exists('ssnail_content_class')) :
 			}
 		}
 
-		$combined_classes = array_merge($all_classes[0], $all_classes[1]);
-		$combined_classes = array_map('esc_attr', $combined_classes);
+		$combined_classes = array_merge( $all_classes[0], $all_classes[1] );
+		$combined_classes = array_map( 'esc_attr', $combined_classes );
 
 		// Separates class names with a single space, preparing them for the
 		// post content wrapper.
-		echo 'class="' . esc_attr(implode(' ', $combined_classes)) . '"';
+		echo 'class="' . esc_attr( implode( ' ', $combined_classes ) ) . '"';
 	}
 endif;
 

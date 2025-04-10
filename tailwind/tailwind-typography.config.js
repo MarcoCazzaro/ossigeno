@@ -1,3 +1,8 @@
+/**
+ * Tailwind Typography can only be configured via JavaScript, using a legacy
+ * configuration file like this one.
+ */
+
 // Copied from Tailwind Typography.
 const hexToRgb = (hex) => {
 	if (typeof hex !== 'string' || hex.length === 0) {
@@ -31,9 +36,8 @@ module.exports = {
 							 * By default, max-width is set to 65 characters.
 							 * This is a good default for readability, but
 							 * often in conflict with client-supplied designs.
-							 * A value of false removes the max-width property.
 							 */
-							maxWidth: false,
+							maxWidth: 'none',
 
 							/**
 							 * Tailwind Typography uses the font weights 400
@@ -57,30 +61,30 @@ module.exports = {
 							// blockquote: {
 							// 	fontWeight: '500',
 							// },
-							h1: {
-								fontWeight: '500',
-							},
-							'h1 strong': {
-								fontWeight: '900',
-							},
-							h2: {
-								fontWeight: '500',
-							},
-							'h2 strong': {
-								fontWeight: '800',
-							},
-							h3: {
-								fontWeight: '500',
-							},
-							'h3 strong': {
-								fontWeight: '700',
-							},
-							h4: {
-								fontWeight: '500',
-							},
-							'h4 strong': {
-								fontWeight: '700',
-							},
+							// h1: {
+							// 	fontWeight: '800',
+							// },
+							// 'h1 strong': {
+							// 	fontWeight: '900',
+							// },
+							// h2: {
+							// 	fontWeight: '700',
+							// },
+							// 'h2 strong': {
+							// 	fontWeight: '800',
+							// },
+							// h3: {
+							// 	fontWeight: '600',
+							// },
+							// 'h3 strong': {
+							// 	fontWeight: '700',
+							// },
+							// h4: {
+							// 	fontWeight: '600',
+							// },
+							// 'h4 strong': {
+							// 	fontWeight: '700',
+							// },
 							// kbd: {
 							// 	fontWeight: '500',
 							// },
@@ -102,7 +106,7 @@ module.exports = {
 				 * scale. If you are adapting an existing design and you need
 				 * to set specific colors throughout, you can do so here. In
 				 * your `./theme/functions.php file, you will need to replace
-				 * `prose-neutral` with `prose-ossigeno`.
+				 * `-neutral` with `-Ossigeno`.
 				 */
 				ossigeno: {
 					css: {
@@ -155,14 +159,6 @@ module.exports = {
 					},
 				},
 			}),
-		},
-		fontFamily: {
-			'sans': ['ui-sans-serif', 'system-ui'],
-			'serif': ['ui-serif', 'Georgia'],
-			'mono': ['ui-monospace', 'SFMono-Regular'],
-			'headings': ['"Galano Grotesque"', 'sans-serif'],
-			'subheadings': ['Inconsolata', 'sans-serif'],
-			'body': ['"Noto Serif"', 'serif'],
 		},
 	},
 };

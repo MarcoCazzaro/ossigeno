@@ -17,46 +17,50 @@
  * The supplied styles are meant to match the default `h1` classes from
  * Tailwind Typography.
  */
+
 .page-title,
 .entry-title {
-	@apply mb-6 text-3xl font-extrabold text-neutral-900;
+	@apply max-w-content mx-auto mb-6 text-3xl font-extrabold text-neutral-900;
 }
 
-#masthead {
-	.ssnail-search-panel {
-		.ssnail-form.ssnail-search-form {
-			label {
-				@apply text-white;
-			}
-		}
-	}
+/**
+ * Layout styles for centered content areas
+ *
+ * If you are controlling the width of your content area with styles applied
+ * to its container, you can delete the following styles whose selectors begin
+ * with `.page-content >` and `.entry-content >`. For more details, please see
+ * the following:
+ *
+ * https://make.wordpress.org/core/2021/06/29/on-layout-and-content-width-in-wordpress-5-8/
+ */
+.page-content > *,
+.entry-content > * {
+	/* Content width from the `theme.json` file */
+	@apply max-w-content mx-auto;
 }
+
+.entry-content > .alignwide {
+	/* Wide width from the `theme.json` file */
+	@apply max-w-wide;
+}
+
+.entry-content > .alignfull {
+	@apply max-w-none;
+}
+
+.entry-content > .alignleft {
+	@apply float-left mr-8;
+}
+
+.entry-content > .alignright {
+	@apply float-right ml-8;
+}
+
+/** END OF DEFAULT STUFF **/
 
 footer.site-footer {
 	h3 {
-		@apply font-bold text-xl mb-3;
-	}
-}
-
-.btn {
-	@apply inline-flex items-center justify-center text-lg uppercase rounded-lg px-4 py-2 transition-colors !no-underline;
-}
-
-.btn-primary {
-	color: var(--wp--preset--color--background) !important;
-	background-color: var(--wp--preset--color--primary) !important;
-
-	&:hover {
-		background-color: var(--wp--preset--color--secondary) !important;
-	}
-}
-
-.btn-secondary {
-	color: var(--wp--preset--color--background) !important;
-	background-color: var(--wp--preset--color--secondary) !important;
-
-	&:hover {
-		background-color: var(--wp--preset--color--primary) !important;
+		@apply mb-3 text-xl font-bold;
 	}
 }
 
@@ -64,12 +68,12 @@ form.ssnail-form {
 	@apply overflow-visible;
 
 	label {
-		@apply block font-bold text-sm text-gray-700 mb-2;
+		@apply mb-2 block text-sm font-bold text-gray-700;
 	}
 
 	input,
 	textarea {
-		@apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full transition-colors;
+		@apply focus:ring-primary focus:border-primary block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 transition-colors;
 	}
 
 	button {
@@ -80,13 +84,12 @@ form.ssnail-form {
 article.ssnail-article {
 	figure.post-thumbnail {
 		img {
-			@apply rounded-lg w-full h-auto border;
+			@apply h-auto w-full rounded-lg border;
 		}
 	}
 
 	.ssnail-text-wrapper {
 		@apply flex flex-col justify-between;
-
 	}
 
 	.entry-footer {
@@ -97,7 +100,7 @@ article.ssnail-article {
 		@apply flex flex-wrap gap-2;
 
 		a[rel="category tag"] {
-			@apply text-xs font-bold text-white bg-primary hover:bg-secondary transition-colors px-2 py-1 rounded-full;
+			@apply bg-primary hover:bg-secondary rounded-full px-2 py-1 text-xs font-bold text-white transition-colors;
 		}
 	}
 
@@ -105,7 +108,7 @@ article.ssnail-article {
 		@apply flex flex-wrap gap-x-4 gap-y-1;
 
 		a[rel="tag"] {
-			@apply text-xs font-bold text-primary underline;
+			@apply text-primary text-xs font-bold underline;
 		}
 	}
 
@@ -131,18 +134,17 @@ article.ssnail-article {
 
 	&.single {
 		.entry-footer {
-			@apply flex md:flex-row md:items-center justify-between;
+			@apply flex justify-between md:flex-row md:items-center;
 		}
 	}
-
 }
 
 nav.navigation.pagination {
 	.nav-links {
-		@apply flex gap-1 justify-start;
+		@apply flex justify-start gap-1;
 
 		.page-numbers:not(.dots) {
-			@apply text-sm font-bold text-primary bg-white border border-gray-300 px-3 py-1 rounded-lg hover:bg-primary hover:text-white transition-colors;
+			@apply text-primary hover:bg-primary rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm font-bold transition-colors hover:text-white;
 
 			&.current {
 				@apply bg-primary text-white;
@@ -153,10 +155,10 @@ nav.navigation.pagination {
 
 nav.navigation.post-navigation {
 	.nav-links {
-		@apply flex gap-4 justify-between items-start;
+		@apply flex items-start justify-between gap-4;
 
 		span:not([aria-hidden="true"]) {
-			@apply text-lg font-bold text-primary;
+			@apply text-primary text-lg font-bold;
 		}
 	}
 }
@@ -178,12 +180,12 @@ nav.navigation.post-navigation {
 		}
 
 		.children {
-			@apply ml-8 mt-4;
+			@apply mt-4 ml-8;
 		}
 
 		.reply {
 			.comment-reply-link {
-				@apply text-xs text-primary font-bold;
+				@apply text-primary text-xs font-bold;
 			}
 		}
 	}
@@ -192,36 +194,36 @@ nav.navigation.post-navigation {
 		@apply mt-4;
 
 		.comment-reply-title {
-			@apply font-bold text-lg mb-2;
+			@apply mb-2 text-lg font-bold;
 		}
 
 		#cancel-comment-reply-link {
-			@apply text-xs text-primary font-bold ml-2;
+			@apply text-primary ml-2 text-xs font-bold;
 		}
 
 		.comment-form {
-			@apply flex flex-col gap-4 bg-gray-50 border border-gray-300 rounded-lg p-4;
+			@apply flex flex-col gap-4 rounded-lg border border-gray-300 bg-gray-50 p-4;
 
 			.comment-notes {
 				@apply text-xs text-gray-600;
 			}
 
 			.comment-form-comment {
-				@apply text-gray-900 text-sm focus:ring-primary focus:border-primary flex flex-col w-full transition-colors;
+				@apply focus:ring-primary focus:border-primary flex w-full flex-col text-sm text-gray-900 transition-colors;
 			}
 
 			.comment-form-author,
 			.comment-form-email {
-				@apply text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary flex flex-col w-full transition-colors;
+				@apply focus:ring-primary focus:border-primary flex w-full flex-col rounded-lg text-sm text-gray-900 transition-colors;
 			}
 
 			.comment-form-url {
-				@apply text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary flex flex-col w-full transition-colors;
+				@apply focus:ring-primary focus:border-primary flex w-full flex-col rounded-lg text-sm text-gray-900 transition-colors;
 			}
 
 			.form-submit {
 				input[type="submit"] {
-					@apply bg-primary text-white hover:bg-secondary px-3 py-2 transition-colors;
+					@apply bg-primary hover:bg-secondary px-3 py-2 text-white transition-colors;
 				}
 			}
 
@@ -238,5 +240,5 @@ nav.navigation.post-navigation {
 }
 
 .ssnail-read-more {
-	@apply inline-flex ml-2 text-sm text-primary font-bold;
+	@apply text-primary ml-2 inline-flex text-sm font-bold;
 }

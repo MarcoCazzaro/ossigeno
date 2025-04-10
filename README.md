@@ -1,4 +1,5 @@
 Ossigeno
 ========
 
-WordPress theme based on TailwindCSS, powered by \_tw
+Version: 2.0
+WordPress theme based on TailwindCSS 4, powered by \_tw

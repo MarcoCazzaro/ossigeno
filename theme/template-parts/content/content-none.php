@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template part for displaying a message when posts are not found
  *
@@ -8,20 +7,19 @@
  * @package Ossigeno
  */
 
-defined('ABSPATH') || exit;
 ?>
 
 <section>
 
 	<header class="page-header">
-		<?php if (is_search()) : ?>
+		<?php if ( is_search() ) : ?>
 
 			<h1 class="page-title">
 				<?php
 				printf(
 					/* translators: 1: search result title. 2: search term. */
 					'<h1 class="page-title">%1$s <span>%2$s</span></h1>',
-					esc_html__('Search results for:', 'ossigeno'),
+					esc_html__( 'Search results for:', 'ossigeno' ),
 					get_search_query()
 				);
 				?>
@@ -29,47 +27,47 @@ defined('ABSPATH') || exit;
 
 		<?php else : ?>
 
-			<h1 class="page-title"><?php esc_html_e('Nothing Found', 'ossigeno'); ?></h1>
+			<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'ossigeno' ); ?></h1>
 
 		<?php endif; ?>
 	</header><!-- .page-header -->
 
-	<div <?php ssnail_content_class('page-content'); ?>>
+	<div <?php ssnail_content_class( 'page-content' ); ?>>
 		<?php
-		if (is_home() && current_user_can('publish_posts')) :
-		?>
+		if ( is_home() && current_user_can( 'publish_posts' ) ) :
+			?>
 
 			<p>
-				<?php esc_html_e('Your site is set to show the most recent posts on your homepage, but you haven&rsquo;t published any posts.', 'ossigeno'); ?>
+				<?php esc_html_e( 'Your site is set to show the most recent posts on your homepage, but you haven&rsquo;t published any posts.', 'ossigeno' ); ?>
 			</p>
 
 			<p>
-				<a href="<?php echo esc_url(admin_url('edit.php')); ?>">
+				<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>">
 					<?php
 					/* translators: 1: link to WP admin new post page. */
-					esc_html_e('Add or publish posts', 'ossigeno');
+					esc_html_e( 'Add or publish posts', 'ossigeno' );
 					?>
 				</a>
 			</p>
 
-		<?php
-		elseif (is_search()) :
-		?>
+			<?php
+		elseif ( is_search() ) :
+			?>
 
 			<p>
-				<?php esc_html_e('Your search generated no results. Please try a different search.', 'ossigeno'); ?>
+				<?php esc_html_e( 'Your search generated no results. Please try a different search.', 'ossigeno' ); ?>
 			</p>
 
-		<?php
+			<?php
 			get_search_form();
 		else :
-		?>
+			?>
 
 			<p>
-				<?php esc_html_e('No content matched your request.', 'ossigeno'); ?>
+				<?php esc_html_e( 'No content matched your request.', 'ossigeno' ); ?>
 			</p>
 
-		<?php
+			<?php
 			get_search_form();
 		endif;
 		?>

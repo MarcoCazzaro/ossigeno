@@ -1,5 +1,3 @@
-/* global wp */
-
 /**
  * Block editor modifications
  *
@@ -13,6 +11,13 @@
  * For esbuild documentation, please see:
  * https://esbuild.github.io/
  */
+
+/**
+ * This import adds your front-end post title and Tailwind Typography classes
+ * to the block editor. It also adds some helper classes so you can access the
+ * post type when modifying the block editor’s appearance.
+ */
+import '@_tw/typography/block-editor-classes';
 
 wp.domReady(() => {
 	/**
@@ -30,17 +35,4 @@ wp.domReady(() => {
 	// 	name: 'fancy-quote',
 	// 	label: 'Fancy Quote',
 	// } );
-
-	var style = document.createElement('style');
-
-	// Set the CSS you want to apply
-	style.textContent = `
-	.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
-            max-width: none !important;
-        }
-    `;
-
-	// Append the style element to the head of the document
-	document.head.appendChild(style);
-
 });

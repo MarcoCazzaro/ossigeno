@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The template for displaying comments
  *
@@ -15,26 +14,24 @@
  * If the current post is protected by a password and the visitor has not yet
  * entered the password we will return early without loading the comments.
  */
-
-defined('ABSPATH') || exit;
-if (post_password_required()) {
+if ( post_password_required() ) {
 	return;
 }
 ?>
 
-<div id="comments" class="ssnail-comments mt-8">
+<div id="comments">
 
 	<?php
-	if (have_comments()) :
-	?>
-		<h2 class="mb-4">
+	if ( have_comments() ) :
+		?>
+		<h2>
 			<?php
 			$ssnail_comment_count = get_comments_number();
-			if ('1' === $ssnail_comment_count) {
+			if ( '1' === $ssnail_comment_count ) {
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
 					/* translators: 1: title. */
-					esc_html__('One comment on &ldquo;%1$s&rdquo;', 'ossigeno'),
+					esc_html__( 'One comment on &ldquo;%1$s&rdquo;', 'ossigeno' ),
 					get_the_title()
 				);
 				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -42,8 +39,8 @@ if (post_password_required()) {
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
 					/* translators: 1: comment count number, 2: title. */
-					esc_html(_nx('%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $ssnail_comment_count, 'comments title', 'ossigeno')),
-					number_format_i18n($ssnail_comment_count),
+					esc_html( _nx( '%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $ssnail_comment_count, 'comments title', 'ossigeno' ) ),
+					number_format_i18n( $ssnail_comment_count ),
 					get_the_title()
 				);
 				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -70,10 +67,10 @@ if (post_password_required()) {
 
 		// If there are existing comments, but comments are closed, display a
 		// message.
-		if (!comments_open()) :
-		?>
-			<p><?php esc_html_e('Comments are closed.', 'ossigeno'); ?></p>
-	<?php
+		if ( ! comments_open() ) :
+			?>
+			<p><?php esc_html_e( 'Comments are closed.', 'ossigeno' ); ?></p>
+			<?php
 		endif;
 
 	endif;
