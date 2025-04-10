@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template part for displaying the header content
  *
@@ -18,43 +17,43 @@ if (is_registered_sidebar('ssnail_ads_masthead')) {
 }
 ?>
 <header id="masthead" class="ssnail-navigation sticky top-0 z-40 h-12" x-ref="navbar" x-data="{
-		 showMenu: false,
-		 showSearch: false,
-		 toggleSearch() { this.setSearchPosition(); this.showSearch = !this.showSearch; this.showMenu = false; }, 
-		 toggleMenu() { 
-			 if (!this.showMenu) {
-				 this.showSearch = false;
-				 this.scrollToTop();
-				 setTimeout(() => {
-					 this.showMenu = true;
-					 document.body.classList.add('overflow-hidden');
-				 }, 150);
-			 } else {
-				 this.showMenu = false;
-				 document.body.classList.remove('overflow-hidden');
-			 }
-		 },
-		 scrollToTop() {
-			 document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
-		 },
-		 setSearchPosition() {
-			 const rect = $refs.navbar.getBoundingClientRect();
-			 $refs.searchPanel.style.top = `${rect.bottom}px`;
-		 },
-		 setMenuPosition() {
+		showMenu: false,
+		showSearch: false,
+		toggleSearch() { this.setSearchPosition(); this.showSearch = !this.showSearch; this.showMenu = false; }, 
+		toggleMenu() { 
+			if (!this.showMenu) {
+				this.showSearch = false;
+				this.scrollToTop();
+				setTimeout(() => {
+					this.showMenu = true;
+					document.body.classList.add('overflow-hidden');
+				}, 150);
+			} else {
+				this.showMenu = false;
+				document.body.classList.remove('overflow-hidden');
+			}
+		},
+		scrollToTop() {
+			document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
+		},
+		setSearchPosition() {
+			const rect = $refs.navbar.getBoundingClientRect();
+			$refs.searchPanel.style.top = `${rect.bottom}px`;
+		},
+		setMenuPosition() {
 			console.log('setMenuPosition');
-			 const rect = $refs.navbar.getBoundingClientRect();
-			 const navbarBottom = rect.height + rect.top;
-			 const visibleHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-			 if (window.getComputedStyle($refs.mainMenu).position === 'fixed') {
-				 $refs.mainMenu.style.top = `${navbarBottom}px`;
-				 $refs.mainMenu.style.height = `calc(${visibleHeight}px - ${navbarBottom}px)`;
-			 } else {
-				 $refs.mainMenu.style.top = 'auto';
-				 $refs.mainMenu.style.height = '';
-			 }
-		 }
-	 }" x-init="setMenuPosition()" x-on:keydown.escape="showMenu = false; showSearch = false" x-on:resize.window="setMenuPosition();setSearchPosition();" x-on:scroll.window.debounce.50ms="setSearchPosition()" x-on:scrollend.window="setMenuPosition();">
+			const rect = $refs.navbar.getBoundingClientRect();
+			const navbarBottom = rect.height + rect.top;
+			const visibleHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+			if (window.getComputedStyle($refs.mainMenu).position === 'fixed') {
+				$refs.mainMenu.style.top = `${navbarBottom}px`;
+				$refs.mainMenu.style.height = `calc(${visibleHeight}px - ${navbarBottom}px)`;
+			} else {
+				$refs.mainMenu.style.top = 'auto';
+				$refs.mainMenu.style.height = '';
+			}
+		}
+	}" x-init="setMenuPosition()" x-on:keydown.escape="showMenu = false; showSearch = false" x-on:resize.window="setMenuPosition();setSearchPosition();" x-on:scroll.window.debounce.50ms="setSearchPosition()" x-on:scrollend.window="setMenuPosition();">
 
 	<div class="bg-primary w-full h-full px-4 sm:px-6 lg:px-8">
 		<div class="relative flex items-center justify-between lg:justify-start h-full">

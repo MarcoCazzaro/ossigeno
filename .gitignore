@@ -3,15 +3,18 @@
 /vendor
 
 # Ignore generated JavaScript files:
-# *.min.js
+#*.min.js
 
 # Ignore generated CSS files:
-# style.css
-# style-editor.css
-# style-editor-extra.css
+#style.css
+#style-editor.css
+#style-editor-extra.css
 
 # Ignore the generated zip file:
 ossigeno.zip
 
 # Ignore .DS_Store files from macOS:
 .DS_Store
+
+# Ignore code-workspace files
+*.code-workspace

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template part for displaying single posts
  *
@@ -8,7 +7,6 @@
  * @package Ossigeno
  */
 
-defined('ABSPATH') || exit;
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(['ssnail-article', 'single', 'grid', 'gap-6', 'mb-6']); ?>>

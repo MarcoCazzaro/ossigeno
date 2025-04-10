@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The template for displaying 404 pages (not found)
  *
@@ -8,7 +7,6 @@
  * @package Ossigeno
  */
 
-defined('ABSPATH') || exit;
 get_header();
 ?>
 
@@ -28,6 +26,5 @@ get_header();
 
 	</main><!-- #main -->
 </section><!-- #primary -->
-
 <?php
 get_footer();

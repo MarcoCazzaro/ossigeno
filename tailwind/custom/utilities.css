@@ -4,5 +4,17 @@
  * Add your own utility classes to this theme. Complex utility classes should
  * be added using Tailwind’s plugin system:
  *
- * https://tailwindcss.com/docs/plugins#adding-utilities
+ * https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities
  */
+
+@utility btn {
+	@apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-lg uppercase !no-underline transition-colors;
+}
+
+@utility btn-primary {
+	@apply bg-primary text-background hover:bg-secondary transition-colors;
+}
+
+@utility btn-secondary {
+	@apply bg-secondary text-background hover:bg-primary transition-colors;
+}
