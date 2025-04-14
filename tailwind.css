@@ -19,6 +19,13 @@
 @import "./tailwind/custom/base.css";
 
 /**
+ * Import components
+ */
+@import "./tailwind/custom/components/components.css";
+@import "./tailwind/custom/components/navigation.css";
+@import "./tailwind/custom/pages/home.css";
+
+/**
  * Because this file shares code with `tailwind-editor.css`, we import the
  * shared code to avoid duplication.
  */

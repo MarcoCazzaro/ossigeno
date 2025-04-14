@@ -82,6 +82,8 @@ form.ssnail-form {
 }
 
 article.ssnail-article {
+	@apply max-w-content mx-auto;
+
 	figure.post-thumbnail {
 		img {
 			@apply h-auto w-full rounded-lg border;
@@ -133,6 +135,8 @@ article.ssnail-article {
 	}
 
 	&.single {
+		@apply my-8;
+
 		.entry-footer {
 			@apply flex justify-between md:flex-row md:items-center;
 		}
@@ -164,6 +168,7 @@ nav.navigation.post-navigation {
 }
 
 .ssnail-comments {
+	@apply max-w-content mx-auto;
 	.comment {
 		@apply border-t py-4;
 

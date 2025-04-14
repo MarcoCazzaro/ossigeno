@@ -11,7 +11,7 @@
 defined('ABSPATH') || exit;
 get_header();
 ?>
-<section id="primary">
+<section id="primary" class="ssnail-home ssnail-no-padding-y">
     <main id="main">
         <?php
         /* Start the Loop */

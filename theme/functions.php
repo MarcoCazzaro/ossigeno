@@ -80,8 +80,9 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus(
 			array(
-				'menu-1' => __( 'Primary', 'ossigeno' ),
-				'menu-2' => __( 'Footer Menu', 'ossigeno' ),
+				'primary-menu' => __( 'Primary', 'ossigeno' ),
+				'footer-menu' => __( 'Footer Menu', 'ossigeno' ),
+				'social-menu' => __( 'Social Menu', 'ossigeno' ),
 			)
 		);
 
@@ -116,7 +117,7 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 		add_theme_support( 'responsive-embeds' );
 
 		// Remove support for block templates.
-		remove_theme_support( 'block-templates' );
+		// remove_theme_support( 'block-templates' );
 
 		/**
 		 * Add support for core custom logo.
@@ -132,9 +133,14 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 				'flex-height' => true,
 			)
 		);
+
+		add_theme_support( 'block-template-parts' );
 	}
 endif;
 add_action( 'after_setup_theme', 'ssnail_setup' );
+
+// https://developer.wordpress.org/themes/patterns/registering-patterns/#disabling-remote-patterns
+add_filter( 'should_load_remote_block_patterns', '__return_false' );
 
 /**
  * Enqueue scripts and styles.

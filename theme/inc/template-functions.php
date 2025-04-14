@@ -578,9 +578,21 @@ if (!function_exists('ssnail_register_pattern_categories')) {
 	function ssnail_register_pattern_categories()
 	{
 		register_block_pattern_category(
-			'snappysnail',
-			array('label' => __('Snappysnail', 'ossigeno'))
-		);
+            'ossigeno-pages',
+            array('label' => __('Ossigeno - Pagine', 'ossigeno'))
+        );
+        register_block_pattern_category(
+            'ossigeno-sections',
+            array('label' => __('Ossigeno - Sezioni', 'ossigeno'))
+        );
+        register_block_pattern_category(
+            'ossigeno-layouts',
+            array('label' => __('Ossigeno - Layout', 'ossigeno'))
+        );
+        register_block_pattern_category(
+            'ossigeno-components',
+            array('label' => __('Ossigeno - Componenti', 'ossigeno'))
+        );
 	}
 
 	add_action('init', 'ssnail_register_pattern_categories');
