@@ -97,7 +97,7 @@ function ssnail_continue_reading_link( $more_string ) {
 			the_title( '<span class="sr-only">"', '"</span>', false )
 		);
 
-		$more_string = '<a href="' . esc_url( get_permalink() ) . '">' . $continue_reading . '</a>';
+		$more_string = '<a class="ssnail-read-more" href="' . esc_url( get_permalink() ) . '">' . $continue_reading . '</a>';
 	}
 
 	return $more_string;
@@ -644,26 +644,50 @@ if (!function_exists('ssnail_get_related_posts')) {
 	}
 }
 
-if (!function_exists('ssnail_add_preloads_to_head')) {
-	function ssnail_add_preloads_to_head()
+if (!function_exists('ssnail_login_logo')) {
+	function ssnail_login_logo()
 	{
-		$primary_menu = false;
-		$menu_locations = get_nav_menu_locations();
-		if (isset($menu_locations['primary-menu'])) {
-			$primary_menu = get_term($menu_locations['primary-menu'], 'nav_menu');
-		}
-		if ($primary_menu) {
-			$menu_items = wp_get_nav_menu_items($primary_menu);
-
-			// Loop through each menu item
-			foreach ($menu_items as $item) {
-				// Get the URL of the menu item
-				$url = $item->url;
-
-				// Add a preload link for the menu item
-				echo '<link rel="prefetch" href="' . $url . '">';
+		$logo_image_url = get_template_directory_uri() . "/images/ossigeno-logo.png";
+		if (function_exists('the_custom_logo') && has_custom_logo()) {
+			$custom_logo_id = get_theme_mod('custom_logo');
+			$image = wp_get_attachment_image_src($custom_logo_id, 'medium');
+			if (isset($image[0]) && $image[0] !== "") {
+				$logo_image_url = $image[0];
 			}
 		}
+		?>
+		<style type="text/css">
+			#login h1,
+			.login h1 {
+				display: flex;
+				justify-content: center;
+				padding: 1.3rem;
+			}
+
+			#login h1 a,
+			.login h1 a {
+				background-image: url(<?= $logo_image_url ?>);
+				width: 200px;
+				height: 50px;
+				background-size: contain;
+				background-repeat: no-repeat;
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+		<?php
 	}
-	add_action('wp_head', 'ssnail_add_preloads_to_head');
+	add_action('login_enqueue_scripts', 'ssnail_login_logo');
+
+	function ssnail_login_logo_url()
+	{
+		return home_url();
+	}
+	add_filter('login_headerurl', 'ssnail_login_logo_url');
+
+	function ssnail_login_logo_url_title()
+	{
+		return get_bloginfo('name');
+	}
+	add_filter('login_headertext', 'ssnail_login_logo_url_title');
 }
