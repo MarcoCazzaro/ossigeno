@@ -1,0 +1,20 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/banner",
+    "title": "Banner",
+    "category": "ossigeno-sections",
+    "icon": "format-image",
+    "keywords": [
+        "banner",
+        "immagine",
+        "image"
+    ],
+    "editorStyle": [
+        "file:./banner-editor.css"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "banner.php"
+    },
+    "supports": {}
+}

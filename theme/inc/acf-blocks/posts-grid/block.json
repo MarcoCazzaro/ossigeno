@@ -1,0 +1,38 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/posts-grid",
+    "title": "Posts Grid",
+    "description": "A grid of posts filtered by category.",
+    "version": "1.6.2",
+    "style": [
+        "file:./posts-grid.css"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "grid-view",
+    "keywords": [
+        "posts",
+        "grid",
+        "blog",
+        "news"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "posts-grid.php"
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "mode": false,
+        "jsx": false
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "_is_preview": true
+            }
+        }
+    }
+}

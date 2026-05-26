@@ -12,9 +12,9 @@ if ( ! function_exists( 'ssnail_posted_on' ) ) :
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
 	function ssnail_posted_on() {
-		$time_string = '<time datetime="%1$s">%2$s</time>';
+		$time_string = '<time class="published updated" datetime="%1$s">%2$s</time>';
 		if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-			$time_string = '<time datetime="%1$s">%2$s</time><time datetime="%3$s">%4$s</time>';
+			$time_string = '<time class="published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
 		}
 
 		$time_string = sprintf(
@@ -60,64 +60,15 @@ if ( ! function_exists( 'ssnail_comment_count' ) ) :
 	}
 endif;
 
-if (!function_exists('ssnail_post_categories')) :
-	function ssnail_post_categories()
-	{
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-		}
-	}
-endif;
-
-
-if (!function_exists('ssnail_post_tags')) :
-	function ssnail_post_tags()
-	{
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', __(', ', 'ossigeno'));
-			if ($tags_list) {
-				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Tags:', 'ossigeno'),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-		}
-	}
-endif;
-
-if (!function_exists('ssnail_entry_meta')) :
+if ( ! function_exists( 'ssnail_entry_meta' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 * This template tag is used in the entry header.
 	 */
-	function ssnail_entry_meta()
-	{
+	function ssnail_entry_meta() {
 
 		// Hide author, post date, category and tag text for pages.
-		if ('post' === get_post_type()) {
-
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
+		if ( 'post' === get_post_type() ) {
 
 			// Posted by.
 			ssnail_posted_by();
@@ -126,19 +77,30 @@ if (!function_exists('ssnail_entry_meta')) :
 			ssnail_posted_on();
 
 			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', __(', ', 'ossigeno'));
-			if ($tags_list) {
+			$categories_list = get_the_category_list( __( ', ', 'ossigeno' ) );
+			if ( $categories_list ) {
 				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Tags:', 'ossigeno'),
+				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
+					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					esc_html__( 'Posted in', 'ossigeno' ),
+					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				);
+			}
+
+			/* translators: used between list items, there is a space after the comma. */
+			$tags_list = get_the_tag_list( '', __( ', ', 'ossigeno' ) );
+			if ( $tags_list ) {
+				printf(
+				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
+					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					esc_html__( 'Tags:', 'ossigeno' ),
 					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 		}
 
 		// Comment count.
-		if (!is_singular()) {
+		if ( ! is_singular() ) {
 			ssnail_comment_count();
 		}
 
@@ -146,11 +108,11 @@ if (!function_exists('ssnail_entry_meta')) :
 		edit_post_link(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers. */
-					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
+				/* translators: %s: Name of current post. Only visible to screen readers. */
+					__( 'Edit <span class="sr-only">%s</span>', 'ossigeno' ),
 					array(
 						'span' => array(
-							'class' => array('text-xs font-bold'),
+							'class' => array(),
 						),
 					)
 				),
@@ -160,48 +122,46 @@ if (!function_exists('ssnail_entry_meta')) :
 	}
 endif;
 
-if (!function_exists('ssnail_entry_footer')) :
+if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 */
-	function ssnail_entry_footer()
-	{
+	function ssnail_entry_footer() {
 
 		// Hide author, post date, category and tag text for pages.
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
+		if ( 'post' === get_post_type() ) {
 
-			echo '<div class="flex gap-4">';
 			// Posted by.
 			ssnail_posted_by();
 
 			// Posted on.
 			ssnail_posted_on();
-			echo '</div>';
 
 			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', '');
-			if ($tags_list) {
+			$categories_list = get_the_category_list( __( ', ', 'ossigeno' ) );
+			if ( $categories_list ) {
 				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<div class="ssnail-tags"><span class="sr-only">%1$s</span>%2$s</div>',
-					esc_html__('Tags:', 'ossigeno'),
+				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
+					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					esc_html__( 'Posted in', 'ossigeno' ),
+					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				);
+			}
+
+			/* translators: used between list items, there is a space after the comma. */
+			$tags_list = get_the_tag_list( '', __( ', ', 'ossigeno' ) );
+			if ( $tags_list ) {
+				printf(
+				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
+					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					esc_html__( 'Tags:', 'ossigeno' ),
 					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 		}
 
 		// Comment count.
-		if (!is_singular()) {
+		if ( ! is_singular() ) {
 			ssnail_comment_count();
 		}
 
@@ -209,11 +169,11 @@ if (!function_exists('ssnail_entry_footer')) :
 		edit_post_link(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers. */
-					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
+				/* translators: %s: Name of current post. Only visible to screen readers. */
+					__( 'Edit <span class="sr-only">%s</span>', 'ossigeno' ),
 					array(
 						'span' => array(
-							'class' => array('text-xs font-bold'),
+							'class' => array(),
 						),
 					)
 				),
@@ -223,57 +183,37 @@ if (!function_exists('ssnail_entry_footer')) :
 	}
 endif;
 
-if (!function_exists('ssnail_post_thumbnail')) :
+if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 	/**
 	 * Displays an optional post thumbnail, wrapping the post thumbnail in an
 	 * anchor element except when viewing a single post.
 	 */
-	function ssnail_post_thumbnail($current_post_id = null, $size = 'post-thumbnail', $placeholder_fallback = true, $show_caption = false)
-	{
-		global $post;
-		if (!is_null($current_post_id)) {
-			$post = get_post($current_post_id, OBJECT);
-			setup_postdata($post);
-		}
-		if (!ssnail_can_show_post_thumbnail()) {
+	function ssnail_post_thumbnail( string $additional_classes = '' ) {
+		if ( ! ssnail_can_show_post_thumbnail() ) {
 			return;
 		}
-		if (!is_singular()) {
-			echo '<a href="' . get_the_permalink() . '" aria-hidden="true" tabindex="-1">';
-		}
-?>
-		<figure class="post-thumbnail">
-			<?php
-			if (has_post_thumbnail()) {
-				the_post_thumbnail($size);
-			} else {
-				if ($placeholder_fallback) {
-					$placeholder_image_url = get_template_directory_uri() . "/images/ossigeno-placeholder.webp";
-					$image_id = get_option('ossigeno_placeholder_image');
-					if ($image_id) {
-						$image = wp_get_attachment_image_src($image_id, 'full');
-						if (isset($image[0]) && $image[0] !== "") {
-							$placeholder_image_url = $image[0];
-						}
-					}
+
+		$attr = $additional_classes ? [ 'class' => $additional_classes ] : [];
+
+		if ( is_singular() ) :
 			?>
-					<img src="<?= $placeholder_image_url ?>" alt="<?= get_bloginfo('name') ?>">
-				<?php
-				}
-			}
-			if ($show_caption) {
-				?>
-				<figcaption class="ssnail-post-thumbnail-caption">
-					<?php the_post_thumbnail_caption(); ?>
-				</figcaption>
+
+			<figure>
+				<?php the_post_thumbnail( 'post-thumbnail', $attr ); ?>
+			</figure><!-- .post-thumbnail -->
+
 			<?php
-			}
+		else :
 			?>
-		</figure><!-- .post-thumbnail -->
-		<?php
-		if (!is_singular()) {
-			echo '</a>';
-		}
+
+			<figure>
+				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
+					<?php the_post_thumbnail( 'post-thumbnail', $attr ); ?>
+				</a>
+			</figure>
+
+			<?php
+		endif; // End is_singular().
 	}
 endif;
 
@@ -367,27 +307,6 @@ if ( ! function_exists( 'ssnail_content_class' ) ) :
 	}
 endif;
 
-// Share panel for social share links called ssnail_share_links
-if (!function_exists('ssnail_share_links')) :
-	function ssnail_share_links($section_title = 'Share')
-	{
-		global $post;
-		$url = get_permalink($post->ID);
-		$title = get_the_title($post->ID);
-		$via = "Ossigeno";
-		?>
-		<div class="ssnail-share-links relative">
-			<h6 class="text-uppercase"><?php echo __($section_title, 'ossigeno') ?></h6>
-			<div class="flex gap-3 text-sm">
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $url ?>&title=<?= $url ?>&summary=&source=" target="_blank" rel="noopener" class="text-linkedin hover:text-primary transition-colors"><?php ssnail_get_social_icon('linkedin'); ?></a>
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?= $url ?>" target="_blank" rel="noopener" class="text-facebook hover:text-primary transition-colors"><?php ssnail_get_social_icon('facebook'); ?></a>
-				<a href="https://api.whatsapp.com/send?&text=<?= $url ?>" target="_blank" rel="noopener" class="text-whatsapp hover:text-primary transition-colors"><?php ssnail_get_social_icon('whatsapp'); ?></a>
-				<a href="https://twitter.com/intent/tweet?text=<?php echo get_the_title($post->ID); ?>&url=<?= $url ?>&via=<?= $via ?>" target="_blank" rel="noopener" class="text-x-twitter hover:text-primary transition-colors"><?php ssnail_get_social_icon('x-twitter'); ?></a>
-			</div>
-		</div>
-<?php
-	}
-endif;
 
 if (!function_exists('ssnail_acf_image_with_srcset')) {
 	function ssnail_acf_image_with_srcset($acf_field_or_name, $size = 'post-thumbnail', $alt = false, $class = 'attachment-SSNAILSIZE size-SSNAILSIZE')

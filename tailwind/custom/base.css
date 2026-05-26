@@ -7,24 +7,9 @@
  * file and is applied both to the front end and in the block editor.
  */
 body {
-	@apply bg-background text-foreground font-sans;
+	@apply bg-background text-foreground font-body;
 }
 
-[x-cloak] {
-	display: none !important;
-}
-
-html {
-	@apply scroll-smooth;
-}
-
-#page {
-	#content {
-		@apply px-4 lg:px-8;
-	}
-	:not(:has(.ssnail-no-padding-y)) {
-		#content {
-			@apply py-4 lg:py-8;
-		}
-	}
+h1, h2, h3, h4, h5, h6 {
+	@apply font-headings;
 }

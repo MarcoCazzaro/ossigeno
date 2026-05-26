@@ -1,23 +1,22 @@
 /*!
 Theme Name: Ossigeno
 Theme URI: https://snappysnail.io/works/ossigeno
-Author: Marco Cazzaro
+Description: A generic custom theme based on _tw
+Version: 3.0.0
+Author: Snappysnail
 Author URI: https://snappysnail.io
-Description: WordPress theme based on TailwindCSS, powered by _tw
-Version: 2.0.2
-Tested up to: 6.2
-Requires PHP: 8.2
+Text Domain: ssnail
+Requires at least: 6.9
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: LICENSE
-Text Domain: ossigeno
-Tags:
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned.
 
-Ossigeno is based on _tw https://underscoretw.com/, (C) 2021-2025 Greg Sullivan
+Ossigeno is based on _tw https://underscoretw.com/, (C) 2021-2026 Greg Sullivan
 _tw is distributed under the terms of the GNU GPL v2 or later.
 
-_tw is based on Underscores https://underscores.me/ and Varia https://github.com/Automattic/themes/tree/master/varia, (C) 2012-2025 Automattic, Inc.
+_tw is based on Underscores https://underscores.me/ and Varia https://github.com/Automattic/themes/tree/master/varia, (C) 2012-2026 Automattic, Inc.
 Underscores and Varia are distributed under the terms of the GNU GPL v2 or later.
 */

@@ -1,0 +1,25 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/cta-button",
+    "title": "CTA Button",
+    "version": "1.0.0",
+    "category": "ossigeno-sections",
+    "icon": "button",
+    "keywords": [
+        "button",
+        "cta",
+        "link",
+        "call to action"
+    ],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "cta-button.php"
+    },
+    "supports": {
+        "align": [
+            "left",
+            "center",
+            "right"
+        ]
+    }
+}

@@ -1,11 +1,11 @@
 /**
  * Custom styles to immediately follow Tailwind’s `components` layer
  *
- * “Add more opinionated, complex classes like buttons, form controls, alerts,
- * etc; the sort of pre-built components you often see in other frameworks that
- * you might need to override with utility classes.”
+ * “Use the `components` layer for any more complicated classes you want to add
+ *  to your project that you'd still like to be able to override with utility
+ *  classes.”
  *
- * — from https://tailwindcss.com/docs/plugins#adding-components
+ *  — from https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes
  */
 
 /**
@@ -17,10 +17,22 @@
  * The supplied styles are meant to match the default `h1` classes from
  * Tailwind Typography.
  */
-
 .page-title,
 .entry-title {
-	@apply max-w-content mx-auto mb-6 text-3xl font-extrabold text-neutral-900;
+	@apply /* max-w-content */ mx-auto mb-6 text-3xl font-extrabold;
+}
+
+/**
+ * Post meta and footer styles
+ *
+ * These will be applied to the post-specific elements to keep the post itself
+ * at content width pending custom styling.
+ */
+.entry-meta,
+.entry-footer,
+.post-navigation,
+#comments {
+	@apply /* max-w-content */ mx-auto mb-6;
 }
 
 /**
@@ -33,11 +45,12 @@
  *
  * https://make.wordpress.org/core/2021/06/29/on-layout-and-content-width-in-wordpress-5-8/
  */
+/*
 .page-content > *,
 .entry-content > * {
-	/* Content width from the `theme.json` file */
-	@apply max-w-content mx-auto;
+	@apply  max-w-content mx-auto;
 }
+*/
 
 .entry-content > .alignwide {
 	/* Wide width from the `theme.json` file */
@@ -56,90 +69,101 @@
 	@apply float-right ml-8;
 }
 
-/** END OF DEFAULT STUFF **/
+/* BUTTONS */
 
-footer.site-footer {
-	h3 {
-		@apply mb-3 text-xl font-bold;
-	}
+button {
+	@apply cursor-pointer;
 }
 
-form.ssnail-form {
-	@apply overflow-visible;
-
-	label {
-		@apply mb-2 block text-sm font-bold text-gray-700;
-	}
-
-	input,
-	textarea {
-		@apply focus:ring-primary focus:border-primary block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 transition-colors;
-	}
-
-	button {
-		@apply btn-primary;
-	}
+.btn {
+	@apply font-body inline-flex items-center gap-2 cursor-pointer px-8 py-4 text-center text-sm tracking-widest uppercase transition-all;
 }
 
-article.ssnail-article {
-	@apply max-w-content mx-auto;
+.btn-primary {
+	@apply bg-primary text-background hover:bg-secondary;
+}
 
-	figure.post-thumbnail {
-		img {
-			@apply h-auto w-full rounded-lg border;
+.btn-secondary {
+	@apply bg-secondary text-background hover:brightness-110;
+}
+
+.btn-ghost {
+	@apply border-primary/30 text-primary hover:bg-primary hover:text-background border;
+}
+
+/**
+ * ACF contact form — styled to match the bottom-border-only design.
+ */
+.ssnail-acf-contact-form {
+	& .acf-fields {
+		@apply grid grid-cols-2 gap-x-4 border-0 p-0;
+	}
+
+	& .acf-field {
+		@apply col-span-2 border-0 !border-t-0 !px-0 pb-6;
+
+		&[data-name="ssnail_inq_nome"],
+		&[data-name="ssnail_inq_cognome"] {
+			@apply col-span-1;
+		}
+
+		&[data-name="ssnail_inq_privacy"] {
+			@apply mt-6;
+
+			& > .acf-label {
+				@apply hidden;
+			}
 		}
 	}
 
-	.ssnail-text-wrapper {
-		@apply flex flex-col justify-between;
+	& .acf-input {
+		@apply border-0 bg-transparent p-0 shadow-none;
 	}
 
-	.entry-footer {
-		@apply flex flex-col gap-4 text-sm;
+	& .acf-label label {
+		@apply font-body text-secondary text-[10px] tracking-widest uppercase;
 	}
 
-	.post-categories {
-		@apply flex flex-wrap gap-2;
+	& input[type="text"],
+	& input[type="email"],
+	& textarea {
+		@apply border-primary/40 text-foreground placeholder:text-foreground/50 w-full resize-none border-0 border-b bg-transparent px-0 py-3 shadow-none outline-none;
 
-		a[rel="category tag"] {
-			@apply bg-primary hover:bg-secondary rounded-full px-2 py-1 text-xs font-bold text-white transition-colors;
+		&:focus {
+			@apply border-primary shadow-none outline-none;
 		}
 	}
 
-	.ssnail-tags {
-		@apply flex flex-wrap gap-x-4 gap-y-1;
-
-		a[rel="tag"] {
-			@apply text-primary text-xs font-bold underline;
+	& .acf-true-false {
+		& label {
+			@apply flex cursor-pointer items-start gap-[0.625rem];
 		}
-	}
 
-	.ssnail-posted-on {
-		@apply flex gap-2;
-	}
+		& input[type="checkbox"] {
+			@apply border-primary/40 mt-0.5 h-[1.125rem] w-[1.125rem] shrink-0 cursor-pointer appearance-none border bg-transparent transition-colors;
 
-	&.archive {
-		figure.post-thumbnail {
-			img {
-				@apply aspect-[16/9] object-cover;
+			&:checked {
+				@apply bg-secondary border-secondary bg-center bg-no-repeat;
+				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpolyline points='1,5 4.5,8.5 11,1' fill='none' stroke='%23FAF8FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+				background-size: 10px 8px;
+			}
+
+			&:focus-visible {
+				@apply outline-secondary outline outline-2 outline-offset-2;
 			}
 		}
 
-		&.list {
-			@apply md:grid-cols-2;
-		}
-
-		&.search {
-			@apply md:grid-cols-4;
+		& .message {
+			@apply text-primary text-sm leading-snug;
 		}
 	}
 
-	&.single {
-		@apply my-8;
+	& .acf-form-submit {
+		@apply col-span-2 pt-8;
+	}
 
-		.entry-footer {
-			@apply flex justify-between md:flex-row md:items-center;
-		}
+	& .acf-notice {
+		@apply col-span-2 mb-4;
 	}
 }
 

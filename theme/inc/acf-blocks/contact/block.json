@@ -1,0 +1,21 @@
+{
+    "apiVersion": 3,
+    "name": "ssnail/contact",
+    "title": "Contatti",
+    "description": "Sezione contatti con modulo ACF Form e schede sedi.",
+    "category": "design",
+    "icon": "email",
+    "keywords": [
+        "contatti",
+        "form",
+        "sedi",
+        "mappa"
+    ],
+    "supports": {
+        "anchor": true
+    },
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "contact.php"
+    }
+}

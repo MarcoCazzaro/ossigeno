@@ -19,14 +19,17 @@ function ssnail_register_widgets_areas()
 		'after_title'   => '',
 	));
 
-	register_sidebar(array(
-		'name'          => 'Footer',
-		'id'            => 'ssnail_footer',
-		'before_widget' => '<div class="ssnail-footer-widget">',
-		'after_widget'  => '</div>',
-		'before_title'  => '',
-		'after_title'   => '',
-	));
+	$footer_columns = 3;
+	for ($i = 1; $i <= $footer_columns; $i++) {
+		register_sidebar(array(
+			'name'          => 'Footer ' . $i,
+			'id'            => 'ssnail_footer_' . $i,
+			'before_widget' => '<div class="ssnail-footer-widget ssnail-footer-' . $i . '">',
+			'after_widget'  => '</div>',
+			'before_title'  => '',
+			'after_title'   => '',
+		));
+	}
 
 	register_sidebar(array(
 		'name'          => 'Ads - Footer',

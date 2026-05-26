@@ -1,0 +1,21 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/image-with-text",
+    "title": "Image with text",
+    "description": "One big image with a text column on the side.",
+    "version": "1.6.2",
+    "style": [
+        "file:./image-with-text.css"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "align-pull-left",
+    "keywords": [
+        "image",
+        "text"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "image-with-text.php"
+    },
+    "supports": {}
+}

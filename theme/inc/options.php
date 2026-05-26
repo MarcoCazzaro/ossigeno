@@ -131,8 +131,8 @@ function ossigeno_options_page()
 {
     // Add top level menu page
     add_options_page(
-        'Theme options',
-        'Theme options',
+        __('Theme options', 'ossigeno'),
+        __('Theme options', 'ossigeno'),
         'manage_options',
         'ossigeno_options_page',
         'ossigeno_options_page_html'
@@ -167,3 +167,17 @@ function ossigeno_options_page_html()
 
 add_action('admin_menu', 'ossigeno_options_page');
 add_action('admin_init', 'ossigeno_settings_init');
+
+function ssnail_ossigeno_customize_register( $wp_customize ) {
+    //Logotype - title_tagline
+    $wp_customize->add_setting('ssnail_custom_logotype');
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'ssnail_custom_logotype', array(
+            'label' => __( 'Logotype', 'ossigeno' ),
+            'section' => 'title_tagline',
+            'settings'       => 'ssnail_custom_logotype',
+            'priority' => 8,
+            'mime_type' => 'image'
+    ) ) );
+}
+add_action( 'customize_register', 'ssnail_ossigeno_customize_register' );

@@ -1,0 +1,38 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/insight-card",
+    "title": "Insight Card",
+    "description": "A stylish card component with light and dark variants",
+    "version": "1.6.2",
+    "style": [
+        "file:./insight-card.css"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "format-image",
+    "keywords": [
+        "card",
+        "insight",
+        "content"
+    ],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "insight-card.php"
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ]
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "stile": "scuro",
+                "titolo": "Sample Insight",
+                "sottotitolo": "June 12, 2025",
+                "descrizione": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            }
+        }
+    }
+}

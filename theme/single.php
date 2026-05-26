@@ -39,10 +39,6 @@ get_header();
 					comments_template();
 				}
 
-				if (is_active_sidebar('ssnail_article_after_content')) {
-					dynamic_sidebar('ssnail_article_after_content');
-				}
-
 				// End the loop.
 			endwhile;
 			?>

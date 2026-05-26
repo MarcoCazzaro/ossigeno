@@ -1,0 +1,51 @@
+.wp-block-ossigeno-container-wrapper {
+    display: flex;
+    position: relative;
+    
+    &.is-selected,
+    &.has-child-selected {
+        &::before {
+            content: "container";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: color-mix(in srgb, var(--color-primary) 67%, transparent);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 7px;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+    }
+    
+    &.is-selected {
+        background-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+        border: 2px dashed var(--color-primary);
+        padding: 8px;
+        min-height: 60px;
+        
+        .acf-innerblocks-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    }
+    
+    &.has-child-selected {
+        background-color: color-mix(in srgb, var(--color-primary) 13%, transparent);
+        border: 1px dashed var(--color-primary);
+        padding: 8px;
+        
+        .acf-innerblocks-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    }
+}

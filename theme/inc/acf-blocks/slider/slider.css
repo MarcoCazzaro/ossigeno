@@ -1,0 +1,45 @@
+/* Hide scrollbar but keep functionality */
+.ssnail-slider .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+.ssnail-slider .scrollbar-hide::-webkit-scrollbar {
+    display: none;            /* Chrome, Safari and Opera */
+}
+
+.ssnail-slider {
+    .slide {
+        .slide-content {
+            .slide-image {
+                &:after {
+                    position: absolute;
+                    inset: 0;
+                    content: " ";
+                    background: linear-gradient(
+                        180deg,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 0) 80%,
+                        var(--wp--preset--color--tertiary) 95%
+                    );
+                }
+            }
+            .slide-text:not(:has(h3)),
+            .slide-text:not(:has(.slide-description)) {
+                height: auto !important;
+            }
+        }
+    }
+}
+
+body.wp-admin.post-type-project .ssnail-slider .slide .slide-content {
+    aspect-ratio: 1/1 !important;
+}
+body.wp-admin.post-type-ncc_import .ssnail-slider .slide .slide-content {
+    aspect-ratio: 1/1 !important;
+}
+body.single-project #primary .ssnail-slider .slide .slide-content {
+    aspect-ratio: 1/1 !important;
+}
+body.single-ncc_import #primary .ssnail-slider .slide .slide-content {
+    aspect-ratio: 1/1 !important;
+}

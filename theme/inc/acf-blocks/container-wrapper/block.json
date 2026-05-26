@@ -1,0 +1,24 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/container-wrapper",
+    "title": "Container Wrapper",
+    "description": "A simple container wrapper block that uses InnerBlocks.",
+    "version": "1.6.2",
+    "style": [
+        "file:./container-wrapper.css"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "editor-contract",
+    "keywords": [
+        "container",
+        "wrapper"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "container-wrapper.php"
+    },
+    "supports": {
+        "jsx": true,
+        "align": true
+    }
+}

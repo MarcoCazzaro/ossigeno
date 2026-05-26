@@ -1,0 +1,12 @@
+.ssnail-insight-card {
+    &.stile-scuro {
+        .ssnail-author {
+            a {
+                color: var(--color-secondary);
+                &:hover {
+                    color: var(--color-primary);
+                }
+            }
+        }
+    }
+}

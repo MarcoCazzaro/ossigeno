@@ -1,0 +1,24 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/splash-cover",
+    "title": "Splash cover",
+    "description": "A custom splash cover block that uses ACF fields.",
+    "version": "1.6.2",
+    "style": [
+        "file:./splash-cover.css"
+    ],
+    "script": [
+        "file:./splash-cover.js"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "format-image",
+    "keywords": [
+        "splash",
+        "cover"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "splash-cover.php"
+    },
+    "supports": {}
+}
