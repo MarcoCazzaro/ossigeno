@@ -252,3 +252,146 @@ if (!function_exists('ssnail_check_required_plugins')) {
 	}
 	add_action('admin_notices', 'ssnail_check_required_plugins');
 }
+
+/**
+ * Allow SVG uploads in the WordPress Media Library.
+ *
+ * SVGs are blocked by default. We whitelist the MIME type and fix the
+ * file-content verification added in WP 4.7 so existing SVG files are also
+ * recognised correctly. Access is limited to users with upload_files (Editor+).
+ */
+function ssnail_allow_svg_uploads( array $mimes ): array {
+	if ( current_user_can( 'upload_files' ) ) {
+		$mimes['svg']  = 'image/svg+xml';
+		$mimes['svgz'] = 'image/svg+xml';
+	}
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'ssnail_allow_svg_uploads' );
+
+/**
+ * Fix SVG MIME-type detection in wp_check_filetype_and_ext().
+ *
+ * WP verifies file contents against the declared MIME type; SVGs fail that
+ * check unless we explicitly confirm the type for .svg/.svgz extensions.
+ *
+ * @param array  $data     Filetype data.
+ * @param string $file     Full path to the file.
+ * @param string $filename Filename with extension.
+ * @param array  $mimes    Allowed MIME types.
+ */
+function ssnail_fix_svg_mime_check( array $data, string $file, string $filename, ?array $mimes ): array {
+	if ( ! $data['type'] ) {
+		$ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+		if ( in_array( $ext, array( 'svg', 'svgz' ), true ) ) {
+			$data['type'] = 'image/svg+xml';
+			$data['ext']  = $ext;
+		}
+	}
+	return $data;
+}
+add_filter( 'wp_check_filetype_and_ext', 'ssnail_fix_svg_mime_check', 10, 4 );
+
+/**
+ * Imports the theme's bundled images into the WordPress Media Library,
+ * then auto-wires them as defaults for the logotype, site icon, and placeholder slots.
+ *
+ * The guard is per-image: each image is tracked by its own option so a single
+ * failure (e.g. SVG blocked) does not permanently prevent the others from
+ * being retried. The transient is set only once all three images are present,
+ * giving a fast no-op path on subsequent requests.
+ *
+ * Attachment IDs stored in options:
+ *   - ssnail_img_logo_svg    → ossigeno-logo.svg
+ *   - ssnail_img_logo_png    → ossigeno-logo.png
+ *   - ssnail_img_placeholder → ossigeno-placeholder.webp
+ *
+ * Auto-wired defaults (only when the slot is currently empty):
+ *   - ssnail_custom_logotype          (Customizer) ← SVG
+ *   - site_icon                       (WP core)    ← PNG  (generates all favicon sizes)
+ *   - ssnail_opt_placeholder_image    (ACF option) ← WebP
+ */
+function ssnail_import_theme_images(): void {
+	// Fast path: all images already imported and transient is warm.
+	if ( get_transient( 'ssnail_theme_images_imported' ) ) {
+		return;
+	}
+
+	$images = array(
+		'ssnail_img_logo_svg'    => 'ossigeno-logo.svg',
+		'ssnail_img_logo_png'    => 'ossigeno-logo.png',
+		'ssnail_img_placeholder' => 'ossigeno-placeholder.webp',
+	);
+
+	// Collect already-imported IDs; identify which images still need importing.
+	$ids     = array();
+	$pending = array();
+
+	foreach ( $images as $option_key => $filename ) {
+		$existing = get_option( $option_key );
+		if ( $existing ) {
+			$ids[ $option_key ] = (int) $existing;
+		} else {
+			$pending[ $option_key ] = $filename;
+		}
+	}
+
+	// All done — re-arm the transient and bail.
+	if ( empty( $pending ) ) {
+		set_transient( 'ssnail_theme_images_imported', true, YEAR_IN_SECONDS );
+		return;
+	}
+
+	// At least one image is missing — load WP media helpers.
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	foreach ( $pending as $option_key => $filename ) {
+		$source = get_template_directory() . '/images/' . $filename;
+
+		if ( ! file_exists( $source ) ) {
+			continue;
+		}
+
+		// media_handle_sideload() needs a temp copy it can move/delete freely.
+		$tmp = wp_tempnam( $filename );
+		if ( ! copy( $source, $tmp ) ) {
+			continue;
+		}
+
+		$attachment_id = media_handle_sideload(
+			array( 'name' => $filename, 'tmp_name' => $tmp ),
+			0 // not attached to any post
+		);
+
+		if ( ! is_wp_error( $attachment_id ) ) {
+			$ids[ $option_key ] = $attachment_id;
+			update_option( $option_key, $attachment_id, false );
+		}
+	}
+
+	// Auto-wire defaults — only when each slot is currently empty so admin
+	// choices made after the first install are never silently overwritten.
+	if ( ! empty( $ids['ssnail_img_logo_svg'] ) && ! get_theme_mod( 'ssnail_custom_logotype' ) ) {
+		set_theme_mod( 'ssnail_custom_logotype', $ids['ssnail_img_logo_svg'] );
+	}
+
+	if ( ! empty( $ids['ssnail_img_logo_png'] ) && ! get_option( 'site_icon' ) ) {
+		update_option( 'site_icon', $ids['ssnail_img_logo_png'] );
+	}
+
+	if (
+		! empty( $ids['ssnail_img_placeholder'] )
+		&& function_exists( 'update_field' )
+		&& ! get_field( 'ssnail_opt_placeholder_image', 'option' )
+	) {
+		update_field( 'ssnail_opt_placeholder_image', $ids['ssnail_img_placeholder'], 'option' );
+	}
+
+	// Arm the transient only once every image is present.
+	if ( count( $ids ) === count( $images ) ) {
+		set_transient( 'ssnail_theme_images_imported', true, YEAR_IN_SECONDS );
+	}
+}
+add_action( 'init', 'ssnail_import_theme_images' );
