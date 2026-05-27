@@ -6,6 +6,24 @@
  */
 
 /**
+ * Register ACF Options Page for global site settings (phone, email, offices).
+ *
+ * Fields are defined in inc/acf-blocks/acf-fields.php under group_ssnail_options.
+ * The menu slug 'acf-options' is the location key used by that field group.
+ */
+if ( function_exists( 'acf_add_options_page' ) ) {
+	acf_add_options_page(
+		array(
+			'page_title' => __( 'Opzioni sito', 'ossigeno' ),
+			'menu_title' => __( 'Opzioni sito', 'ossigeno' ),
+			'menu_slug'  => 'acf-options',
+			'capability' => 'manage_options',
+			'redirect'   => false,
+		)
+	);
+}
+
+/**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function ssnail_pingback_header() {

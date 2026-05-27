@@ -55,7 +55,8 @@ if ( $link ) {
             <div class="slide-image relative inline-flex h-full w-full justify-center overflow-clip">
                 <?php 
                 // Use ssnail_acf_image_with_srcset for responsive images.
-                echo ssnail_acf_image_with_srcset( $immagine, 'large', $immagine['alt'] ?? '', 'h-full w-full ' . $object_fit . ' mt-0 mb-0 transition-transform duration-1000 scale-100 group-hover:scale-125' );
+                $img_alt = is_array( $immagine ) ? ( $immagine['alt'] ?? '' ) : '';
+                echo ssnail_acf_image_with_srcset( $immagine, 'large', $img_alt, 'h-full w-full ' . $object_fit . ' mt-0 mb-0 transition-transform duration-1000 scale-100 group-hover:scale-125' );
                 ?>
             </div>
             <?php } ?>

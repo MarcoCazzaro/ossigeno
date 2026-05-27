@@ -125,7 +125,7 @@ add_action( 'acf/include_fields', function() {
 					array(
 						'param' => 'block',
 						'operator' => '==',
-						'value' => 'ssnail/contact',
+						'value' => 'ossigeno/contact',
 					),
 				),
 			),
@@ -776,7 +776,7 @@ add_action( 'acf/include_fields', function() {
 						'id' => '',
 					),
 					'choices' => array(
-						'elenco-progetti' => 'Elenco di progetti',
+						'elenco-post' => 'Elenco di post',
 						'input-schede' => 'Inserimento manuale',
 					),
 					'default_value' => 'input-schede',
@@ -847,8 +847,8 @@ add_action( 'acf/include_fields', function() {
 				),
 				array(
 					'key' => 'field_686bd5da7154b',
-					'label' => 'Elenco progetti',
-					'name' => 'elenco_progetti',
+					'label' => 'Elenco post',
+					'name' => 'elenco_post',
 					'aria-label' => '',
 					'type' => 'post_object',
 					'instructions' => '',
@@ -858,7 +858,7 @@ add_action( 'acf/include_fields', function() {
 							array(
 								'field' => 'field_686bd58d7154a',
 								'operator' => '==',
-								'value' => 'elenco-progetti',
+								'value' => 'elenco-post',
 							),
 						),
 					),
@@ -868,7 +868,7 @@ add_action( 'acf/include_fields', function() {
 						'id' => '',
 					),
 					'post_type' => array(
-						0 => 'project',
+						0 => 'post',
 					),
 					'post_status' => array(
 						0 => 'publish',
@@ -1380,6 +1380,123 @@ Dimensioni consigliate: 1920x1080 pixel.',
 			'allow_ai_access' => false,
 			'ai_description' => '',
 			'acfml_field_group_mode' => 'translation',
+		) );
+
+		// ── ssnail_inquiry CPT fields ────────────────────────────────────────
+		acf_add_local_field_group( array(
+			'key'      => 'group_ssnail_inquiry',
+			'title'    => 'Dati richiesta',
+			'fields'   => array(
+				array(
+					'key'      => 'field_ssnail_inq_nome',
+					'name'     => 'ssnail_inq_nome',
+					'label'    => 'Nome',
+					'type'     => 'text',
+					'required' => 1,
+				),
+				array(
+					'key'      => 'field_ssnail_inq_cognome',
+					'name'     => 'ssnail_inq_cognome',
+					'label'    => 'Cognome',
+					'type'     => 'text',
+					'required' => 1,
+				),
+				array(
+					'key'      => 'field_ssnail_inq_email',
+					'name'     => 'ssnail_inq_email',
+					'label'    => 'Email',
+					'type'     => 'email',
+					'required' => 1,
+				),
+				array(
+					'key'   => 'field_ssnail_inq_oggetto',
+					'name'  => 'ssnail_inq_oggetto',
+					'label' => 'Oggetto',
+					'type'  => 'text',
+				),
+				array(
+					'key'      => 'field_ssnail_inq_messaggio',
+					'name'     => 'ssnail_inq_messaggio',
+					'label'    => 'Messaggio',
+					'type'     => 'textarea',
+					'required' => 1,
+				),
+				array(
+					'key'      => 'field_ssnail_inq_privacy',
+					'name'     => 'ssnail_inq_privacy',
+					'label'    => 'Consenso privacy',
+					'type'     => 'true_false',
+					'required' => 1,
+					'message'  => __( 'Ho letto e accetto la Privacy Policy', 'ossigeno' ),
+					'ui'       => 0,
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'ssnail_inquiry',
+					),
+				),
+			),
+		) );
+
+		// ── ACF Options Page fields (phone, email, offices) ──────────────────
+		acf_add_local_field_group( array(
+			'key'    => 'group_ssnail_options',
+			'title'  => 'Opzioni sito',
+			'fields' => array(
+				array(
+					'key'   => 'field_ssnail_opt_phone',
+					'name'  => 'ssnail_opt_phone',
+					'label' => 'Telefono',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_ssnail_opt_email',
+					'name'  => 'ssnail_opt_email',
+					'label' => 'Email',
+					'type'  => 'email',
+				),
+				array(
+					'key'          => 'field_ssnail_opt_offices',
+					'name'         => 'ssnail_opt_offices',
+					'label'        => 'Sedi',
+					'type'         => 'repeater',
+					'layout'       => 'block',
+					'button_label' => __( 'Aggiungi sede', 'ossigeno' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_ssnail_opt_office_city',
+							'name'  => 'city',
+							'label' => 'Città',
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_ssnail_opt_office_address',
+							'name'  => 'address',
+							'label' => 'Indirizzo',
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_ssnail_opt_office_maps_url',
+							'name'  => 'maps_url',
+							'label' => 'URL Google Maps (embed)',
+							'type'  => 'url',
+						),
+					),
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'acf-options',
+					),
+				),
+			),
 		) );
 
 	}

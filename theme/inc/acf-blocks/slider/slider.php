@@ -4,7 +4,7 @@
  *
  * @param array $block The block settings and attributes.
  */
-$sorgente_schede = get_field('sorgente_schede') ?? 'elenco-progetti';
+$sorgente_schede = get_field('sorgente_schede') ?? 'input-schede';
 $altezza_slide = (get_field('altezza_slide') ?? '400') . 'px';
 $object_fit = ((get_field('riempimento_immagine') ?? 'cover') === 'cover') ? 'object-cover' : 'object-contain';
 ?>
@@ -27,9 +27,9 @@ $object_fit = ((get_field('riempimento_immagine') ?? 'cover') === 'cover') ? 'ob
                 get_template_part( 'inc/acf-blocks/slider/slider-slide', '', $slide_args );
                 $index++;
             } 
-        } elseif ($sorgente_schede === 'elenco-progetti' && get_field('elenco_progetti')) {
+        } elseif ($sorgente_schede === 'elenco-post' && get_field('elenco_post')) {
             $index = 0; // Initialize index for this section
-            $posts = get_field('elenco_progetti');
+            $posts = get_field('elenco_post');
             foreach ($posts as $post) {
                 $slide_args = [
                     'titolo' => $post->post_title,

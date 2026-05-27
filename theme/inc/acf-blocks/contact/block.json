@@ -1,9 +1,9 @@
 {
     "apiVersion": 3,
-    "name": "ssnail/contact",
+    "name": "ossigeno/contact",
     "title": "Contatti",
     "description": "Sezione contatti con modulo ACF Form e schede sedi.",
-    "category": "design",
+    "category": "ossigeno-sections",
     "icon": "email",
     "keywords": [
         "contatti",
