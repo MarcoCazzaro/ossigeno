@@ -189,17 +189,27 @@ if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 	 * anchor element except when viewing a single post.
 	 */
 	function ssnail_post_thumbnail( string $additional_classes = '' ) {
-		if ( ! ssnail_can_show_post_thumbnail() ) {
-			return;
+		$attr = $additional_classes ? [ 'class' => $additional_classes ] : [];
+
+		if ( ssnail_can_show_post_thumbnail() ) {
+			$image_html = get_the_post_thumbnail( null, 'post-thumbnail', $attr );
+		} else {
+			$placeholder_id = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_placeholder_image', 'option' ) : false;
+			if ( ! $placeholder_id ) {
+				return;
+			}
+			$image_html = wp_get_attachment_image( $placeholder_id, 'post-thumbnail', false, $attr );
 		}
 
-		$attr = $additional_classes ? [ 'class' => $additional_classes ] : [];
+		if ( ! $image_html ) {
+			return;
+		}
 
 		if ( is_singular() ) :
 			?>
 
 			<figure>
-				<?php the_post_thumbnail( 'post-thumbnail', $attr ); ?>
+				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</figure><!-- .post-thumbnail -->
 
 			<?php
@@ -208,7 +218,7 @@ if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 
 			<figure>
 				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-					<?php the_post_thumbnail( 'post-thumbnail', $attr ); ?>
+					<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>
 			</figure>
 

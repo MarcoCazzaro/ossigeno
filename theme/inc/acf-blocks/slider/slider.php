@@ -49,10 +49,10 @@ $object_fit = ((get_field('riempimento_immagine') ?? 'cover') === 'cover') ? 'ob
   
     <!-- Navigation controls positioned below the slider -->
     <div class="controls flex justify-center mt-4 gap-4">
-        <button @click="prevSlide" class="slider-nav-btn h-12 w-12 grid place-items-center text-foreground bg-secondary hover:bg-primary transition-all shadow cursor-pointer rounded-full">
+        <button @click="prevSlide" class="slider-nav-btn h-12 w-12 grid place-items-center text-background bg-secondary hover:bg-primary transition-all shadow cursor-pointer rounded-full">
             <span class="material-symbols-outlined aspect-square">arrow_back</span>
         </button>
-        <button @click="nextSlide" class="slider-nav-btn h-12 w-12 grid place-items-center text-foreground bg-secondary hover:bg-primary transition-all shadow cursor-pointer rounded-full">
+        <button @click="nextSlide" class="slider-nav-btn h-12 w-12 grid place-items-center text-background bg-secondary hover:bg-primary transition-all shadow cursor-pointer rounded-full">
             <span class="material-symbols-outlined aspect-square">arrow_forward</span>
         </button>
     </div>

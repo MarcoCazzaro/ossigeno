@@ -50,9 +50,9 @@ $is_dark = $stile === 'scuro';
 
 // Gradient backgrounds based on style
 $gradient_bg = 'relative before:content-[\'\'] before:z-0 before:-mt-24 before:absolute before:h-24 before:top-0 before:w-full before:left-0 before:bg-gradient-to-t before:to-transparent ' . ($is_dark ? 'bg-tertiary before:from-tertiary' : 'bg-background-alt before:from-background-alt');
-$text_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
-$title_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
-$date_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
+$text_color = ($is_dark) ? 'text-background' : 'text-foreground';
+$title_color = ($is_dark) ? 'text-background-alt' : 'text-foreground';
+$date_color = ($is_dark) ? 'text-background-alt' : 'text-foreground';
 
 $show_image = (!str_contains($layout, 'solo-testo'));
 $text_wrapper_classes = "-mt-8 min-h-[calc(33%+3rem)]";
