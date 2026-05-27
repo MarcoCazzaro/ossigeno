@@ -14,7 +14,7 @@ if ( ! function_exists( 'get_field' ) ) {
 
 // Get field values
 if ($args['use_post'] ?? false) {
-    $stile = $args['stile'] ?? 'scuro';
+    $stile = $args['stile'] ?? 'chiaro';
     $layout = $args['layout'] ?? 'verticale-immagine-testo';
     $titolo = get_the_title();
     $sottotitolo = get_the_date(); // Will be used as date
@@ -28,7 +28,7 @@ if ($args['use_post'] ?? false) {
     $post_type = get_post_type();
     $show_author = true;
 } else {
-    $stile = get_field('stile') ?: 'scuro';
+    $stile = get_field('stile') ?: 'chiaro';
     $layout = get_field('layout') ?: 'verticale-immagine-testo';
     $titolo = get_field('titolo');
     $sottotitolo = get_field('sottotitolo'); // Will be used as date
@@ -49,7 +49,7 @@ if ($args['use_post'] ?? false) {
 $is_dark = $stile === 'scuro';
 
 // Gradient backgrounds based on style
-$gradient_bg = 'relative before:content-[\'\'] before:z-0 before:-mt-24 before:absolute before:h-24 before:top-0 before:w-full before:left-0 before:bg-gradient-to-t before:to-transparent ' . ($is_dark ? 'bg-tertiary before:from-tertiary' : 'bg-background before:from-background');
+$gradient_bg = 'relative before:content-[\'\'] before:z-0 before:-mt-24 before:absolute before:h-24 before:top-0 before:w-full before:left-0 before:bg-gradient-to-t before:to-transparent ' . ($is_dark ? 'bg-tertiary before:from-tertiary' : 'bg-background-alt before:from-background-alt');
 $text_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
 $title_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
 $date_color = ($is_dark) ? 'text-secondary' : 'text-foreground';
@@ -77,7 +77,7 @@ if ($layout === 'orizzontale') {
     $image_section_classes = "relative h-2/3 overflow-hidden";
     $inner_text_classes = "flex flex-col";
     if ($layout === 'quadrato-titolo-immagine') {
-        $card_classes .= " " . ($is_dark ? 'bg-tertiary' : 'bg-primary');
+        $card_classes .= " " . ($is_dark ? 'bg-tertiary' : 'bg-background-alt');
         $image_section_classes = "relative h-full overflow-hidden order-1 ml-8";
         $text_wrapper_classes = "h-auto";
         $titolo_wrapper_classes = "md:h-24 flex flex-col justify-between";
@@ -86,7 +86,7 @@ if ($layout === 'orizzontale') {
     }
 }
 if (!$show_image) {
-    $gradient_bg = ($is_dark ? 'bg-tertiary' : 'bg-primary');
+    $gradient_bg = ($is_dark ? 'bg-tertiary' : 'bg-background-alt');
     $image_section_classes = 'hidden';
 }
 $card_classes .= " " . $post_type;
@@ -152,7 +152,7 @@ $card_classes .= " stile-" . $stile;
     <?php if ($link): ?>
         <div class="ssnail-cta absolute bottom-[-2px] right-8 z-20">
             <a href="<?php echo esc_url($link_url); ?>" 
-                class="btn <?php echo $stile === 'scuro' ? 'btn-primary' : 'btn-secondary'; ?> rounded-b-none" 
+                class="btn <?php echo $stile === 'chiaro' ? 'btn-primary' : 'btn-secondary'; ?> rounded-b-none" 
                 <?php echo $link_target ? 'target="' . esc_attr($link_target) . '"' : ''; ?>>
                 <?php echo esc_html($link_title ?: 'MORE'); ?>
             </a>

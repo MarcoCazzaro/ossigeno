@@ -10,6 +10,11 @@
 					"name": "Background"
 				},
 				{
+					"slug": "background-alt",
+					"color": "#f5f8fd",
+					"name": "Background Alt"
+				},
+				{
 					"slug": "foreground",
 					"color": "#404040",
 					"name": "Foreground"
@@ -31,9 +36,6 @@
 				}
 			]
 		},
-		"layout": {
-			"contentSize": "40rem",
-			"wideSize": "60rem"
-		}
+		"layout": {}
 	}
 }

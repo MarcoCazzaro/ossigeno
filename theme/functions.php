@@ -213,17 +213,6 @@ function ssnail_modify_heading_levels( $args, $block_type ) {
 add_filter( 'register_block_type_args', 'ssnail_modify_heading_levels', 10, 2 );
 
 /**
- * Enqueue admin scripts and styles.
- */
-function ssnail_admin_scripts()
-{
-	if (isset($_GET['page']) && $_GET['page'] == 'ossigeno_options_page') {
-		wp_enqueue_media();
-	}
-}
-add_action('admin_enqueue_scripts', 'ssnail_admin_scripts');
-
-/**
  * Custom template tags for this theme.
  */
 require get_template_directory() . '/inc/template-tags.php';
@@ -242,11 +231,6 @@ require get_template_directory() . '/inc/widget-areas.php';
  * Theme Customizer.
  */
 require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Custom options.
- */
-require get_template_directory() . '/inc/options.php';
 
 /**
  * Custom post types and taxonomies.

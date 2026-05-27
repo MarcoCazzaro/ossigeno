@@ -75,6 +75,23 @@ function ssnail_enqueue_dynamic_fonts(): void {
  * @param WP_Customize_Manager $wp_customize Customizer manager instance.
  */
 function ssnail_customizer( WP_Customize_Manager $wp_customize ): void {
+
+	// Logotype — added to the native Site Identity section.
+	$wp_customize->add_setting( 'ssnail_custom_logotype' );
+	$wp_customize->add_control(
+		new WP_Customize_Media_Control(
+			$wp_customize,
+			'ssnail_custom_logotype',
+			array(
+				'label'    => __( 'Logotype', 'ossigeno' ),
+				'section'  => 'title_tagline',
+				'settings' => 'ssnail_custom_logotype',
+				'priority' => 8,
+				'mime_type' => 'image',
+			)
+		)
+	);
+
 	$wp_customize->add_section(
 		'ssnail_typography',
 		array(

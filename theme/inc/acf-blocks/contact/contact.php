@@ -56,7 +56,7 @@ $offices    = get_field( 'ssnail_opt_offices', 'option' );
 						[ Modulo contatti — visibile sul front-end ]
 					</div>
 				<?php elseif ( function_exists( 'acf_form' ) ) : ?>
-					<div class="ssnail-contact-form">
+					<div class="ssnail-acf-contact-form">
 						<?php
 						acf_form(
 							array(

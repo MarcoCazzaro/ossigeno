@@ -1442,16 +1442,39 @@ Dimensioni consigliate: 1920x1080 pixel.',
 			),
 		) );
 
-		// ── ACF Options Page fields (phone, email, offices) ──────────────────
+		// ── ACF Options Page fields ──────────────────────────────────────────
 		acf_add_local_field_group( array(
 			'key'    => 'group_ssnail_options',
 			'title'  => 'Opzioni sito',
 			'fields' => array(
+
+				// ── Tab: Contatti ─────────────────────────────────────────
+				array(
+					'key'       => 'field_ssnail_opt_tab_contact',
+					'label'     => 'Contatti',
+					'name'      => '',
+					'type'      => 'tab',
+					'placement' => 'top',
+					'endpoint'  => 0,
+				),
 				array(
 					'key'   => 'field_ssnail_opt_phone',
 					'name'  => 'ssnail_opt_phone',
-					'label' => 'Telefono',
+					'label' => 'Numero di telefono',
 					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_ssnail_opt_whatsapp_number',
+					'name'  => 'ssnail_opt_whatsapp_number',
+					'label' => 'Numero WhatsApp',
+					'type'  => 'text',
+				),
+				array(
+					'key'           => 'field_ssnail_opt_whatsapp_cta',
+					'name'          => 'ssnail_opt_whatsapp_cta',
+					'label'         => 'Etichetta bottone WhatsApp',
+					'type'          => 'text',
+					'default_value' => 'Scrivici su WhatsApp',
 				),
 				array(
 					'key'   => 'field_ssnail_opt_email',
@@ -1486,6 +1509,33 @@ Dimensioni consigliate: 1920x1080 pixel.',
 							'type'  => 'url',
 						),
 					),
+				),
+
+				// ── Tab: Interfaccia ──────────────────────────────────────
+				array(
+					'key'       => 'field_ssnail_opt_tab_ui',
+					'label'     => 'Interfaccia',
+					'name'      => '',
+					'type'      => 'tab',
+					'placement' => 'top',
+					'endpoint'  => 0,
+				),
+				array(
+					'key'           => 'field_ssnail_opt_scroll_to_top',
+					'name'          => 'ssnail_opt_scroll_to_top',
+					'label'         => 'Mostra bottone "Torna su"',
+					'type'          => 'true_false',
+					'default_value' => 0,
+					'ui'            => 1,
+				),
+				array(
+					'key'           => 'field_ssnail_opt_placeholder_image',
+					'name'          => 'ssnail_opt_placeholder_image',
+					'label'         => 'Immagine segnaposto',
+					'type'          => 'image',
+					'return_format' => 'id',
+					'library'       => 'all',
+					'preview_size'  => 'medium',
 				),
 			),
 			'location' => array(

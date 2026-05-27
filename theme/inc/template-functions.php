@@ -222,3 +222,33 @@ function ssnail_html5_comment( $comment, $args, $depth ) {
 		</article><!-- .comment-body -->
 	<?php
 }
+
+if (!function_exists('ssnail_add_edit_hp_link_on_admin_bar')) {
+	function ssnail_add_edit_hp_link_on_admin_bar($wp_admin_bar)
+	{
+		if (current_user_can('edit_pages')) {
+			$args = [
+				'id' => 'bfc-edit-hp',
+				'title' => __('Edit Home page', 'ossigeno'),
+				'href' => get_edit_post_link(get_option('page_on_front')),
+				'meta' => ['class' => 'bfc-edit-hp-button']
+			];
+			$wp_admin_bar->add_node($args);
+		}
+	}
+	add_action('admin_bar_menu', 'ssnail_add_edit_hp_link_on_admin_bar', 50);
+}
+
+if (!function_exists('ssnail_check_required_plugins')) {
+	function ssnail_check_required_plugins()
+	{
+		if (!function_exists('get_field')) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?= ucfirst(__("Il tema richiede l'installazione del plugin", 'ossigeno')) ?> <b>Advanced Custom Fields PRO</b>.</p>
+			</div>
+		<?php
+		}
+	}
+	add_action('admin_notices', 'ssnail_check_required_plugins');
+}
