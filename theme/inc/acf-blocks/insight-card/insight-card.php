@@ -100,9 +100,11 @@ $card_classes .= " stile-" . $stile;
             <?php 
             $image_class = "w-full h-full object-cover transition-all duration-700 group-hover:scale-125 mt-0 mb-0";
             if ($immagine === 'from_post') {
-                ssnail_post_thumbnail(additional_classes: $image_class);
+                $thumb_id = ssnail_get_thumbnail_id();
+                if ( $thumb_id ) {
+                    echo wp_get_attachment_image( $thumb_id, 'post-thumbnail', false, [ 'class' => $image_class ] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                }
             } else {
-                // Replace basic img tag with responsive image using ssnail_acf_image_with_srcset
                 echo ssnail_acf_image_with_srcset($immagine, 'large', $immagine['alt'] ?? '', $image_class);
             }
             ?>

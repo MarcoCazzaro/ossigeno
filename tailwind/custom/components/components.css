@@ -69,6 +69,24 @@
 	@apply float-right ml-8;
 }
 
+.footer-nav {
+	& a {
+		@apply text-background/60 transition-colors;
+
+		&:hover {
+			@apply text-background;
+		}
+	}
+}
+
+.footer-social-icon {
+	@apply border-background/20 flex h-10 w-10 items-center justify-center border transition-all;
+
+	&:hover {
+		@apply bg-background text-secondary border-background;
+	}
+}
+
 /* BUTTONS */
 
 button {
@@ -85,6 +103,10 @@ button {
 
 .btn-secondary {
 	@apply bg-secondary text-background hover:brightness-110;
+}
+
+.btn-tertiary {
+	@apply bg-tertiary text-background hover:brightness-110;
 }
 
 .btn-ghost {

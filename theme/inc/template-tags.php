@@ -183,6 +183,17 @@ if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ssnail_get_thumbnail_id' ) ) :
+	function ssnail_get_thumbnail_id( $post_id = null ) {
+		$thumb_id = get_post_thumbnail_id( $post_id );
+		if ( $thumb_id ) {
+			return (int) $thumb_id;
+		}
+		$placeholder = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_placeholder_image', 'option' ) : false;
+		return $placeholder ? (int) $placeholder : 0;
+	}
+endif;
+
 if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 	/**
 	 * Displays an optional post thumbnail, wrapping the post thumbnail in an

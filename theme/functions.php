@@ -77,11 +77,12 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
-		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus(
 			array(
-				'menu-1' => __( 'Primary', 'ossigeno' ),
-				'menu-2' => __( 'Footer Menu', 'ossigeno' ),
+				'primary-menu' => __( 'Primary', 'ossigeno' ),
+				'footer-menu'  => __( 'Footer Menu', 'ossigeno' ),
+				'footer-legal' => __( 'Footer Legal', 'ossigeno' ),
+				'social-menu'  => __( 'Social', 'ossigeno' ),
 			)
 		);
 
@@ -251,3 +252,8 @@ require get_template_directory() . '/inc/acf-blocks.php';
  * ACF local field groups for custom blocks.
  */
 require get_template_directory() . '/inc/acf-blocks/acf-fields.php';
+
+/**
+ * Admin import page for demo data.
+ */
+require get_template_directory() . '/inc/admin-import.php';
