@@ -38,7 +38,7 @@ if ( ! defined( 'SSNAIL_TYPOGRAPHY_CLASSES' ) ) {
 	 */
 	define(
 		'SSNAIL_TYPOGRAPHY_CLASSES',
-		'prose prose-neutral max-w-none prose-a:text-primary'
+		'prose prose-neutral prose-a:text-primary'
 	);
 }
 

@@ -19,7 +19,7 @@
  */
 .page-title,
 .entry-title {
-	@apply /* max-w-content */ mx-auto mb-6 text-3xl font-extrabold;
+	@apply /* max-w-content */ mx-auto mb-6 font-extrabold;
 }
 
 /**
@@ -29,7 +29,10 @@
  * at content width pending custom styling.
  */
 .entry-meta,
-.entry-footer,
+.entry-footer {
+	@apply /* max-w-content */ mx-auto mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs;
+}
+
 .post-navigation,
 #comments {
 	@apply /* max-w-content */ mx-auto mb-6;
@@ -94,7 +97,7 @@ button {
 }
 
 .btn {
-	@apply font-body inline-flex items-center gap-2 cursor-pointer px-8 py-4 text-center text-sm tracking-widest uppercase transition-all;
+	@apply font-body inline-flex cursor-pointer items-center gap-2 px-8 py-4 text-center text-sm tracking-widest uppercase transition-all;
 }
 
 .btn-primary {
@@ -207,6 +210,10 @@ nav.navigation.post-navigation {
 	.nav-links {
 		@apply flex items-start justify-between gap-4;
 
+		a {
+			@apply flex items-center gap-1;
+		}
+
 		span:not([aria-hidden="true"]) {
 			@apply text-primary text-lg font-bold;
 		}
@@ -290,6 +297,61 @@ nav.navigation.post-navigation {
 	}
 }
 
+body:is(.archive, .blog) {
+	.ssnail-posts {
+		> *:nth-child(1),
+		> *:nth-child(2) {
+			@apply md:col-span-2;
+		}
+	}
+}
+
 .ssnail-read-more {
 	@apply text-primary ml-2 inline-flex text-sm font-bold;
+}
+
+article.ssnail-article {
+	&.excerpt {
+		.entry-title {
+			@apply line-clamp-3 text-xl;
+		}
+	}
+}
+
+article.ssnail-article {
+	&.single {
+		> figure {
+			width: 100%;
+			height: 100svh;
+			overflow: hidden;
+			position: relative;
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				background: linear-gradient(
+					to bottom,
+					theme(colors.black / 75%),
+					transparent 50%,
+					transparent
+				);
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+	}
+
+	&.excerpt {
+		.ssnail-post-thumbnail {
+			img {
+				@apply aspect-[4/3] object-cover md:aspect-[16/9];
+			}
+		}
+	}
 }

@@ -26,7 +26,7 @@ if ( ! function_exists( 'ssnail_posted_on' ) ) :
 		);
 
 		printf(
-			'<a href="%1$s" rel="bookmark">%2$s</a>',
+			'<a href="%1$s" rel="bookmark" class="inline-flex items-center gap-1 text-foreground/60 hover:text-primary transition-colors"><span class="material-symbols-outlined text-base" aria-hidden="true">calendar_today</span>%2$s</a>',
 			esc_url( get_permalink() ),
 			$time_string // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
@@ -40,7 +40,7 @@ if ( ! function_exists( 'ssnail_posted_by' ) ) :
 	function ssnail_posted_by() {
 		printf(
 		/* translators: 1: posted by label, only visible to screen readers. 2: author link. 3: post author. */
-			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span>',
+			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n inline-flex items-center gap-1 text-foreground/60 hover:text-primary transition-colors" href="%2$s"><span class="material-symbols-outlined text-base" aria-hidden="true">person</span>%3$s</a></span>',
 			esc_html__( 'Posted by', 'ossigeno' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_html( get_the_author() )
@@ -54,8 +54,10 @@ if ( ! function_exists( 'ssnail_comment_count' ) ) :
 	 */
 	function ssnail_comment_count() {
 		if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+			echo '<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">chat_bubble</span>';
 			/* translators: %s: Name of current post. Only visible to screen readers. */
-			comments_popup_link( sprintf( __( 'Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno' ), get_the_title() ) );
+			comments_popup_link( sprintf( __( 'Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno' ), get_the_title() ), null, null, 'hover:text-primary transition-colors' );
+			echo '</span>';
 		}
 	}
 endif;
@@ -81,7 +83,7 @@ if ( ! function_exists( 'ssnail_entry_meta' ) ) :
 			if ( $categories_list ) {
 				printf(
 				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">folder</span><span class="sr-only">%1$s</span>%2$s</span>',
 					esc_html__( 'Posted in', 'ossigeno' ),
 					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -92,7 +94,7 @@ if ( ! function_exists( 'ssnail_entry_meta' ) ) :
 			if ( $tags_list ) {
 				printf(
 				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">sell</span><span class="sr-only">%1$s</span>%2$s</span>',
 					esc_html__( 'Tags:', 'ossigeno' ),
 					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -142,7 +144,7 @@ if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 			if ( $categories_list ) {
 				printf(
 				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">folder</span><span class="sr-only">%1$s</span>%2$s</span>',
 					esc_html__( 'Posted in', 'ossigeno' ),
 					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -153,7 +155,7 @@ if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 			if ( $tags_list ) {
 				printf(
 				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span><span class="sr-only">%1$s</span>%2$s</span>',
+					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">sell</span><span class="sr-only">%1$s</span>%2$s</span>',
 					esc_html__( 'Tags:', 'ossigeno' ),
 					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -219,7 +221,7 @@ if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 		if ( is_singular() ) :
 			?>
 
-			<figure>
+			<figure class="ssnail-post-thumbnail">
 				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</figure><!-- .post-thumbnail -->
 
@@ -227,7 +229,7 @@ if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 		else :
 			?>
 
-			<figure>
+			<figure class="ssnail-post-thumbnail">
 				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
 					<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>

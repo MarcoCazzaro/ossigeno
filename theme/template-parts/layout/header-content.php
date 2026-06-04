@@ -9,7 +9,7 @@
 <nav id="masthead"
 	x-data="{ open: false, searchOpen: false, scrolled: false }"
 	@scroll.window.debounce.100ms="scrolled = window.scrollY > 10"
-	:class="(scrolled || open || searchOpen) ? 'bg-primary' : 'bg-transparent'"
+	:class="(scrolled || open || searchOpen) ? 'bg-primary ssnail-scrolled' : 'bg-transparent'"
 	class="ssnail-navigation fixed top-0 w-full z-50 transition-colors duration-300">
 
 	<?php

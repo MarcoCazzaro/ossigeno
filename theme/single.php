@@ -19,25 +19,31 @@ get_header();
 				the_post();
 				get_template_part( 'template-parts/content/content', 'single' );
 
-				if ( is_singular( 'post' ) ) {
-					// Previous/next post navigation.
-					the_post_navigation(
-						array(
-							'next_text' => '<span aria-hidden="true">' . __( 'Next Post', 'ossigeno' ) . '</span> ' .
-								'<span class="sr-only">' . __( 'Next post:', 'ossigeno' ) . '</span> <br/>' .
-								'<span>%title</span>',
-							'prev_text' => '<span aria-hidden="true">' . __( 'Previous Post', 'ossigeno' ) . '</span> ' .
-								'<span class="sr-only">' . __( 'Previous post:', 'ossigeno' ) . '</span> <br/>' .
-								'<span>%title</span>',
-						)
-					);
-				}
+				?>
+				<div class="ssnail-container">
+					<?php
+					if ( is_singular( 'post' ) ) {
+						// Previous/next post navigation.
+						the_post_navigation(
+							array(
+								'next_text' => '<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>' .
+									'<span class="sr-only">' . __( 'Next post:', 'ossigeno' ) . '</span>' .
+									'<span>%title</span>',
+								'prev_text' => '<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>' .
+									'<span class="sr-only">' . __( 'Previous post:', 'ossigeno' ) . '</span>' .
+									'<span>%title</span>',
+							)
+						);
+					}
 
-				// If comments are open, or we have at least one comment, load
-				// the comment template.
-				if ( comments_open() || get_comments_number() ) {
-					comments_template();
-				}
+					// If comments are open, or we have at least one comment, load
+					// the comment template.
+					if ( comments_open() || get_comments_number() ) {
+						comments_template();
+					}
+					?>
+				</div>
+				<?php
 
 				// End the loop.
 			endwhile;

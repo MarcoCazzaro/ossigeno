@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register custom post types and taxonomies.
  */
 function ossigeno_register_custom_post_types() {
-
+	// Nothing yet
 }
 add_action( 'init', 'ossigeno_register_custom_post_types' );
 

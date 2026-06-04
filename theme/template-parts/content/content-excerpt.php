@@ -9,9 +9,11 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'ssnail-article excerpt' ); ?>>
 
-	<header class="entry-header">
+	<?php ssnail_post_thumbnail(); ?>
+
+	<header class="entry-header mt-8">
 		<?php
 		if ( is_sticky() && is_home() && ! is_paged() ) {
 			printf( '%s', esc_html_x( 'Featured', 'post', 'ossigeno' ) );
@@ -19,8 +21,6 @@
 		the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 		?>
 	</header><!-- .entry-header -->
-
-	<?php ssnail_post_thumbnail(); ?>
 
 	<div <?php ssnail_content_class( 'entry-content' ); ?>>
 		<?php the_excerpt(); ?>

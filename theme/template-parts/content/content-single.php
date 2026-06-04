@@ -9,9 +9,11 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'ssnail-article single' ); ?>>
 
-	<header class="entry-header">
+	<?php ssnail_post_thumbnail(); ?>
+
+	<header class="entry-header ssnail-container mt-16 mb-8">
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 
 		<?php if ( ! is_page() ) : ?>
@@ -21,9 +23,7 @@
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
-	<?php ssnail_post_thumbnail(); ?>
-
-	<div <?php ssnail_content_class( 'entry-content' ); ?>>
+	<div <?php ssnail_content_class( 'entry-content ssnail-container' ); ?>>
 		<?php
 		the_content(
 			sprintf(
@@ -49,7 +49,7 @@
 		?>
 	</div><!-- .entry-content -->
 
-	<footer class="entry-footer">
+	<footer class="entry-footer ssnail-container">
 		<?php ssnail_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 

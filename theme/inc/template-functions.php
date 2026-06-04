@@ -11,17 +11,20 @@
  * Fields are defined in inc/acf-blocks/acf-fields.php under group_ssnail_options.
  * The menu slug 'acf-options' is the location key used by that field group.
  */
-if ( function_exists( 'acf_add_options_page' ) ) {
-	acf_add_options_page(
-		array(
-			'page_title' => __( 'Opzioni sito', 'ossigeno' ),
-			'menu_title' => __( 'Opzioni sito', 'ossigeno' ),
-			'menu_slug'  => 'acf-options',
-			'capability' => 'manage_options',
-			'redirect'   => false,
-		)
-	);
+function ssnail_register_acf_options_page() {
+	if ( function_exists( 'acf_add_options_page' ) ) {
+		acf_add_options_page(
+			array(
+				'page_title' => __( 'Opzioni sito', 'ossigeno' ),
+				'menu_title' => __( 'Opzioni sito', 'ossigeno' ),
+				'menu_slug'  => 'acf-options',
+				'capability' => 'manage_options',
+				'redirect'   => false,
+			)
+		);
+	}
 }
+add_action( 'init', 'ssnail_register_acf_options_page' );
 
 /**
  * Maps a URL to a social platform key.
@@ -243,7 +246,7 @@ function ssnail_continue_reading_link( $more_string ) {
 			the_title( '<span class="sr-only">"', '"</span>', false )
 		);
 
-		$more_string = '<a href="' . esc_url( get_permalink() ) . '">' . $continue_reading . '</a>';
+		$more_string = '<a href="' . esc_url( get_permalink() ) . '" class="ssnail-read-more">' . $continue_reading . '</a>';
 	}
 
 	return $more_string;
