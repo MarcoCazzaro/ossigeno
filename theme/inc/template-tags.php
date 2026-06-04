@@ -77,28 +77,6 @@ if ( ! function_exists( 'ssnail_entry_meta' ) ) :
 
 			// Posted on.
 			ssnail_posted_on();
-
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list( __( ', ', 'ossigeno' ) );
-			if ( $categories_list ) {
-				printf(
-				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">folder</span><span class="sr-only">%1$s</span>%2$s</span>',
-					esc_html__( 'Posted in', 'ossigeno' ),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-
-			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list( '', __( ', ', 'ossigeno' ) );
-			if ( $tags_list ) {
-				printf(
-				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">sell</span><span class="sr-only">%1$s</span>%2$s</span>',
-					esc_html__( 'Tags:', 'ossigeno' ),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
 		}
 
 		// Comment count.
@@ -147,17 +125,6 @@ if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">folder</span><span class="sr-only">%1$s</span>%2$s</span>',
 					esc_html__( 'Posted in', 'ossigeno' ),
 					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-
-			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list( '', __( ', ', 'ossigeno' ) );
-			if ( $tags_list ) {
-				printf(
-				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">sell</span><span class="sr-only">%1$s</span>%2$s</span>',
-					esc_html__( 'Tags:', 'ossigeno' ),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 		}
@@ -379,3 +346,39 @@ if (!function_exists('ssnail_acf_image_with_srcset')) {
 		}
 	}
 }
+
+if ( ! function_exists( 'ssnail_post_tags_pills' ) ) :
+	function ssnail_post_tags_pills() {
+		$tags = get_the_tags();
+		if ( ! $tags ) {
+			return;
+		}
+		echo '<div class="flex flex-wrap gap-2 ssnail-container my-6">';
+		foreach ( $tags as $tag ) {
+			printf(
+				'<a href="%s" class="px-3 py-1 rounded-full text-sm bg-secondary text-background no-underline hover:opacity-80 transition-opacity">%s</a>',
+				esc_url( get_tag_link( $tag->term_id ) ),
+				esc_html( $tag->name )
+			);
+		}
+		echo '</div>';
+	}
+endif;
+
+if ( ! function_exists( 'ssnail_post_categories' ) ) :
+	function ssnail_post_categories() {
+		$categories = get_the_category();
+		if ( ! $categories ) {
+			return;
+		}
+		echo '<div class="flex flex-wrap gap-8">';
+		foreach ( $categories as $category ) {
+			printf(
+				'<a href="%s" class="text-sm font-semibold uppercase tracking-widest text-primary no-underline hover:opacity-80 transition-opacity">%s</a>',
+				esc_url( get_category_link( $category->term_id ) ),
+				esc_html( $category->name )
+			);
+		}
+		echo '</div>';
+	}
+endif;
