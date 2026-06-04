@@ -21,9 +21,12 @@
 		<?php the_title( '<h1 class="entry-title mt-8">', '</h1>' ); ?>
 
 		<?php if ( ! is_page() ) : ?>
-			<div class="entry-meta">
-				<?php ssnail_entry_meta(); ?>
-			</div><!-- .entry-meta -->
+			<div class="flex items-center justify-between gap-4 mt-4">
+				<div class="entry-meta flex gap-4">
+					<?php ssnail_entry_meta(); ?>
+				</div><!-- .entry-meta -->
+				<?php ssnail_share_button(); ?>
+			</div>
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
@@ -55,7 +58,7 @@
 
 	<?php ssnail_post_tags_pills(); ?>
 
-	<footer class="entry-footer ssnail-container">
+	<footer class="entry-footer ssnail-container mb-6">
 		<?php ssnail_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 

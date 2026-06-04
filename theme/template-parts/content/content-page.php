@@ -11,9 +11,9 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'ssnail-article page' ); ?>>
 
-	<?php ssnail_post_thumbnail(); ?>
+	<?php /* ssnail_post_thumbnail(); */ ?>
 
-	<header class="entry-header">
+	<header class="entry-header ssnail-container">
 		<?php
 		if ( ! is_front_page() ) {
 			the_title( '<h1 class="entry-title">', '</h1>' );
@@ -23,7 +23,7 @@
 		?>
 	</header><!-- .entry-header -->
 
-	<div <?php ssnail_content_class( 'entry-content' ); ?>>
+	<div <?php ssnail_content_class( 'entry-content ssnail-container' ); ?>>
 		<?php
 		the_content();
 

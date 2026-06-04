@@ -14,7 +14,7 @@
 get_header();
 ?>
 
-	<section id="primary">
+	<section id="primary" class="ssnail-coverless-page">
 		<main id="main">
 
 			<?php

@@ -186,11 +186,11 @@ add_filter( 'comment_form_defaults', 'ssnail_comment_form_defaults' );
  */
 function ssnail_get_the_archive_title() {
 	if ( is_category() ) {
-		$title = __( 'Category Archives: ', 'ossigeno' ) . '<span>' . single_term_title( '', false ) . '</span>';
+		$title = '<span>' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_tag() ) {
-		$title = __( 'Tag Archives: ', 'ossigeno' ) . '<span>' . single_term_title( '', false ) . '</span>';
+		$title = '<span>' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_author() ) {
-		$title = __( 'Author Archives: ', 'ossigeno' ) . '<span>' . get_the_author_meta( 'display_name' ) . '</span>';
+		$title = '<span>' . get_the_author_meta( 'display_name' ) . '</span>';
 	} elseif ( is_year() ) {
 		$title = __( 'Yearly Archives: ', 'ossigeno' ) . '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'ossigeno' ) ) . '</span>';
 	} elseif ( is_month() ) {
@@ -199,18 +199,23 @@ function ssnail_get_the_archive_title() {
 		$title = __( 'Daily Archives: ', 'ossigeno' ) . '<span>' . get_the_date() . '</span>';
 	} elseif ( is_post_type_archive() ) {
 		$cpt   = get_post_type_object( get_queried_object()->name );
-		$title = sprintf(
-			/* translators: %s: Post type singular name */
-			esc_html__( '%s Archives', 'ossigeno' ),
-			$cpt->labels->singular_name
-		);
+		$title = sprintf( esc_html__( '%s', 'ossigeno' ), $cpt->labels->name ?? '-' );
 	} elseif ( is_tax() ) {
-		$tax   = get_taxonomy( get_queried_object()->taxonomy );
-		$title = sprintf(
-			/* translators: %s: Taxonomy singular name */
-			esc_html__( '%s Archives', 'ossigeno' ),
-			$tax->labels->singular_name
-		);
+		$tax = get_taxonomy( get_queried_object()->taxonomy );
+		// Looks up the first associated post type and formats as "PostType by TaxonomyName"
+		if ( $tax && !empty( $tax->object_type ) ) {
+			$post_type_obj = get_post_type_object( $tax->object_type[0] );
+			if ( $post_type_obj ) {
+				$title = sprintf( esc_html__( '%1$s by %2$s', 'ossigeno' ),
+					$post_type_obj->labels->name,
+					$tax->labels->singular_name
+				);
+			} else {
+				$title = sprintf( esc_html__( '%s', 'ossigeno' ), $tax->labels->name ?? '-' );
+			}
+		} else {
+			$title = sprintf( esc_html__( '%s', 'ossigeno' ), $tax->labels->name ?? '-' );
+		}
 	} else {
 		$title = __( 'Archives:', 'ossigeno' );
 	}
@@ -359,10 +364,10 @@ if (!function_exists('ssnail_add_edit_hp_link_on_admin_bar')) {
 	{
 		if (current_user_can('edit_pages')) {
 			$args = [
-				'id' => 'bfc-edit-hp',
+				'id' => 'ssnail-edit-hp',
 				'title' => __('Edit Home page', 'ossigeno'),
 				'href' => get_edit_post_link(get_option('page_on_front')),
-				'meta' => ['class' => 'bfc-edit-hp-button']
+				'meta' => ['class' => 'ssnail-edit-hp-button']
 			];
 			$wp_admin_bar->add_node($args);
 		}
@@ -524,3 +529,65 @@ function ssnail_import_theme_images(): void {
 	}
 }
 add_action( 'init', 'ssnail_import_theme_images' );
+
+if (!function_exists('ssnail_login_logo')) {
+	function ssnail_login_logo()
+	{
+		$logo_image_url = get_template_directory_uri() . "/images/ossigeno-logo.svg";
+		if (function_exists('the_custom_logo') && has_custom_logo()) {
+			$custom_logo_id = get_theme_mod('custom_logo');
+			$image = wp_get_attachment_image_src($custom_logo_id, 'medium');
+			if (isset($image[0]) && $image[0] !== "") {
+				$logo_image_url = $image[0];
+			}
+		}
+		?>
+		<style type="text/css">
+			#login h1,
+			.login h1 {
+				display: flex;
+				justify-content: center;
+				padding: 1.3rem;
+			}
+
+			#login h1 a,
+			.login h1 a {
+				background-image: url(<?= $logo_image_url ?>);
+				width: 150px;
+				height: 150px;
+				background-size: contain;
+				background-repeat: no-repeat;
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+		<?php
+	}
+	add_action('login_enqueue_scripts', 'ssnail_login_logo');
+
+	function ssnail_login_logo_url()
+	{
+		return home_url();
+	}
+	add_filter('login_headerurl', 'ssnail_login_logo_url');
+
+	function ssnail_login_logo_url_title()
+	{
+		return get_bloginfo('name');
+	}
+	add_filter('login_headertext', 'ssnail_login_logo_url_title');
+}
+
+if ( ! function_exists( 'ssnail_privacy_field_message' ) ) {
+	function ssnail_privacy_field_message( $field ) {
+		$url              = get_privacy_policy_url();
+		$field['message'] = sprintf(
+			/* translators: %1$s opening anchor tag, %2$s closing anchor tag */
+			__( 'Ho letto e accetto la %1$sPrivacy Policy%2$s', 'ossigeno' ),
+			'<a href="' . esc_url( $url ?: '#' ) . '" target="_blank" rel="noopener noreferrer" class="underline hover:text-primary-container transition-colors">',
+			'</a>'
+		);
+		return $field;
+	}
+	add_filter( 'acf/prepare_field/name=ssnail_inq_privacy', 'ssnail_privacy_field_message' );
+}

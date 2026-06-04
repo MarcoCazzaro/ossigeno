@@ -365,6 +365,48 @@ if ( ! function_exists( 'ssnail_post_tags_pills' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ssnail_share_button' ) ) :
+	function ssnail_share_button() {
+		global $post;
+		?>
+		<div
+			x-data="{
+				copied: false,
+				url: '',
+				title: '',
+				share() {
+					const done = () => {
+						this.copied = true;
+						setTimeout( () => { this.copied = false; }, 2000 );
+					};
+					if ( navigator.share ) {
+						navigator.share( { url: this.url, title: this.title } ).then( done ).catch( () => {} );
+					} else if ( navigator.clipboard ) {
+						navigator.clipboard.writeText( this.url ).then( done ).catch( () => {} );
+					} else {
+						const ta = document.createElement( 'textarea' );
+						ta.value = this.url;
+						ta.style.cssText = 'position:fixed;opacity:0';
+						document.body.appendChild( ta );
+						ta.focus(); ta.select();
+						try { document.execCommand( 'copy' ); done(); } catch ( _ ) {}
+						document.body.removeChild( ta );
+					}
+				}
+			}"
+			x-init="url = $el.dataset.url; title = $el.dataset.title"
+			data-url="<?php echo esc_attr( get_permalink( $post->ID ) ); ?>"
+			data-title="<?php echo esc_attr( get_the_title( $post->ID ) ); ?>"
+		>
+			<button @click="share()" class="cursor-pointer flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors">
+				<span class="material-symbols-outlined text-base leading-none" x-text="copied ? 'check' : 'share'"></span>
+				<span x-text="copied ? '<?php echo esc_js( __( 'Copiato!', 'ossigeno' ) ); ?>' : '<?php echo esc_js( __( 'Condividi', 'ossigeno' ) ); ?>'"></span>
+			</button>
+		</div>
+		<?php
+	}
+endif;
+
 if ( ! function_exists( 'ssnail_post_categories' ) ) :
 	function ssnail_post_categories() {
 		$categories = get_the_category();

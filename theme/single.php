@@ -26,9 +26,9 @@ get_header();
 						// Previous/next post navigation.
 						the_post_navigation(
 							array(
-								'next_text' => '<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>' .
-									'<span class="sr-only">' . __( 'Next post:', 'ossigeno' ) . '</span>' .
-									'<span>%title</span>',
+								'next_text' => '<span class="sr-only">' . __( 'Next post:', 'ossigeno' ) . '</span>' .
+									'<span>%title</span>' .
+									'<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>',
 								'prev_text' => '<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>' .
 									'<span class="sr-only">' . __( 'Previous post:', 'ossigeno' ) . '</span>' .
 									'<span>%title</span>',
