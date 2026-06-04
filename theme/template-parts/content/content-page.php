@@ -9,9 +9,11 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'ssnail-article page' ); ?>>
 
-	<header class="entry-header">
+	<?php /* ssnail_post_thumbnail(); */ ?>
+
+	<header class="entry-header ssnail-container">
 		<?php
 		if ( ! is_front_page() ) {
 			the_title( '<h1 class="entry-title">', '</h1>' );
@@ -21,9 +23,7 @@
 		?>
 	</header><!-- .entry-header -->
 
-	<?php ssnail_post_thumbnail(); ?>
-
-	<div <?php ssnail_content_class( 'entry-content' ); ?>>
+	<div <?php ssnail_content_class( 'entry-content ssnail-container' ); ?>>
 		<?php
 		the_content();
 

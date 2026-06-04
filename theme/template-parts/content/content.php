@@ -9,7 +9,9 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'ssnail-article' ); ?>>
+
+	<?php ssnail_post_thumbnail(); ?>
 
 	<header class="entry-header">
 		<?php
@@ -23,8 +25,6 @@
 		endif;
 		?>
 	</header><!-- .entry-header -->
-
-	<?php ssnail_post_thumbnail(); ?>
 
 	<div <?php ssnail_content_class( 'entry-content' ); ?>>
 		<?php

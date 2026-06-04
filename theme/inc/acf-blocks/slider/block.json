@@ -1,0 +1,22 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/slider",
+    "title": "Slider",
+    "version": "1.6.2",
+    "style": [
+        "file:./slider.css"
+    ],
+    "script": [
+        "file:./slider.js"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "format-gallery",
+    "keywords": [
+        "slider"
+    ],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "slider.php"
+    },
+    "supports": {}
+}

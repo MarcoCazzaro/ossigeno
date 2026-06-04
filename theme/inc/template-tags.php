@@ -12,9 +12,9 @@ if ( ! function_exists( 'ssnail_posted_on' ) ) :
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
 	function ssnail_posted_on() {
-		$time_string = '<time datetime="%1$s">%2$s</time>';
+		$time_string = '<time class="published updated" datetime="%1$s">%2$s</time>';
 		if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-			$time_string = '<time datetime="%1$s">%2$s</time><time datetime="%3$s">%4$s</time>';
+			$time_string = '<time class="published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
 		}
 
 		$time_string = sprintf(
@@ -26,7 +26,7 @@ if ( ! function_exists( 'ssnail_posted_on' ) ) :
 		);
 
 		printf(
-			'<a href="%1$s" rel="bookmark">%2$s</a>',
+			'<a href="%1$s" rel="bookmark" class="inline-flex items-center gap-1 text-foreground/60 hover:text-primary transition-colors"><span class="material-symbols-outlined text-base" aria-hidden="true">calendar_today</span>%2$s</a>',
 			esc_url( get_permalink() ),
 			$time_string // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
@@ -40,7 +40,7 @@ if ( ! function_exists( 'ssnail_posted_by' ) ) :
 	function ssnail_posted_by() {
 		printf(
 		/* translators: 1: posted by label, only visible to screen readers. 2: author link. 3: post author. */
-			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span>',
+			'<span class="sr-only">%1$s</span><span class="author vcard"><a class="url fn n inline-flex items-center gap-1 text-foreground/60 hover:text-primary transition-colors" href="%2$s"><span class="material-symbols-outlined text-base" aria-hidden="true">person</span>%3$s</a></span>',
 			esc_html__( 'Posted by', 'ossigeno' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_html( get_the_author() )
@@ -54,91 +54,33 @@ if ( ! function_exists( 'ssnail_comment_count' ) ) :
 	 */
 	function ssnail_comment_count() {
 		if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+			echo '<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">chat_bubble</span>';
 			/* translators: %s: Name of current post. Only visible to screen readers. */
-			comments_popup_link( sprintf( __( 'Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno' ), get_the_title() ) );
+			comments_popup_link( sprintf( __( 'Leave a comment<span class="sr-only"> on %s</span>', 'ossigeno' ), get_the_title() ), null, null, 'hover:text-primary transition-colors' );
+			echo '</span>';
 		}
 	}
 endif;
 
-if (!function_exists('ssnail_post_categories')) :
-	function ssnail_post_categories()
-	{
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-		}
-	}
-endif;
-
-
-if (!function_exists('ssnail_post_tags')) :
-	function ssnail_post_tags()
-	{
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', __(', ', 'ossigeno'));
-			if ($tags_list) {
-				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Tags:', 'ossigeno'),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-		}
-	}
-endif;
-
-if (!function_exists('ssnail_entry_meta')) :
+if ( ! function_exists( 'ssnail_entry_meta' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 * This template tag is used in the entry header.
 	 */
-	function ssnail_entry_meta()
-	{
+	function ssnail_entry_meta() {
 
 		// Hide author, post date, category and tag text for pages.
-		if ('post' === get_post_type()) {
-
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
+		if ( 'post' === get_post_type() ) {
 
 			// Posted by.
 			ssnail_posted_by();
 
 			// Posted on.
 			ssnail_posted_on();
-
-			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', __(', ', 'ossigeno'));
-			if ($tags_list) {
-				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Tags:', 'ossigeno'),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
 		}
 
 		// Comment count.
-		if (!is_singular()) {
+		if ( ! is_singular() ) {
 			ssnail_comment_count();
 		}
 
@@ -146,11 +88,11 @@ if (!function_exists('ssnail_entry_meta')) :
 		edit_post_link(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers. */
-					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
+				/* translators: %s: Name of current post. Only visible to screen readers. */
+					__( 'Edit <span class="sr-only">%s</span>', 'ossigeno' ),
 					array(
 						'span' => array(
-							'class' => array('text-xs font-bold'),
+							'class' => array(),
 						),
 					)
 				),
@@ -160,48 +102,35 @@ if (!function_exists('ssnail_entry_meta')) :
 	}
 endif;
 
-if (!function_exists('ssnail_entry_footer')) :
+if ( ! function_exists( 'ssnail_entry_footer' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 */
-	function ssnail_entry_footer()
-	{
+	function ssnail_entry_footer() {
 
 		// Hide author, post date, category and tag text for pages.
-		if ('post' === get_post_type()) {
-			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list(__('', 'ossigeno'));
-			if ($categories_list) {
-				printf(
-					/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__('Posted in', 'ossigeno'),
-					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
+		if ( 'post' === get_post_type() ) {
 
-			echo '<div class="flex gap-4">';
 			// Posted by.
 			ssnail_posted_by();
 
 			// Posted on.
 			ssnail_posted_on();
-			echo '</div>';
 
 			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list('', '');
-			if ($tags_list) {
+			$categories_list = get_the_category_list( __( ', ', 'ossigeno' ) );
+			if ( $categories_list ) {
 				printf(
-					/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<div class="ssnail-tags"><span class="sr-only">%1$s</span>%2$s</div>',
-					esc_html__('Tags:', 'ossigeno'),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
+					'<span class="inline-flex items-center gap-1 text-foreground/60"><span class="material-symbols-outlined text-base" aria-hidden="true">folder</span><span class="sr-only">%1$s</span>%2$s</span>',
+					esc_html__( 'Posted in', 'ossigeno' ),
+					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 		}
 
 		// Comment count.
-		if (!is_singular()) {
+		if ( ! is_singular() ) {
 			ssnail_comment_count();
 		}
 
@@ -209,11 +138,11 @@ if (!function_exists('ssnail_entry_footer')) :
 		edit_post_link(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers. */
-					__('Edit <span class="sr-only">%s</span>', 'ossigeno'),
+				/* translators: %s: Name of current post. Only visible to screen readers. */
+					__( 'Edit <span class="sr-only">%s</span>', 'ossigeno' ),
 					array(
 						'span' => array(
-							'class' => array('text-xs font-bold'),
+							'class' => array(),
 						),
 					)
 				),
@@ -223,57 +152,58 @@ if (!function_exists('ssnail_entry_footer')) :
 	}
 endif;
 
-if (!function_exists('ssnail_post_thumbnail')) :
+if ( ! function_exists( 'ssnail_get_thumbnail_id' ) ) :
+	function ssnail_get_thumbnail_id( $post_id = null ) {
+		$thumb_id = get_post_thumbnail_id( $post_id );
+		if ( $thumb_id ) {
+			return (int) $thumb_id;
+		}
+		$placeholder = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_placeholder_image', 'option' ) : false;
+		return $placeholder ? (int) $placeholder : 0;
+	}
+endif;
+
+if ( ! function_exists( 'ssnail_post_thumbnail' ) ) :
 	/**
 	 * Displays an optional post thumbnail, wrapping the post thumbnail in an
 	 * anchor element except when viewing a single post.
 	 */
-	function ssnail_post_thumbnail($current_post_id = null, $size = 'post-thumbnail', $placeholder_fallback = true, $show_caption = false)
-	{
-		global $post;
-		if (!is_null($current_post_id)) {
-			$post = get_post($current_post_id, OBJECT);
-			setup_postdata($post);
+	function ssnail_post_thumbnail( string $additional_classes = '' ) {
+		$attr = $additional_classes ? [ 'class' => $additional_classes ] : [];
+
+		if ( ssnail_can_show_post_thumbnail() ) {
+			$image_html = get_the_post_thumbnail( null, 'post-thumbnail', $attr );
+		} else {
+			$placeholder_id = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_placeholder_image', 'option' ) : false;
+			if ( ! $placeholder_id ) {
+				return;
+			}
+			$image_html = wp_get_attachment_image( $placeholder_id, 'post-thumbnail', false, $attr );
 		}
-		if (!ssnail_can_show_post_thumbnail()) {
+
+		if ( ! $image_html ) {
 			return;
 		}
-		if (!is_singular()) {
-			echo '<a href="' . get_the_permalink() . '" aria-hidden="true" tabindex="-1">';
-		}
-?>
-		<figure class="post-thumbnail">
-			<?php
-			if (has_post_thumbnail()) {
-				the_post_thumbnail($size);
-			} else {
-				if ($placeholder_fallback) {
-					$placeholder_image_url = get_template_directory_uri() . "/images/ossigeno-placeholder.webp";
-					$image_id = get_option('ossigeno_placeholder_image');
-					if ($image_id) {
-						$image = wp_get_attachment_image_src($image_id, 'full');
-						if (isset($image[0]) && $image[0] !== "") {
-							$placeholder_image_url = $image[0];
-						}
-					}
+
+		if ( is_singular() ) :
 			?>
-					<img src="<?= $placeholder_image_url ?>" alt="<?= get_bloginfo('name') ?>">
-				<?php
-				}
-			}
-			if ($show_caption) {
-				?>
-				<figcaption class="ssnail-post-thumbnail-caption">
-					<?php the_post_thumbnail_caption(); ?>
-				</figcaption>
+
+			<figure class="ssnail-post-thumbnail">
+				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</figure><!-- .post-thumbnail -->
+
 			<?php
-			}
+		else :
 			?>
-		</figure><!-- .post-thumbnail -->
-		<?php
-		if (!is_singular()) {
-			echo '</a>';
-		}
+
+			<figure class="ssnail-post-thumbnail">
+				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
+					<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</a>
+			</figure>
+
+			<?php
+		endif; // End is_singular().
 	}
 endif;
 
@@ -367,27 +297,6 @@ if ( ! function_exists( 'ssnail_content_class' ) ) :
 	}
 endif;
 
-// Share panel for social share links called ssnail_share_links
-if (!function_exists('ssnail_share_links')) :
-	function ssnail_share_links($section_title = 'Share')
-	{
-		global $post;
-		$url = get_permalink($post->ID);
-		$title = get_the_title($post->ID);
-		$via = "Ossigeno";
-		?>
-		<div class="ssnail-share-links relative">
-			<h6 class="text-uppercase"><?php echo __($section_title, 'ossigeno') ?></h6>
-			<div class="flex gap-3 text-sm">
-				<a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $url ?>&title=<?= $url ?>&summary=&source=" target="_blank" rel="noopener" class="text-linkedin hover:text-primary transition-colors"><?php ssnail_get_social_icon('linkedin'); ?></a>
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?= $url ?>" target="_blank" rel="noopener" class="text-facebook hover:text-primary transition-colors"><?php ssnail_get_social_icon('facebook'); ?></a>
-				<a href="https://api.whatsapp.com/send?&text=<?= $url ?>" target="_blank" rel="noopener" class="text-whatsapp hover:text-primary transition-colors"><?php ssnail_get_social_icon('whatsapp'); ?></a>
-				<a href="https://twitter.com/intent/tweet?text=<?php echo get_the_title($post->ID); ?>&url=<?= $url ?>&via=<?= $via ?>" target="_blank" rel="noopener" class="text-x-twitter hover:text-primary transition-colors"><?php ssnail_get_social_icon('x-twitter'); ?></a>
-			</div>
-		</div>
-<?php
-	}
-endif;
 
 if (!function_exists('ssnail_acf_image_with_srcset')) {
 	function ssnail_acf_image_with_srcset($acf_field_or_name, $size = 'post-thumbnail', $alt = false, $class = 'attachment-SSNAILSIZE size-SSNAILSIZE')
@@ -437,3 +346,81 @@ if (!function_exists('ssnail_acf_image_with_srcset')) {
 		}
 	}
 }
+
+if ( ! function_exists( 'ssnail_post_tags_pills' ) ) :
+	function ssnail_post_tags_pills() {
+		$tags = get_the_tags();
+		if ( ! $tags ) {
+			return;
+		}
+		echo '<div class="flex flex-wrap gap-2 ssnail-container my-6">';
+		foreach ( $tags as $tag ) {
+			printf(
+				'<a href="%s" class="px-3 py-1 rounded-full text-sm bg-secondary text-background no-underline hover:opacity-80 transition-opacity">%s</a>',
+				esc_url( get_tag_link( $tag->term_id ) ),
+				esc_html( $tag->name )
+			);
+		}
+		echo '</div>';
+	}
+endif;
+
+if ( ! function_exists( 'ssnail_share_button' ) ) :
+	function ssnail_share_button() {
+		global $post;
+		?>
+		<div
+			x-data="{
+				copied: false,
+				url: '',
+				title: '',
+				share() {
+					const done = () => {
+						this.copied = true;
+						setTimeout( () => { this.copied = false; }, 2000 );
+					};
+					if ( navigator.share ) {
+						navigator.share( { url: this.url, title: this.title } ).then( done ).catch( () => {} );
+					} else if ( navigator.clipboard ) {
+						navigator.clipboard.writeText( this.url ).then( done ).catch( () => {} );
+					} else {
+						const ta = document.createElement( 'textarea' );
+						ta.value = this.url;
+						ta.style.cssText = 'position:fixed;opacity:0';
+						document.body.appendChild( ta );
+						ta.focus(); ta.select();
+						try { document.execCommand( 'copy' ); done(); } catch ( _ ) {}
+						document.body.removeChild( ta );
+					}
+				}
+			}"
+			x-init="url = $el.dataset.url; title = $el.dataset.title"
+			data-url="<?php echo esc_attr( get_permalink( $post->ID ) ); ?>"
+			data-title="<?php echo esc_attr( get_the_title( $post->ID ) ); ?>"
+		>
+			<button @click="share()" class="cursor-pointer flex items-center gap-2 text-sm text-foreground/60 hover:text-primary transition-colors">
+				<span class="material-symbols-outlined text-base leading-none" x-text="copied ? 'check' : 'share'"></span>
+				<span x-text="copied ? '<?php echo esc_js( __( 'Copiato!', 'ossigeno' ) ); ?>' : '<?php echo esc_js( __( 'Condividi', 'ossigeno' ) ); ?>'"></span>
+			</button>
+		</div>
+		<?php
+	}
+endif;
+
+if ( ! function_exists( 'ssnail_post_categories' ) ) :
+	function ssnail_post_categories() {
+		$categories = get_the_category();
+		if ( ! $categories ) {
+			return;
+		}
+		echo '<div class="flex flex-wrap gap-8">';
+		foreach ( $categories as $category ) {
+			printf(
+				'<a href="%s" class="text-sm font-semibold uppercase tracking-widest text-primary no-underline hover:opacity-80 transition-opacity">%s</a>',
+				esc_url( get_category_link( $category->term_id ) ),
+				esc_html( $category->name )
+			);
+		}
+		echo '</div>';
+	}
+endif;

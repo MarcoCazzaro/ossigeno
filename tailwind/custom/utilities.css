@@ -18,3 +18,15 @@
 @utility btn-secondary {
 	@apply bg-secondary text-background hover:bg-primary transition-colors;
 }
+
+@utility ssnail-container {
+	@apply container mx-auto px-8 lg:px-16;
+}
+
+@utility ssnail-coverless-page {
+	@apply pt-24 pb-16;
+}
+
+body:has(.ssnail-coverless-page) #masthead:not(.ssnail-scrolled) {
+	@apply bg-primary/90;
+}

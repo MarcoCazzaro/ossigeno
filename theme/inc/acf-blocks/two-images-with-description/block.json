@@ -1,0 +1,26 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/two-images-with-description",
+    "title": "Two images with description",
+    "description": "Two images with description.",
+    "version": "1.6.2",
+    "style": [
+        "file:./two-images-with-description.css"
+    ],
+    "category": "ossigeno-sections",
+    "icon": "align-right",
+    "keywords": [
+        "images",
+        "image",
+        "description",
+        "text",
+        "two",
+        "two images",
+        "two images with description"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "two-images-with-description.php"
+    },
+    "supports": {}
+}

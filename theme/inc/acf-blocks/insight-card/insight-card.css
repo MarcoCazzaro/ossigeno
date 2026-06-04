@@ -1,0 +1,19 @@
+.ssnail-insight-card {
+    figure {
+        width: 100%;
+        height: 100%;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    &.stile-scuro {
+        .ssnail-author {
+            a {
+                color: var(--color-background);
+                &:hover {
+                    color: var(--color-background-alt);
+                }
+            }
+        }
+    }
+}

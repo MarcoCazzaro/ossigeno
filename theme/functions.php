@@ -15,7 +15,7 @@ if ( ! defined( 'SSNAIL_VERSION' ) ) {
 	 * to create your production build, the value below will be replaced in the
 	 * generated zip file with a timestamp, converted to base 36.
 	 */
-	define( 'SSNAIL_VERSION', '2.0.2' );
+	define( 'SSNAIL_VERSION', '3.0.0' );
 }
 
 if ( ! defined( 'SSNAIL_TYPOGRAPHY_CLASSES' ) ) {
@@ -38,7 +38,7 @@ if ( ! defined( 'SSNAIL_TYPOGRAPHY_CLASSES' ) ) {
 	 */
 	define(
 		'SSNAIL_TYPOGRAPHY_CLASSES',
-		'prose prose-ossigeno max-w-none prose-a:text-primary'
+		'prose prose-neutral prose-a:text-primary'
 	);
 }
 
@@ -77,12 +77,12 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
-		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus(
 			array(
 				'primary-menu' => __( 'Primary', 'ossigeno' ),
-				'footer-menu' => __( 'Footer Menu', 'ossigeno' ),
-				'social-menu' => __( 'Social Menu', 'ossigeno' ),
+				'footer-menu'  => __( 'Footer Menu', 'ossigeno' ),
+				'footer-legal' => __( 'Footer Legal', 'ossigeno' ),
+				'social-menu'  => __( 'Social', 'ossigeno' ),
 			)
 		);
 
@@ -111,61 +111,15 @@ if ( ! function_exists( 'ssnail_setup' ) ) :
 
 		// Enqueue editor styles.
 		add_editor_style( 'style-editor.css' );
-		add_editor_style( 'style-editor-extra.css' );
 
 		// Add support for responsive embedded content.
 		add_theme_support( 'responsive-embeds' );
 
 		// Remove support for block templates.
-		// remove_theme_support( 'block-templates' );
-
-		/**
-		 * Add support for core custom logo.
-		 *
-		 * @link https://codex.wordpress.org/Theme_Logo
-		 */
-		add_theme_support(
-			'custom-logo',
-			array(
-				'height'      => 300,
-				'width'       => 300,
-				'flex-width'  => true,
-				'flex-height' => true,
-			)
-		);
-
-		add_theme_support( 'block-template-parts' );
+		remove_theme_support( 'block-templates' );
 	}
 endif;
 add_action( 'after_setup_theme', 'ssnail_setup' );
-
-// https://developer.wordpress.org/themes/patterns/registering-patterns/#disabling-remote-patterns
-add_filter( 'should_load_remote_block_patterns', '__return_false' );
-
-/**
- * Enqueue scripts and styles.
- */
-function ssnail_scripts() {
-	ssnail_enqueue_google_material_icons();
-	wp_enqueue_style( 'ossigeno-style', get_stylesheet_uri(), array(), SSNAIL_VERSION );
-	wp_enqueue_script( 'ossigeno-script', get_template_directory_uri() . '/js/script.min.js', array(), SSNAIL_VERSION, true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'ssnail_scripts' );
-
-/**
- * Enqueue admin scripts and styles.
- */
-function ssnail_admin_scripts()
-{
-	if (isset($_GET['page']) && $_GET['page'] == 'ossigeno_options_page') {
-		wp_enqueue_media();
-	}
-}
-add_action('admin_enqueue_scripts', 'ssnail_admin_scripts');
 
 if (!function_exists('ssnail_enqueue_google_material_icons')) :
 	/**
@@ -178,10 +132,41 @@ if (!function_exists('ssnail_enqueue_google_material_icons')) :
 endif;
 
 /**
+ * Enqueue scripts and styles.
+ */
+function ssnail_scripts() {
+	ssnail_enqueue_google_material_icons();
+	ssnail_enqueue_dynamic_fonts();
+	wp_enqueue_style( 'ossigeno-style', get_stylesheet_uri(), array(), SSNAIL_VERSION );
+	wp_enqueue_script( 'ossigeno-script', 
+		get_template_directory_uri() . '/js/script.min.js', 
+		array(), 
+		SSNAIL_VERSION, 
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer'
+		) 
+	);
+
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'ssnail_scripts' );
+
+/**
  * Enqueue the block editor script.
  */
 function ssnail_enqueue_block_editor_script() {
-	if ( is_admin() ) {
+	$current_screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	if (
+		$current_screen &&
+		$current_screen->is_block_editor() &&
+		'widgets' !== $current_screen->id
+	) {
+		ssnail_enqueue_google_material_icons();
+		ssnail_enqueue_dynamic_fonts();
 		wp_enqueue_script(
 			'ossigeno-editor',
 			get_template_directory_uri() . '/js/block-editor.min.js',
@@ -204,13 +189,29 @@ add_action( 'enqueue_block_assets', 'ssnail_enqueue_block_editor_script' );
  * @return array
  */
 function ssnail_tinymce_add_class( $settings ) {
-	if (!isset($settings['body_class'])) {
-		$settings['body_class'] = '';
-	}
 	$settings['body_class'] = SSNAIL_TYPOGRAPHY_CLASSES;
 	return $settings;
 }
 add_filter( 'tiny_mce_before_init', 'ssnail_tinymce_add_class' );
+
+/**
+ * Limit the block editor to heading levels supported by Tailwind Typography.
+ *
+ * @param array  $args Array of arguments for registering a block type.
+ * @param string $block_type Block type name including namespace.
+ * @return array
+ */
+function ssnail_modify_heading_levels( $args, $block_type ) {
+	if ( 'core/heading' !== $block_type ) {
+		return $args;
+	}
+
+	// Remove <h1>, <h5> and <h6>.
+	$args['attributes']['levelOptions']['default'] = array( 2, 3, 4 );
+
+	return $args;
+}
+add_filter( 'register_block_type_args', 'ssnail_modify_heading_levels', 10, 2 );
 
 /**
  * Custom template tags for this theme.
@@ -228,11 +229,31 @@ require get_template_directory() . '/inc/template-functions.php';
 require get_template_directory() . '/inc/widget-areas.php';
 
 /**
- * Custom options.
+ * Theme Customizer.
  */
-require get_template_directory() . '/inc/options.php';
+require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Custom post types and taxonomies.
+ */
+require get_template_directory() . '/inc/custom-post-types.php';
 
 /**
  * Custom shortcodes.
  */
 require get_template_directory() . '/inc/shortcodes.php';
+
+/**
+ * Custom ACF Blocks configuration.
+ */
+require get_template_directory() . '/inc/acf-blocks.php';
+
+/**
+ * ACF local field groups for custom blocks.
+ */
+require get_template_directory() . '/inc/acf-blocks/acf-fields.php';
+
+/**
+ * Admin import page for demo data.
+ */
+require get_template_directory() . '/inc/admin-import.php';

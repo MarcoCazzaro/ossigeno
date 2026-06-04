@@ -19,7 +19,7 @@ if ( post_password_required() ) {
 }
 ?>
 
-<div id="comments" class="ssnail-comments">
+<div id="comments">
 
 	<?php
 	if ( have_comments() ) :

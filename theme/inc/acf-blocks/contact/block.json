@@ -1,0 +1,21 @@
+{
+    "apiVersion": 3,
+    "name": "ossigeno/contact",
+    "title": "Contatti",
+    "description": "Sezione contatti con modulo ACF Form e schede sedi.",
+    "category": "ossigeno-sections",
+    "icon": "email",
+    "keywords": [
+        "contatti",
+        "form",
+        "sedi",
+        "mappa"
+    ],
+    "supports": {
+        "anchor": true
+    },
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "contact.php"
+    }
+}

@@ -5,11 +5,6 @@
  */
 
 /**
- * Import Tailwind’s default theme.
- */
-@import "tailwindcss/theme";
-
-/**
  * Your theme variables are merged with Tailwind’s defaults, either extending
  * the default theme with new variables or overriding the values of existing
  * variables.
@@ -23,6 +18,7 @@
 	 * values instead of the `var()` functions below.
      */
 	--color-background: var(--wp--preset--color--background);
+	--color-background-alt: var(--wp--preset--color--background-alt);
 	--color-foreground: var(--wp--preset--color--foreground);
 	--color-primary: var(--wp--preset--color--primary);
 	--color-secondary: var(--wp--preset--color--secondary);
@@ -52,4 +48,6 @@
 	/**
 	 * Add your theme below:
 	 */
+	--font-headings: "Comfortaa", sans-serif;
+	--font-body: "Varela Round", sans-serif;
 }

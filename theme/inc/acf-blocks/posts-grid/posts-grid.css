@@ -1,0 +1,8 @@
+.ssnail-posts-grid {
+    .ssnail-insight-card {
+        .post-thumbnail {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+}

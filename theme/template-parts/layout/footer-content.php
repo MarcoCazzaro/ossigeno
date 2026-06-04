@@ -7,87 +7,95 @@
  * @package Ossigeno
  */
 
- $menu_locations = get_nav_menu_locations();
- ?>
- <?php
- if (is_active_sidebar('ssnail_ads_footer')) {
- ?>
-	 <div class="ssnail-ad-container">
-		 <?php dynamic_sidebar("ssnail_ads_footer"); ?>
-	 </div>
- <?php
- }
- ?>
- <footer id="colophon" class="site-footer bg-secondary text-white">
-	 <div class="w-full px-4 sm:px-6 lg:px-8 py-6 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-		 <div>
-			 <div class="flex items-center gap-3">
-				 <a class="flex justify-center items-center w-24" href="<?php echo site_url() ?>">
-					 <?php ssnail_get_site_logo(); ?>
-				 </a>
-				 <h3><?php echo get_bloginfo('name') ?></h3>
-			 </div>
- 
-		 </div>
-		 <div>
-			 <?php
-			 if (is_active_sidebar('ssnail_footer')) {
-				 dynamic_sidebar('ssnail_footer');
-			 }
-			 ?>
-		 </div>
-		 <div>
-			 <?php
-			 if (isset($menu_locations['social-menu'])) {
-			 ?>
-				 <div class="flex flex-col justify-start items-start ssnail-social-navigation">
-					 <?php ssnail_print_menu_with_social_icons('social-menu', 'Social', 'hover:text-secondary text-2xl'); ?>
-				 </div>
-			 <?php
-			 }
-			 ?>
-		 </div>
-		 <div>
-			 <h3><?php echo __('Navigation', 'ossigeno') ?></h3>
-			 <?php
-			 $secondary_menu = false;
-			 $secondary_menu_items = [];
-			 if (isset($menu_locations['footer-menu'])) {
-				 $secondary_menu = get_term($menu_locations['footer-menu'], 'nav_menu');
-			 }
-			 if ($secondary_menu && !is_wp_error($secondary_menu)) {
-				 $secondary_menu_items = wp_get_nav_menu_items($secondary_menu);
-			 ?>
-				 <div class="ssnail-footer-menu">
-					 <ul class="ssnail-menu-items list-unstyled d-flex gap-3 flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center mb-0">
-						 <?php
-						 foreach ($secondary_menu_items as $key => $item) {
-						 ?>
-							 <li class="ssnail-menu-item mb-3">
-								 <a href="<?= $item->url ?>" target="<?= $item->target ?? '' ?>" class="hover:text-primary transition-colors"><?= $item->title ?></a>
-							 </li>
-						 <?php
-						 }
-						 ?>
-					 </ul>
-				 </div>
-			 <?php
-			 } else if (is_active_sidebar('ssnail_privacy_cookie_widget')) {
-			 ?>
-				 <div class="d-flex justify-content-center justify-content-lg-start gap-3">
-					 <?php dynamic_sidebar("ssnail_privacy_cookie_widget"); ?>
-				 </div>
-			 <?php
-			 }
-			 ?>
-		 </div>
-	 </div>
-	 <div class="ssnail-copyright-wrapper">
-		 <div class="ssnail-copyright text-center uppercase text-sm pb-3">
-			 &copy;<?= date('Y') ?> <?php echo __('All rights reserved', 'ossigeno') ?>
-		 </div>
-	 </div>
-	 <div class="ssnail-theme-by px-3 py-2 flex justify-center items-center bg-black text-white text-sm group">
-		 WordPress theme by <a href="https://snappysnail.io" target="_blank" class="inline-flex items-center gap-2 ml-2 transition-colors duration-1000 group-hover:text-[#fcbe03]"><img src="https://snappysnail.io/img/snappysnail-logo.png" class="w-8 h-auto origin-[55%_67%] group-hover:motion-safe:animate-spin"> Snappysnail</a>
-	 </div>
- </footer><!-- #colophon -->
+$ssnail_phone   = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_phone', 'option' ) : '';
+$ssnail_email   = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_email', 'option' ) : '';
+$ssnail_pec     = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_pec', 'option' ) : '';
+$ssnail_offices = function_exists( 'get_field' ) ? get_field( 'ssnail_opt_offices', 'option' ) : array();
+$ssnail_address = ! empty( $ssnail_offices[0]['address'] ) ? $ssnail_offices[0]['address'] : '';
+
+$ssnail_contact_parts = array();
+if ( $ssnail_address ) {
+	$ssnail_contact_parts[] = esc_html( $ssnail_address );
+}
+if ( $ssnail_phone ) {
+	$ssnail_contact_parts[] = 'Tel: ' . esc_html( $ssnail_phone );
+}
+if ( $ssnail_email ) {
+	$ssnail_contact_parts[] = 'E-mail: ' . esc_html( $ssnail_email );
+}
+if ( $ssnail_pec ) {
+	$ssnail_contact_parts[] = 'PEC: ' . esc_html( $ssnail_pec );
+}
+?>
+
+<footer id="colophon" class="bg-secondary text-background w-full pt-20 pb-10 border-t border-background/10">
+
+	<div class="w-full grid grid-cols-1 md:grid-cols-4 gap-12 px-6 md:px-12 mb-16">
+
+		<div>
+			<?php if ( has_custom_logo() ) : ?>
+				<div class="mb-4"><?php the_custom_logo(); ?></div>
+			<?php endif; ?>
+			<h3 class="text-lg font-headline font-bold text-background mb-4"><?php bloginfo( 'name' ); ?></h3>
+			<p class="text-sm font-body text-background/60 leading-relaxed">
+				<?php bloginfo( 'description' ); ?>
+			</p>
+		</div>
+
+		<div>
+			<h4 class="uppercase tracking-widest text-[10px] text-background/50 mb-6"><?php esc_html_e( 'Navigazione', 'ossigeno' ); ?></h4>
+			<div class="footer-nav">
+				<?php
+				wp_nav_menu(
+					array(
+						'theme_location' => 'footer-menu',
+						'container'      => false,
+						'menu_class'     => 'space-y-3 text-sm font-body',
+						'depth'          => 1,
+						'fallback_cb'    => false,
+					)
+				);
+				?>
+			</div>
+		</div>
+
+		<div>
+			<h4 class="uppercase tracking-widest text-[10px] text-background/50 mb-6"><?php esc_html_e( 'Informazioni Legali', 'ossigeno' ); ?></h4>
+			<div class="footer-nav">
+				<?php
+				wp_nav_menu(
+					array(
+						'theme_location' => 'footer-legal',
+						'container'      => false,
+						'menu_class'     => 'space-y-3 text-sm font-body',
+						'depth'          => 1,
+						'fallback_cb'    => false,
+					)
+				);
+				?>
+			</div>
+		</div>
+
+		<div>
+			<h4 class="uppercase tracking-widest text-[10px] text-background/50 mb-6"><?php esc_html_e( 'Seguici', 'ossigeno' ); ?></h4>
+			<div class="flex space-x-4">
+				<?php ssnail_render_social_menu( 'footer-social-icon', 'w-6 h-6' ); ?>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="w-full px-6 md:px-12 pt-8 border-t border-background/10 flex flex-col md:flex-row justify-between items-center gap-4">
+		<div class="flex flex-col gap-4">
+			<span class="text-sm font-body text-background/60">
+				&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All Rights Reserved.
+			</span>
+			<?php if ( $ssnail_contact_parts ) : ?>
+				<p class="text-sm text-background/60">
+					<?php echo implode( ' | ', $ssnail_contact_parts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each part is individually escaped above ?>
+				</p>
+			<?php endif; ?>
+		</div>
+	</div>
+
+</footer><!-- #colophon -->
