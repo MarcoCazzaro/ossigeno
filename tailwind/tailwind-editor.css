@@ -27,3 +27,10 @@
 /**
  * Add your editor styles below:
  */
+
+ /* Reveal animations are driven by IntersectionObserver which never fires in
+    the editor iframe — override so blocks are always visible while editing. */
+ .reveal {
+     opacity: 1;
+     transform: none;
+ }

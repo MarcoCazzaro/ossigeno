@@ -591,3 +591,24 @@ if ( ! function_exists( 'ssnail_privacy_field_message' ) ) {
 	}
 	add_filter( 'acf/prepare_field/name=ssnail_inq_privacy', 'ssnail_privacy_field_message' );
 }
+
+if ( ! function_exists( 'ssnail_convert_png_uploads_to_webp' ) ) {
+	/**
+	 * PNG is lossless and much heavier than WebP for photographic featured
+	 * images. This converts every generated image size (thumbnail, medium,
+	 * large, etc.) for PNG uploads to WebP, using the GD/Imagick support
+	 * already available on the server. The original uploaded file is left
+	 * untouched; only the sizes actually rendered on the front end change.
+	 *
+	 * Guarded by wp_image_editor_supports() because some minimal GD builds
+	 * lack WebP encoding; without the check, sizes would silently fail to
+	 * generate on those servers instead of falling back to PNG.
+	 */
+	function ssnail_convert_png_uploads_to_webp( $formats ) {
+		if ( wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+			$formats['image/png'] = 'image/webp';
+		}
+		return $formats;
+	}
+	add_filter( 'image_editor_output_format', 'ssnail_convert_png_uploads_to_webp' );
+}

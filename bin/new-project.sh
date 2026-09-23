@@ -4,7 +4,7 @@
 # Usage: bin/new-project.sh <slug> "<Theme Name>" [target-dir]
 #   <slug>         lowercase project id  -> folder, theme slug, zip name   (replaces "ossigeno")
 #   "<Theme Name>" Title-case name       -> style.css Theme Name, @package (replaces "Ossigeno")
-#   [target-dir]   defaults to ~/Sites/<slug>
+#   [target-dir]   defaults to ~/Dev/Sites/<slug>
 #
 # Renames ONLY the project-identity tokens.  The Snappysnail agency namespace
 # (ssnail / SSNAIL -- text domain + function/constant prefix) is intentionally LEFT INTACT.
@@ -14,9 +14,28 @@ SLUG="${1:?usage: new-project.sh <slug> \"<Theme Name>\" [target-dir]}"
 NAME="${2:?usage: new-project.sh <slug> \"<Theme Name>\" [target-dir]}"
 PHP_SLUG="${SLUG//-/_}"   # hyphens are invalid in PHP identifiers
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="${3:-$HOME/Sites/$SLUG}"
+RAW_DEST="${3:-$HOME/Dev/Sites/$SLUG}"
+
+# Resolve to an absolute path regardless of the caller's cwd, so a relative
+# target-dir (or none) never silently lands somewhere unexpected — e.g. under
+# bin/ if you happened to be inside the starter repo when you ran this.
+case "$RAW_DEST" in
+  /*) DEST="$RAW_DEST" ;;
+  *)  DEST="$(pwd)/$RAW_DEST" ;;
+esac
+
+echo "→ Target directory: $DEST"
 
 [[ -e "$DEST" ]] && { echo "✗ $DEST already exists"; exit 1; }
+
+case "$DEST" in
+  "$SRC"|"$SRC"/*)
+    echo "✗ Refusing to fork into $DEST — it is inside the starter repo ($SRC)."
+    echo "  Pass an explicit absolute target-dir, e.g.:"
+    echo "  bin/new-project.sh $SLUG \"$NAME\" $HOME/Dev/Sites/$SLUG"
+    exit 1
+    ;;
+esac
 
 echo "→ Copying starter to $DEST (excluding .git, node_modules, vendor, *.zip)"
 mkdir -p "$DEST"
@@ -38,7 +57,7 @@ done < <(find . -path ./.git -prune -o -iname '*ossigeno*' -print)
 
 echo "→ Re-initialising git"
 rm -rf .git
-git init -q && git add -A
+git init -q -b main && git add -A
 git commit -qm "Initial commit: ${NAME} (forked from Ossigeno _tw starter)"
 
 echo "→ Creating theme symlink"
