@@ -70,9 +70,9 @@ cat <<EOF
 
 Next:
   cd ${DEST}
-  npm install && composer install
-  npm run dev
-  ddev config --project-type=wordpress --docroot=wp --php-version=8.3 && ddev start
+  ddev config --project-type=wordpress --docroot=wp --php-version=8.5 && ddev start
+  ddev npm install && ddev composer install
+  ddev npm run dev
   ddev exec /usr/local/bin/wp core download --path=wp
   ddev exec /usr/local/bin/wp core install --path=wp \\
     --url="https://${SLUG}.ddev.site" \\
